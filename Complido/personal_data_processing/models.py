@@ -2,6 +2,22 @@ from django.db import models
 from django.conf import settings
 
 
+class DataController(models.Model):
+    name = models.CharField(max_length=255, unique=True, verbose_name="Nom",)
+    description = models.TextField(blank=True, verbose_name="Description",)
+    contact_email = models.EmailField(blank=True, verbose_name="Email de contact",)
+    contact_phone = models.CharField(max_length=50, blank=True, verbose_name="Téléphone",)
+    address = models.TextField(blank=True, verbose_name="Adresse",)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = "Responsable de traitement"
+        verbose_name_plural = "Responsables de traitement"
+        ordering = ["name"]
+
+
 # finalités
 class Purpose(models.Model):
     name = models.CharField(max_length=255, unique=True, verbose_name="Nom",)
@@ -120,6 +136,8 @@ class PersonalDataProcessing(models.Model):
     name = models.CharField(max_length=255, verbose_name="Nom du traitement",)
     description = models.TextField(blank=True, verbose_name="Description générale du traitement",)
     status = models.CharField(max_length=20, choices=Status.choices, default=Status.DRAFT, verbose_name="Statut",)
+    # Responsable de traitement
+    data_controller = models.ForeignKey(DataController, on_delete=models.PROTECT, related_name="processings", verbose_name="Responsable de traitement",)
     # Finalités
     purposes = models.ManyToManyField(Purpose, related_name="processings", blank=True,verbose_name="Finalités",)
     # Bases légales
