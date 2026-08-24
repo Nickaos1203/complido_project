@@ -38,8 +38,8 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     # my apps
+    'users',
     'personal_data_processing',
-
 
     # apps by default
     'django.contrib.admin',
@@ -65,7 +65,7 @@ ROOT_URLCONF = 'Complido.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / "templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -136,3 +136,14 @@ MAILERS = {
         'BACKEND': 'django.core.mail.backends.console.EmailBackend',
     },
 }
+
+AUTH_USER_MODEL = "users.User"
+
+# URL de login
+LOGIN_URL = "users:login"
+
+# redirection après le login
+LOGIN_REDIRECT_URL = "dashboard"
+
+# redirection après le logout
+LOGOUT_REDIRECT_URL = "users:login"

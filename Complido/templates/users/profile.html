@@ -1,0 +1,195 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Mon profil - COMPLIDO
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <!-- En-tête -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h1 class="h3 mb-1">
+                Mon profil
+            </h1>
+
+            <p class="text-muted mb-0">
+                Consultez les informations de votre compte.
+            </p>
+        </div>
+
+        <a
+            href="{% url 'users:profile_update' %}"
+            class="btn btn-primary"
+        >
+            <i class="bi bi-pencil me-2"></i>
+            Modifier mon profil
+        </a>
+
+    </div>
+
+
+    <!-- Informations du profil -->
+    <div class="row g-4">
+
+        <!-- Informations personnelles -->
+        <div class="col-lg-8">
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-header bg-white py-3">
+
+                    <h2 class="h5 mb-0">
+                        Informations personnelles
+                    </h2>
+
+                </div>
+
+                <div class="card-body">
+
+                    <div class="row g-4">
+
+                        <!-- Nom d'utilisateur -->
+                        <div class="col-md-6">
+
+                            <div class="text-muted small mb-1">
+                                Nom d'utilisateur
+                            </div>
+
+                            <div class="fw-semibold">
+                                {{ profile_user.username }}
+                            </div>
+
+                        </div>
+
+
+                        <!-- Email -->
+                        <div class="col-md-6">
+
+                            <div class="text-muted small mb-1">
+                                Adresse email
+                            </div>
+
+                            <div class="fw-semibold">
+                                {{ profile_user.email|default:"Non renseignée" }}
+                            </div>
+
+                        </div>
+
+
+                        <!-- Prénom -->
+                        <div class="col-md-6">
+
+                            <div class="text-muted small mb-1">
+                                Prénom
+                            </div>
+
+                            <div class="fw-semibold">
+                                {{ profile_user.first_name|default:"Non renseigné" }}
+                            </div>
+
+                        </div>
+
+
+                        <!-- Nom -->
+                        <div class="col-md-6">
+
+                            <div class="text-muted small mb-1">
+                                Nom
+                            </div>
+
+                            <div class="fw-semibold">
+                                {{ profile_user.last_name|default:"Non renseigné" }}
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Compte -->
+        <div class="col-lg-4">
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-header bg-white py-3">
+
+                    <h2 class="h5 mb-0">
+                        Compte
+                    </h2>
+
+                </div>
+
+                <div class="card-body">
+
+                    <!-- Rôle -->
+                    <div class="mb-4">
+
+                        <div class="text-muted small mb-1">
+                            Rôle
+                        </div>
+
+                        <span class="badge text-bg-primary">
+                            {{ profile_user.get_role_display }}
+                        </span>
+
+                    </div>
+
+
+                    <!-- Statut -->
+                    <div class="mb-4">
+
+                        <div class="text-muted small mb-1">
+                            Statut du compte
+                        </div>
+
+                        {% if profile_user.is_active %}
+
+                            <span class="badge text-bg-success">
+                                Actif
+                            </span>
+
+                        {% else %}
+
+                            <span class="badge text-bg-danger">
+                                Inactif
+                            </span>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <!-- Date d'inscription -->
+                    <div>
+
+                        <div class="text-muted small mb-1">
+                            Membre depuis
+                        </div>
+
+                        <div>
+                            {{ profile_user.date_joined|date:"d/m/Y" }}
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

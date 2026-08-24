@@ -1,0 +1,264 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Connexion - COMPLIDO
+{% endblock %}
+
+{% block content %}
+
+<div class="min-vh-100 d-flex align-items-center justify-content-center">
+
+    <div class="container">
+
+        <div class="row justify-content-center">
+
+            <div class="col-12 col-sm-10 col-md-6 col-lg-4">
+
+                <!-- Logo / identité -->
+                <div class="text-center mb-4">
+
+                    <div
+                        class="bg-primary text-white rounded-3 d-inline-flex align-items-center justify-content-center mb-3"
+                        style="width: 64px; height: 64px;"
+                    >
+                        <i class="bi bi-shield-check fs-2"></i>
+                    </div>
+
+                    <h1 class="h3 fw-bold mb-1">
+                        COMPLIDO
+                    </h1>
+
+                    <p class="text-muted mb-0">
+                        Data Compliance
+                    </p>
+
+                </div>
+
+
+                <!-- Formulaire -->
+                <div class="card border-0 shadow-sm">
+
+                    <div class="card-body p-4 p-lg-5">
+
+                        <div class="mb-4">
+
+                            <h2 class="h4 fw-semibold">
+                                Connexion
+                            </h2>
+
+                            <p class="text-muted mb-0">
+                                Connectez-vous à votre espace COMPLIDO.
+                            </p>
+
+                        </div>
+
+
+                        <!-- Erreurs générales -->
+                        {% if form.non_field_errors %}
+
+                            <div
+                                class="alert alert-danger"
+                                role="alert"
+                            >
+
+                                <div class="d-flex align-items-start">
+
+                                    <i class="bi bi-exclamation-triangle-fill me-2 mt-1"></i>
+
+                                    <div>
+
+                                        {% for error in form.non_field_errors %}
+
+                                            <div>
+                                                {{ error }}
+                                            </div>
+
+                                        {% endfor %}
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        {% endif %}
+
+
+                        <form
+                            method="post"
+                            novalidate
+                        >
+
+                            {% csrf_token %}
+
+
+                            <!-- Nom d'utilisateur -->
+                            <div class="mb-3">
+
+                                <label
+                                    for="{{ form.username.id_for_label }}"
+                                    class="form-label fw-medium"
+                                >
+                                    {{ form.username.label }}
+                                </label>
+
+                                <div class="input-group">
+
+                                    <span class="input-group-text bg-light">
+
+                                        <i class="bi bi-person"></i>
+
+                                    </span>
+
+                                    {{ form.username }}
+
+                                </div>
+
+                                {% for error in form.username.errors %}
+
+                                    <div class="text-danger small mt-1">
+
+                                        {{ error }}
+
+                                    </div>
+
+                                {% endfor %}
+
+                            </div>
+
+
+                            <!-- Mot de passe -->
+                            <div class="mb-4">
+
+                                <label
+                                    for="{{ form.password.id_for_label }}"
+                                    class="form-label fw-medium"
+                                >
+                                    {{ form.password.label }}
+                                </label>
+
+                                <div class="input-group">
+
+                                    <span class="input-group-text bg-light">
+
+                                        <i class="bi bi-lock"></i>
+
+                                    </span>
+
+                                    {{ form.password }}
+
+                                    <button
+                                        type="button"
+                                        class="btn btn-outline-secondary"
+                                        id="toggle-password"
+                                        aria-label="Afficher le mot de passe"
+                                    >
+                                        <i
+                                            class="bi bi-eye"
+                                            id="password-icon"
+                                        ></i>
+                                    </button>
+
+                                </div>
+
+                                {% for error in form.password.errors %}
+
+                                    <div class="text-danger small mt-1">
+
+                                        {{ error }}
+
+                                    </div>
+
+                                {% endfor %}
+
+                            </div>
+
+
+                            <!-- Redirection -->
+                            {% if next %}
+
+                                <input
+                                    type="hidden"
+                                    name="next"
+                                    value="{{ next }}"
+                                >
+
+                            {% endif %}
+
+
+                            <!-- Bouton -->
+                            <button
+                                type="submit"
+                                class="btn btn-primary w-100 py-2"
+                            >
+
+                                <i class="bi bi-box-arrow-in-right me-2"></i>
+
+                                Se connecter
+
+                            </button>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Informations -->
+                <div class="text-center mt-4">
+
+                    <small class="text-muted">
+                        COMPLIDO — Gestion de la conformité des données
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
+
+
+{% block extra_js %}
+
+<script>
+
+    const togglePassword = document.getElementById("toggle-password");
+    const passwordInput = document.getElementById(
+        "{{ form.password.id_for_label }}"
+    );
+    const passwordIcon = document.getElementById("password-icon");
+
+    if (togglePassword && passwordInput) {
+
+        togglePassword.addEventListener("click", function () {
+
+            const isPassword =
+                passwordInput.type === "password";
+
+            passwordInput.type =
+                isPassword ? "text" : "password";
+
+            passwordIcon.classList.toggle(
+                "bi-eye",
+                !isPassword
+            );
+
+            passwordIcon.classList.toggle(
+                "bi-eye-slash",
+                isPassword
+            );
+
+        });
+
+    }
+
+</script>
+
+{% endblock %}

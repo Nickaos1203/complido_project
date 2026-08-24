@@ -2,3 +2,10 @@
 .venv
 db.sqlite3
 __pycache__
+
+# Django migrations
+**/migrations/*.py
+**/migrations/*.pyc
+
+# Conserver __init__.py
+!**/migrations/__init__.py
