@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     # my apps
     'users',
     'personal_data_processing',
+    'entities',
+    'comments',
 
     # apps by default
     'django.contrib.admin',
@@ -113,7 +115,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/6.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'fr-fr'
 
 TIME_ZONE = 'UTC'
 
@@ -139,11 +141,11 @@ MAILERS = {
 
 AUTH_USER_MODEL = "users.User"
 
-# URL de login
-LOGIN_URL = "users:login"
+# # URL de login
+# LOGIN_URL = "users:login"
 
-# redirection après le login
-LOGIN_REDIRECT_URL = "dashboard"
+# # redirection après le login
+# LOGIN_REDIRECT_URL = "dashboard"
 
-# redirection après le logout
-LOGOUT_REDIRECT_URL = "users:login"
+# # redirection après le logout
+# LOGOUT_REDIRECT_URL = "users:login"

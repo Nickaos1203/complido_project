@@ -1,207 +1,268 @@
 from django.db import models
-from django.conf import settings
+
+from entities.models import Entity
 
 
-class DataController(models.Model):
-    name = models.CharField(max_length=255, unique=True, verbose_name="Nom",)
-    description = models.TextField(blank=True, verbose_name="Description",)
-    contact_email = models.EmailField(blank=True, verbose_name="Email de contact",)
-    contact_phone = models.CharField(max_length=50, blank=True, verbose_name="Téléphone",)
-    address = models.TextField(blank=True, verbose_name="Adresse",)
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        verbose_name = "Responsable de traitement"
-        verbose_name_plural = "Responsables de traitement"
-        ordering = ["name"]
-
-
-# finalités
-class Purpose(models.Model):
-    name = models.CharField(max_length=255, unique=True, verbose_name="Nom",)
-    description = models.TextField(blank=True, verbose_name="Description",)
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        verbose_name = "Finalité"
-        verbose_name_plural = "Finalités"
-        ordering = ["name"]
-
-
-# bases légales
 class LegalBasis(models.Model):
-    name = models.CharField(max_length=255, unique=True, verbose_name="Nom",)
-    description = models.TextField(blank=True, verbose_name="Description",)
+    """
+    Base légale d'un traitement de données personnelles.
+    Un traitement possède une seule base légale.
+    Une base légale peut être utilisée par plusieurs traitements.
+    """
 
-    def __str__(self):
-        return self.name
+    name = models.CharField(max_length=150)
+    description = models.TextField(blank=True)
 
     class Meta:
         verbose_name = "Base légale"
         verbose_name_plural = "Bases légales"
         ordering = ["name"]
 
+    def __str__(self):
+        return self.name
 
-# catégories de données
-class DataCategory(models.Model):
-    name = models.CharField(max_length=255, unique=True, verbose_name="Nom",)
-    description = models.TextField(blank=True, verbose_name="Description",)
-    is_sensitive = models.BooleanField(default=False, verbose_name="Donnée particulière", help_text="Indique si la catégorie contient des données particulières.",)
+
+class Purpose(models.Model):
+    """
+    Finalité d'un traitement.
+    """
+
+    name = models.CharField(max_length=255)
+    description = models.TextField(blank=True)
+
+    class Meta:
+        verbose_name = "Finalité"
+        verbose_name_plural = "Finalités"
+        ordering = ["name"]
 
     def __str__(self):
         return self.name
+
+
+class DataCategory(models.Model):
+    """
+    Catégorie de données personnelles.
+
+    La description permet à l'utilisateur de préciser
+    librement les données appartenant à cette catégorie.
+    """
+
+    name = models.CharField(max_length=255)
+    description = models.TextField(blank=True)
 
     class Meta:
         verbose_name = "Catégorie de données"
         verbose_name_plural = "Catégories de données"
         ordering = ["name"]
 
-
-# catégories de personnes concernées
-class DataSubjectCategory(models.Model):
-    name = models.CharField(max_length=255, unique=True, verbose_name="Nom",)
-    description = models.TextField(blank=True, verbose_name="Description",)
-
     def __str__(self):
         return self.name
+
+
+class DataSubjectCategory(models.Model):
+    """
+    Catégorie de personnes concernées par le traitement.
+    """
+
+    name = models.CharField(max_length=255)
+    description = models.TextField(blank=True)
 
     class Meta:
         verbose_name = "Catégorie de personnes concernées"
         verbose_name_plural = "Catégories de personnes concernées"
         ordering = ["name"]
 
-
-# destinataires
-class Recipient(models.Model):
-    name = models.CharField(max_length=255, unique=True, verbose_name="Nom",)
-    description = models.TextField(blank=True, verbose_name="Description",)
-
     def __str__(self):
         return self.name
+
+
+class Recipient(models.Model):
+    """
+    Destinataire des données personnelles.
+    """
+
+    class RecipientType(models.TextChoices):
+        INTERNAL = "INTERNAL", "Interne"
+        EXTERNAL = "EXTERNAL", "Externe"
+        PUBLIC = "PUBLIC", "Autorité publique"
+
+    name = models.CharField(max_length=255)
+    type = models.CharField(max_length=20, choices=RecipientType.choices)
+    description = models.TextField(blank=True)
 
     class Meta:
         verbose_name = "Destinataire"
         verbose_name_plural = "Destinataires"
         ordering = ["name"]
 
-
-# sous-traitants
-class SubProcessor(models.Model):
-    name = models.CharField(max_length=255, verbose_name="Nom",)
-    description = models.TextField(blank=True, verbose_name="Description",)
-    contact_email = models.EmailField(blank=True, verbose_name="Email de contact",)
-
     def __str__(self):
         return self.name
+
+
+class Subprocessor(models.Model):
+    """
+    Sous-traitant intervenant dans un ou plusieurs traitements.
+    """
+
+    name = models.CharField(max_length=255)
+    description = models.TextField(blank=True)
+    contact = models.CharField(max_length=255, blank=True)
 
     class Meta:
         verbose_name = "Sous-traitant"
         verbose_name_plural = "Sous-traitants"
         ordering = ["name"]
 
+    def __str__(self):
+        return self.name
 
-# mesures de sécurité
-class SecurityMeasure(models.Model):
 
-    class Category(models.TextChoices):
-        ORGANIZATIONAL = ("ORGANIZATIONAL", "Organisationnelle",)
-        TECHNICAL = ("TECHNICAL", "Technique",)
-        PHYSICAL = ("PHYSICAL", "Physique",)
+class OperationType(models.Model):
+    """
+    Type d'opération réalisée sur les données personnelles.
+    """
 
-    name = models.CharField(max_length=255, unique=True, verbose_name="Nom",)
-    description = models.TextField(blank=True, verbose_name="Description",)
-    category = models.CharField(max_length=20, choices=Category.choices, verbose_name="Catégorie",)
+    name = models.CharField(max_length=150)
+    description = models.TextField(blank=True)
+
+    class Meta:
+        verbose_name = "Type d'opération"
+        verbose_name_plural = "Types d'opération"
+        ordering = ["name"]
 
     def __str__(self):
         return self.name
 
+
+class SecurityMeasure(models.Model):
+    """
+    Mesure de sécurité applicable à un traitement.
+    """
+    class Category(models.TextChoices):
+        ORGANIZATIONAL = "ORGANIZATIONAL", "Organisationnelle"
+        TECHNICAL = "TECHNICAL", "Technique"
+        PHYSICAL = "PHYSICAL", "Physique"
+
+    name = models.CharField(max_length=255)
+    description = models.TextField(blank=True)
+    category = models.CharField(max_length=20, choices=Category.choices)
+
     class Meta:
         verbose_name = "Mesure de sécurité"
         verbose_name_plural = "Mesures de sécurité"
-        ordering = ["category", "name"]
+        ordering = ["name"]
+
+    def __str__(self):
+        return self.name
 
 
-# traitements de données
-class PersonalDataProcessing(models.Model):
+class DataProcessing(models.Model):
+    """
+    Traitement de données personnelles.
+
+    Cette classe constitue le cœur du registre des traitements
+    de Complido.
+    """
 
     class Status(models.TextChoices):
         DRAFT = "DRAFT", "Brouillon"
         ACTIVE = "ACTIVE", "Actif"
         ARCHIVED = "ARCHIVED", "Archivé"
 
-    name = models.CharField(max_length=255, verbose_name="Nom du traitement",)
-    description = models.TextField(blank=True, verbose_name="Description générale du traitement",)
-    status = models.CharField(max_length=20, choices=Status.choices, default=Status.DRAFT, verbose_name="Statut",)
-    # Responsable de traitement
-    data_controller = models.ForeignKey(DataController, on_delete=models.PROTECT, related_name="processings", verbose_name="Responsable de traitement",)
-    # Finalités
-    purposes = models.ManyToManyField(Purpose, related_name="processings", blank=True,verbose_name="Finalités",)
-    # Bases légales
-    legal_bases = models.ManyToManyField(LegalBasis, related_name="processings", blank=True, verbose_name="Bases légales",)
-    # Catégories de données personnelles
-    data_categories = models.ManyToManyField(DataCategory, related_name="processings", blank=True,verbose_name="Catégories de données",)
-    # Catégories de personnes concernées
-    data_subject_categories = models.ManyToManyField(DataSubjectCategory, related_name="processings", blank=True, verbose_name="Catégories de personnes concernées",)
-    # Destinataires
-    recipients = models.ManyToManyField(Recipient, related_name="processings", blank=True, verbose_name="Destinataires",)
-    # Sous-traitants
-    sub_processors = models.ManyToManyField(SubProcessor, related_name="processings", blank=True, verbose_name="Sous-traitants",)
-    # Mesures de sécurité
-    security_measures = models.ManyToManyField(SecurityMeasure, related_name="processings", blank=True, verbose_name="Mesures de sécurité",)
-    # Conservation
-    retention_period = models.CharField(max_length=255, blank=True, verbose_name="Durée de conservation",)
-    # Transferts internationaux
-    international_transfer = models.BooleanField(default=False, verbose_name="Transfert international",)
-    international_transfer_details = models.TextField(blank=True, verbose_name="Détails du transfert international",)
+    # Organisation propriétaire du traitement
+    entity = models.ForeignKey(Entity, on_delete=models.CASCADE, related_name="data_processings")
 
-    # AIPD
-    dpia_required = models.BooleanField(default=False, verbose_name="AIPD nécessaire",)
-    dpia_date = models.DateField(null=True, blank=True, verbose_name="Date de l'AIPD",)
+    # Une seule base légale par traitement
+    legal_basis = models.ForeignKey(LegalBasis, on_delete=models.PROTECT, related_name="data_processings")
+    name = models.CharField(max_length=255)
+    description = models.TextField(blank=True)
+    status = models.CharField(max_length=30, choices=Status.choices, default=Status.DRAFT)
+    retention_period = models.CharField(max_length=255, blank=True)
+    international_transfer = models.BooleanField(default=False)
+    aipd_required = models.BooleanField(default=False)
 
-    # Métadonnées
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Date de création",)
-    updated_at = models.DateTimeField(auto_now=True, verbose_name="Date de modification",)
+    # Relations N,N simples
+    purposes = models.ManyToManyField(Purpose, related_name="data_processings", blank=True)
+    data_categories = models.ManyToManyField(DataCategory, related_name="data_processings", blank=True)
+    data_subject_categories = models.ManyToManyField(DataSubjectCategory, related_name="data_processings", blank=True)
+    recipients = models.ManyToManyField(Recipient, related_name="data_processings", blank=True)
+    subprocessors = models.ManyToManyField(Subprocessor, related_name="data_processings", blank=True)
 
-    # utilisateur
-    responsible_user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, related_name="personal_data_processings", null=True, blank=True, verbose_name="Responsable",)
+    # Relations N,N avec modèle intermédiaire
+    security_measures = models.ManyToManyField(SecurityMeasure, through="ProcessingSecurityMeasure", related_name="data_processings", blank=True)
+    operations = models.ManyToManyField(OperationType, through="ProcessingOperation", related_name="data_processings", blank=True)
 
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        verbose_name = "Traitement de données personnelles"
-        verbose_name_plural = "Traitements de données personnelles"
-        ordering = ["-created_at"]
+        verbose_name = "Traitement"
+        verbose_name_plural = "Traitements"
+        ordering = ["name"]
 
     def __str__(self):
         return self.name
 
 
-# Opérations de traitement
 class ProcessingOperation(models.Model):
+    """
+    Association entre un traitement et un type d'opération.
 
-    class OperationType(models.TextChoices):
-        COLLECTION = "COLLECTION", "Collecte"
-        RECORDING = "RECORDING", "Enregistrement"
-        STORAGE = "STORAGE", "Stockage"
-        CONSULTATION = "CONSULTATION", "Consultation"
-        USE = "USE", "Utilisation"
-        TRANSMISSION = "TRANSMISSION", "Transmission"
-        MODIFICATION = "MODIFICATION", "Modification"
-        ARCHIVING = "ARCHIVING", "Archivage"
-        DELETION = "DELETION", "Suppression"
+    Cette table permet notamment de conserver l'ordre
+    des opérations et une description spécifique.
+    """
 
-    processing = models.ForeignKey(PersonalDataProcessing, on_delete=models.CASCADE, related_name="operations", verbose_name="Traitement",)
-    operation_type = models.CharField(max_length=20, choices=OperationType.choices, verbose_name="Type d'opération",)
-    description = models.TextField(blank=True, verbose_name="Description de l'opération de traitement",)
-    order = models.PositiveIntegerField(default=0, verbose_name="Ordre", help_text="Ordre chronologique de l'opération.",)
+    processing = models.ForeignKey(DataProcessing, on_delete=models.CASCADE, related_name="processing_operations")
+    operation_type = models.ForeignKey(OperationType, on_delete=models.PROTECT, related_name="processing_operations")
+    display_order = models.PositiveIntegerField(default=1)
+    description = models.TextField(blank=True)
 
     class Meta:
-        verbose_name = "Opération de traitement"
-        verbose_name_plural = "Opérations de traitement"
-        ordering = ["order"]
+        verbose_name = "Opération du traitement"
+        verbose_name_plural = "Opérations du traitement"
+        ordering = ["display_order"]
+
+        constraints = [
+            models.UniqueConstraint(
+                fields=["processing", "operation_type"],
+                name="unique_processing_operation"
+            )
+        ]
 
     def __str__(self):
-        return f"{self.processing.name} - {self.get_operation_type_display()}"
+        return f"{self.processing} - {self.operation_type}"
+
+
+class ProcessingSecurityMeasure(models.Model):
+    """
+    Association entre un traitement et une mesure de sécurité.
+
+    La relation possède des informations supplémentaires :
+    - état de mise en œuvre
+    - commentaire
+    """
+
+    class Status(models.TextChoices):
+        PLANNED = "PLANNED", "Prévue"
+        PARTIAL = "PARTIAL", "Partiellement mise en œuvre"
+        IMPLEMENTED = "IMPLEMENTED", "Mise en œuvre"
+        NOT_APPLICABLE = "NOT_APPLICABLE", "Non applicable"
+
+    processing = models.ForeignKey(DataProcessing, on_delete=models.CASCADE, related_name="processing_security_measures")
+    security_measure = models.ForeignKey(SecurityMeasure, on_delete=models.PROTECT, related_name="processing_security_measures")
+    status = models.CharField(max_length=20, choices=Status.choices, default=Status.PLANNED)
+    comment = models.TextField(blank=True)
+
+    class Meta:
+        verbose_name = "Mesure de sécurité du traitement"
+        verbose_name_plural = "Mesures de sécurité du traitement"
+
+        constraints = [
+            models.UniqueConstraint(
+                fields=["processing", "security_measure"],
+                name="unique_processing_security_measure"
+            )
+        ]
+
+    def __str__(self):
+        return f"{self.processing} - {self.security_measure}"

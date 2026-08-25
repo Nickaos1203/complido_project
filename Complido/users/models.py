@@ -1,5 +1,7 @@
-from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.db import models
+
+from entities.models import Entity
 
 
 class User(AbstractUser):
@@ -9,16 +11,8 @@ class User(AbstractUser):
         DPO = "DPO", "DPO"
         REFERENT = "REFERENT", "Référent"
 
-    role = models.CharField(
-        max_length=20,
-        choices=Role.choices,
-        default=Role.REFERENT,
-        verbose_name="Rôle",
-    )
+    entity = models.ForeignKey(Entity, on_delete=models.CASCADE, related_name="users", null=True, blank=True)
+    role = models.CharField(max_length=20, choices=Role.choices, default=Role.REFERENT)
 
     def __str__(self):
-        return self.username
-
-    class Meta:
-        verbose_name = "Utilisateur"
-        verbose_name_plural = "Utilisateurs"
+        return self.get_full_name() or self.username
