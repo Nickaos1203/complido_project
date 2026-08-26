@@ -1,0 +1,153 @@
+{% load static %}
+
+<div class="container-fluid h-100 px-3">
+
+    <div class="d-flex align-items-center h-100">
+
+        <a href="" class="d-flex align-items-center text-decoration-none">
+            <img src="{% static 'pictures/00_logo_complido.png' %}" alt="Complido" style="width: 125px; height: auto; max-height: 42px; object-fit: contain;">
+        </a>
+
+        <div class="flex-grow-1"></div>
+
+
+        <!-- ================================= -->
+        <!-- RECHERCHE                          -->
+        <!-- ================================= -->
+
+        <div
+            class="input-group input-group-sm me-4"
+            style="width: 230px;"
+        >
+
+            <input
+                type="search"
+                class="form-control"
+                placeholder="Rechercher..."
+            >
+
+        </div>
+
+
+        <!-- ================================= -->
+        <!-- NOTIFICATIONS                      -->
+        <!-- ================================= -->
+
+        <button
+            type="button"
+            class="btn btn-link text-dark
+                   border-0 position-relative me-3"
+        >
+
+            <i class="bi bi-bell"></i>
+
+            <span
+                class="position-absolute top-0 start-100
+                       translate-middle badge rounded-pill
+                       bg-danger"
+                style="font-size: 7px;"
+            >
+                3
+            </span>
+
+        </button>
+
+
+        <!-- ================================= -->
+        <!-- UTILISATEUR                        -->
+        <!-- ================================= -->
+
+        <div class="dropdown">
+
+            <button
+                type="button"
+                class="btn btn-link text-dark
+                       text-decoration-none p-0
+                       d-flex align-items-center"
+                data-bs-toggle="dropdown"
+            >
+
+                <span
+                    class="rounded-circle bg-secondary
+                           text-white d-flex
+                           align-items-center
+                           justify-content-center me-2"
+                    style="
+                        width: 30px;
+                        height: 30px;
+                        font-size: 10px;
+                    "
+                >
+                    AA
+                </span>
+
+                <span class="small fw-semibold">
+                    Admin
+                </span>
+
+                <i
+                    class="bi bi-chevron-down ms-2"
+                    style="font-size: 9px;"
+                ></i>
+
+            </button>
+
+
+            <ul class="dropdown-menu dropdown-menu-end">
+
+                <li>
+                    <a
+                        class="dropdown-item"
+                        href="#"
+                    >
+                        <i class="bi bi-person me-2"></i>
+                        Mon profil
+                    </a>
+                </li>
+
+                <li>
+                    <a
+                        class="dropdown-item"
+                        href="#"
+                    >
+                        <i class="bi bi-gear me-2"></i>
+                        Paramètres
+                    </a>
+                </li>
+
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
+
+                <li>
+
+                    <form
+                        method="post"
+                        action=""
+                    >
+
+                        {% csrf_token %}
+
+                        <button
+                            type="submit"
+                            class="dropdown-item text-danger"
+                        >
+                            <i
+                                class="bi bi-box-arrow-right me-2"
+                            ></i>
+
+                            Déconnexion
+
+                        </button>
+
+                    </form>
+
+                </li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+</div>
