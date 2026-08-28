@@ -1,0 +1,886 @@
+[
+    {
+        "id": 1,
+        "user": 1,
+        "entity": 1,
+        "legal_basis": 2,
+        "name": "Gestion administrative des salariés",
+        "description": "Gestion des dossiers administratifs, contractuels et professionnels des salariés.",
+        "purpose": "Gestion des ressources humaines",
+        "subpurpose": "Gestion des dossiers individuels",
+        "description_purpose": "Centraliser les informations nécessaires au suivi administratif et contractuel des salariés.",
+        "status": "ACTIVE",
+        "retention_period": "Durée du contrat puis archivage selon les obligations légales",
+        "international_transfer": false,
+        "aipd_required": false,
+        "data_categories": [
+            1,
+            2,
+            3
+        ],
+        "data_subject_categories": [
+            1
+        ],
+        "recipients": [
+            1,
+            2,
+            6
+        ],
+        "subprocessors": []
+    },
+    {
+        "id": 2,
+        "user": 1,
+        "entity": 1,
+        "legal_basis": 2,
+        "name": "Gestion de la paie",
+        "description": "Préparation, contrôle et transmission des éléments nécessaires à l'établissement de la paie.",
+        "purpose": "Gestion des ressources humaines",
+        "subpurpose": "Établissement de la paie",
+        "description_purpose": "Collecter et traiter les informations nécessaires à l'établissement des bulletins de salaire et aux déclarations sociales.",
+        "status": "ACTIVE",
+        "retention_period": "Durée légale applicable aux documents de paie",
+        "international_transfer": false,
+        "aipd_required": false,
+        "data_categories": [
+            1,
+            2,
+            3,
+            5
+        ],
+        "data_subject_categories": [
+            1
+        ],
+        "recipients": [
+            1,
+            5,
+            18
+        ],
+        "subprocessors": [
+            3
+        ]
+    },
+    {
+        "id": 3,
+        "user": 1,
+        "entity": 1,
+        "legal_basis": 1,
+        "name": "Gestion des congés et absences",
+        "description": "Gestion des demandes de congés, des absences et des validations associées.",
+        "purpose": "Gestion des ressources humaines",
+        "subpurpose": "Suivi des congés et absences",
+        "description_purpose": "Permettre aux salariés de déclarer leurs absences et aux responsables de les valider.",
+        "status": "ACTIVE",
+        "retention_period": "Durée de la relation de travail puis archivage selon les obligations applicables",
+        "international_transfer": false,
+        "aipd_required": false,
+        "data_categories": [
+            1,
+            3
+        ],
+        "data_subject_categories": [
+            1
+        ],
+        "recipients": [
+            1
+        ],
+        "subprocessors": []
+    },
+    {
+        "id": 4,
+        "user": 1,
+        "entity": 1,
+        "legal_basis": 1,
+        "name": "Gestion du recrutement",
+        "description": "Réception, analyse et suivi des candidatures dans le cadre des recrutements.",
+        "purpose": "Gestion du recrutement",
+        "subpurpose": "Sélection des candidats",
+        "description_purpose": "Évaluer les candidatures et assurer le suivi du processus de recrutement.",
+        "status": "ACTIVE",
+        "retention_period": "Durée du recrutement puis conservation selon la politique RH",
+        "international_transfer": false,
+        "aipd_required": false,
+        "data_categories": [
+            1,
+            2,
+            3
+        ],
+        "data_subject_categories": [
+            2
+        ],
+        "recipients": [
+            1,
+            6
+        ],
+        "subprocessors": []
+    },
+    {
+        "id": 5,
+        "user": 1,
+        "entity": 1,
+        "legal_basis": 1,
+        "name": "Gestion des comptes utilisateurs",
+        "description": "Création, administration et sécurisation des comptes permettant l'accès aux services numériques.",
+        "purpose": "Gestion des comptes utilisateurs",
+        "subpurpose": "Création et administration des comptes",
+        "description_purpose": "Créer les comptes, gérer les droits d'accès et assurer la sécurité des utilisateurs.",
+        "status": "ACTIVE",
+        "retention_period": "Durée d'utilisation du compte puis suppression après 12 mois d'inactivité",
+        "international_transfer": true,
+        "aipd_required": false,
+        "data_categories": [
+            1,
+            2,
+            4
+        ],
+        "data_subject_categories": [
+            5
+        ],
+        "recipients": [
+            3,
+            6
+        ],
+        "subprocessors": [
+            1,
+            2
+        ]
+    },
+    {
+        "id": 6,
+        "user": 1,
+        "entity": 1,
+        "legal_basis": 1,
+        "name": "Gestion de la relation client",
+        "description": "Gestion des clients, contacts, échanges commerciaux et informations contractuelles.",
+        "purpose": "Gestion de la relation client",
+        "subpurpose": "Suivi des clients",
+        "description_purpose": "Maintenir et suivre les relations commerciales avec les clients.",
+        "status": "ACTIVE",
+        "retention_period": "Durée de la relation commerciale puis durée légale applicable",
+        "international_transfer": false,
+        "aipd_required": false,
+        "data_categories": [
+            1,
+            2
+        ],
+        "data_subject_categories": [
+            3
+        ],
+        "recipients": [
+            3,
+            5
+        ],
+        "subprocessors": [
+            1
+        ]
+    },
+    {
+        "id": 7,
+        "user": 1,
+        "entity": 1,
+        "legal_basis": 1,
+        "name": "Gestion des commandes",
+        "description": "Traitement des informations nécessaires à la prise, au suivi et à la livraison des commandes.",
+        "purpose": "Gestion de la relation client",
+        "subpurpose": "Traitement des commandes",
+        "description_purpose": "Enregistrer et suivre les commandes jusqu'à leur traitement complet.",
+        "status": "ACTIVE",
+        "retention_period": "Durée nécessaire au traitement puis archivage légal",
+        "international_transfer": false,
+        "aipd_required": false,
+        "data_categories": [
+            1,
+            2,
+            5
+        ],
+        "data_subject_categories": [
+            3
+        ],
+        "recipients": [
+            3,
+            5
+        ],
+        "subprocessors": []
+    },
+    {
+        "id": 8,
+        "user": 1,
+        "entity": 1,
+        "legal_basis": 2,
+        "name": "Facturation des clients",
+        "description": "Émission, gestion et archivage des factures clients.",
+        "purpose": "Gestion de la comptabilité et de la facturation",
+        "subpurpose": "Émission et suivi des factures",
+        "description_purpose": "Établir les factures et assurer leur suivi comptable et administratif.",
+        "status": "ACTIVE",
+        "retention_period": "Durée légale de conservation des pièces comptables",
+        "international_transfer": false,
+        "aipd_required": false,
+        "data_categories": [
+            1,
+            2,
+            5
+        ],
+        "data_subject_categories": [
+            3
+        ],
+        "recipients": [
+            5,
+            10,
+            14
+        ],
+        "subprocessors": [
+            1
+        ]
+    },
+    {
+        "id": 9,
+        "user": 1,
+        "entity": 1,
+        "legal_basis": 3,
+        "name": "Prospection commerciale",
+        "description": "Gestion des opérations de prospection et de suivi des prospects.",
+        "purpose": "Prospection commerciale",
+        "subpurpose": "Recherche de nouveaux clients",
+        "description_purpose": "Identifier et contacter des prospects afin de développer l'activité commerciale.",
+        "status": "ACTIVE",
+        "retention_period": "Jusqu'à opposition ou pendant la durée définie par la politique commerciale",
+        "international_transfer": false,
+        "aipd_required": false,
+        "data_categories": [
+            1,
+            2,
+            6
+        ],
+        "data_subject_categories": [
+            4
+        ],
+        "recipients": [
+            4
+        ],
+        "subprocessors": [
+            2
+        ]
+    },
+    {
+        "id": 10,
+        "user": 1,
+        "entity": 1,
+        "legal_basis": 4,
+        "name": "Newsletter",
+        "description": "Gestion des inscriptions et envoi de newsletters aux personnes ayant consenti à les recevoir.",
+        "purpose": "Communication et information",
+        "subpurpose": "Envoi de newsletters",
+        "description_purpose": "Envoyer périodiquement des informations commerciales ou institutionnelles aux abonnés.",
+        "status": "ACTIVE",
+        "retention_period": "Jusqu'au retrait du consentement",
+        "international_transfer": false,
+        "aipd_required": false,
+        "data_categories": [
+            1,
+            2
+        ],
+        "data_subject_categories": [
+            3,
+            4
+        ],
+        "recipients": [
+            4
+        ],
+        "subprocessors": [
+            2
+        ]
+    },
+    {
+        "id": 11,
+        "user": 1,
+        "entity": 1,
+        "legal_basis": 3,
+        "name": "Gestion du site internet",
+        "description": "Administration, maintenance et fonctionnement technique du site internet.",
+        "purpose": "Gestion du site internet",
+        "subpurpose": "Administration et maintenance",
+        "description_purpose": "Assurer le fonctionnement, la disponibilité et la maintenance du site internet.",
+        "status": "ACTIVE",
+        "retention_period": "Selon la politique de conservation des données",
+        "international_transfer": true,
+        "aipd_required": false,
+        "data_categories": [
+            4,
+            6
+        ],
+        "data_subject_categories": [
+            6
+        ],
+        "recipients": [
+            3
+        ],
+        "subprocessors": [
+            1
+        ]
+    },
+    {
+        "id": 12,
+        "user": 1,
+        "entity": 1,
+        "legal_basis": 4,
+        "name": "Gestion des cookies et traceurs",
+        "description": "Gestion des préférences et du consentement relatifs aux cookies et traceurs.",
+        "purpose": "Gestion des cookies et traceurs",
+        "subpurpose": "Gestion des préférences utilisateurs",
+        "description_purpose": "Recueillir et gérer les choix des utilisateurs concernant les cookies et traceurs.",
+        "status": "ACTIVE",
+        "retention_period": "Selon la durée de validité du consentement",
+        "international_transfer": false,
+        "aipd_required": false,
+        "data_categories": [
+            4,
+            6
+        ],
+        "data_subject_categories": [
+            6
+        ],
+        "recipients": [
+            3
+        ],
+        "subprocessors": []
+    },
+    {
+        "id": 13,
+        "user": 1,
+        "entity": 1,
+        "legal_basis": 3,
+        "name": "Journalisation et sécurité informatique",
+        "description": "Collecte et analyse des journaux techniques nécessaires à la sécurité des systèmes d'information.",
+        "purpose": "Sécurité des systèmes d'information",
+        "subpurpose": "Traçabilité des accès",
+        "description_purpose": "Tracer les accès et événements techniques afin de détecter les comportements suspects.",
+        "status": "ACTIVE",
+        "retention_period": "12 mois sauf nécessité particulière",
+        "international_transfer": false,
+        "aipd_required": false,
+        "data_categories": [
+            4
+        ],
+        "data_subject_categories": [
+            5,
+            6
+        ],
+        "recipients": [
+            3,
+            6
+        ],
+        "subprocessors": [
+            1
+        ]
+    },
+    {
+        "id": 14,
+        "user": 1,
+        "entity": 1,
+        "legal_basis": 3,
+        "name": "Gestion des demandes RGPD",
+        "description": "Réception, vérification, suivi et traitement des demandes d'exercice des droits.",
+        "purpose": "Gestion des demandes d'exercice des droits",
+        "subpurpose": "Traitement des demandes des personnes",
+        "description_purpose": "Permettre aux personnes concernées d'exercer leurs droits et assurer le suivi des demandes.",
+        "status": "ACTIVE",
+        "retention_period": "Durée nécessaire au traitement puis conservation à des fins de preuve",
+        "international_transfer": false,
+        "aipd_required": false,
+        "data_categories": [
+            1,
+            2
+        ],
+        "data_subject_categories": [
+            3,
+            4,
+            5,
+            19
+        ],
+        "recipients": [
+            6,
+            16
+        ],
+        "subprocessors": []
+    },
+    {
+        "id": 15,
+        "user": 1,
+        "entity": 1,
+        "legal_basis": 1,
+        "name": "Gestion des fournisseurs",
+        "description": "Gestion administrative et contractuelle des fournisseurs et prestataires.",
+        "purpose": "Gestion des fournisseurs et prestataires",
+        "subpurpose": "Suivi des fournisseurs",
+        "description_purpose": "Gérer les informations relatives aux fournisseurs et prestataires de l'organisation.",
+        "status": "ACTIVE",
+        "retention_period": "Durée de la relation contractuelle puis archivage légal",
+        "international_transfer": false,
+        "aipd_required": false,
+        "data_categories": [
+            1,
+            2,
+            3,
+            5
+        ],
+        "data_subject_categories": [
+            8,
+            9
+        ],
+        "recipients": [
+            5,
+            7
+        ],
+        "subprocessors": []
+    },
+    {
+        "id": 16,
+        "user": 1,
+        "entity": 1,
+        "legal_basis": 1,
+        "name": "Gestion des contrats fournisseurs",
+        "description": "Création, suivi, renouvellement et archivage des contrats avec les fournisseurs.",
+        "purpose": "Gestion des contrats",
+        "subpurpose": "Gestion des contrats fournisseurs",
+        "description_purpose": "Assurer le suivi administratif et juridique des contrats conclus avec les fournisseurs.",
+        "status": "ACTIVE",
+        "retention_period": "Durée du contrat puis conservation contractuelle et légale",
+        "international_transfer": false,
+        "aipd_required": false,
+        "data_categories": [
+            1,
+            2,
+            3
+        ],
+        "data_subject_categories": [
+            8,
+            9
+        ],
+        "recipients": [
+            7
+        ],
+        "subprocessors": []
+    },
+    {
+        "id": 17,
+        "user": 1,
+        "entity": 1,
+        "legal_basis": 3,
+        "name": "Gestion des visiteurs",
+        "description": "Enregistrement et suivi des visiteurs accédant aux locaux de l'organisation.",
+        "purpose": "Gestion des accès physiques",
+        "subpurpose": "Enregistrement des visiteurs",
+        "description_purpose": "Contrôler et assurer la traçabilité des personnes accédant aux locaux.",
+        "status": "ACTIVE",
+        "retention_period": "3 mois",
+        "international_transfer": false,
+        "aipd_required": false,
+        "data_categories": [
+            1,
+            2
+        ],
+        "data_subject_categories": [
+            11
+        ],
+        "recipients": [
+            1,
+            3
+        ],
+        "subprocessors": []
+    },
+    {
+        "id": 18,
+        "user": 1,
+        "entity": 1,
+        "legal_basis": 3,
+        "name": "Contrôle d'accès aux locaux",
+        "description": "Gestion des accès physiques aux bâtiments et zones sécurisées.",
+        "purpose": "Gestion des accès physiques",
+        "subpurpose": "Contrôle des accès",
+        "description_purpose": "Limiter l'accès aux locaux et zones sensibles aux personnes autorisées.",
+        "status": "ACTIVE",
+        "retention_period": "12 mois",
+        "international_transfer": false,
+        "aipd_required": false,
+        "data_categories": [
+            1,
+            4
+        ],
+        "data_subject_categories": [
+            1,
+            9,
+            11
+        ],
+        "recipients": [
+            3
+        ],
+        "subprocessors": []
+    },
+    {
+        "id": 19,
+        "user": 1,
+        "entity": 1,
+        "legal_basis": 3,
+        "name": "Vidéosurveillance",
+        "description": "Surveillance des accès et espaces sensibles afin d'assurer la sécurité des personnes et des biens.",
+        "purpose": "Protection des personnes et des biens",
+        "subpurpose": "Surveillance des locaux",
+        "description_purpose": "Prévenir et constater les incidents pouvant affecter la sécurité des personnes et des biens.",
+        "status": "ACTIVE",
+        "retention_period": "Durée réglementaire applicable aux images",
+        "international_transfer": false,
+        "aipd_required": true,
+        "data_categories": [
+            1
+        ],
+        "data_subject_categories": [
+            1,
+            9,
+            11
+        ],
+        "recipients": [
+            3,
+            16
+        ],
+        "subprocessors": []
+    },
+    {
+        "id": 20,
+        "user": 1,
+        "entity": 1,
+        "legal_basis": 2,
+        "name": "Gestion comptable",
+        "description": "Tenue de la comptabilité et conservation des informations nécessaires aux obligations comptables.",
+        "purpose": "Gestion de la comptabilité et de la facturation",
+        "subpurpose": "Tenue de la comptabilité",
+        "description_purpose": "Enregistrer et conserver les informations nécessaires à la tenue de la comptabilité.",
+        "status": "ACTIVE",
+        "retention_period": "10 ans selon les obligations applicables",
+        "international_transfer": false,
+        "aipd_required": false,
+        "data_categories": [
+            1,
+            2,
+            5
+        ],
+        "data_subject_categories": [
+            3,
+            8,
+            9
+        ],
+        "recipients": [
+            5,
+            10,
+            17
+        ],
+        "subprocessors": [
+            1
+        ]
+    },
+    {
+        "id": 21,
+        "user": 1,
+        "entity": 1,
+        "legal_basis": 2,
+        "name": "Déclarations sociales",
+        "description": "Transmission des informations nécessaires aux déclarations sociales et obligations administratives.",
+        "purpose": "Gestion des ressources humaines",
+        "subpurpose": "Déclarations sociales",
+        "description_purpose": "Transmettre aux organismes compétents les informations nécessaires au respect des obligations sociales.",
+        "status": "ACTIVE",
+        "retention_period": "Durée légale applicable",
+        "international_transfer": false,
+        "aipd_required": false,
+        "data_categories": [
+            1,
+            2,
+            3,
+            5
+        ],
+        "data_subject_categories": [
+            1
+        ],
+        "recipients": [
+            2,
+            18
+        ],
+        "subprocessors": [
+            3
+        ]
+    },
+    {
+        "id": 22,
+        "user": 1,
+        "entity": 1,
+        "legal_basis": 1,
+        "name": "Gestion du support client",
+        "description": "Réception et traitement des demandes d'assistance et incidents signalés par les clients.",
+        "purpose": "Gestion des demandes de support",
+        "subpurpose": "Assistance aux clients",
+        "description_purpose": "Répondre aux demandes d'assistance et assurer le suivi des incidents signalés.",
+        "status": "ACTIVE",
+        "retention_period": "Durée de la relation client puis suppression selon la politique interne",
+        "international_transfer": false,
+        "aipd_required": false,
+        "data_categories": [
+            1,
+            2,
+            4
+        ],
+        "data_subject_categories": [
+            3,
+            5
+        ],
+        "recipients": [
+            3,
+            11
+        ],
+        "subprocessors": [
+            1
+        ]
+    },
+    {
+        "id": 23,
+        "user": 1,
+        "entity": 1,
+        "legal_basis": 3,
+        "name": "Gestion des incidents de sécurité",
+        "description": "Identification, analyse et suivi des incidents affectant les systèmes ou les données personnelles.",
+        "purpose": "Sécurité des systèmes d'information",
+        "subpurpose": "Gestion des incidents de sécurité",
+        "description_purpose": "Identifier, analyser et traiter les incidents susceptibles de compromettre les systèmes ou les données.",
+        "status": "ACTIVE",
+        "retention_period": "Durée nécessaire à l'analyse et à la conservation des preuves",
+        "international_transfer": false,
+        "aipd_required": false,
+        "data_categories": [
+            1,
+            4
+        ],
+        "data_subject_categories": [
+            1,
+            5,
+            6
+        ],
+        "recipients": [
+            3,
+            6,
+            16
+        ],
+        "subprocessors": [
+            1
+        ]
+    },
+    {
+        "id": 24,
+        "user": 1,
+        "entity": 1,
+        "legal_basis": 3,
+        "name": "Statistiques d'utilisation",
+        "description": "Analyse des usages et performances des services numériques afin d'améliorer leur fonctionnement.",
+        "purpose": "Analyse et amélioration des services",
+        "subpurpose": "Analyse des usages",
+        "description_purpose": "Analyser l'utilisation des services afin d'identifier les améliorations possibles.",
+        "status": "DRAFT",
+        "retention_period": "24 mois",
+        "international_transfer": true,
+        "aipd_required": false,
+        "data_categories": [
+            4,
+            6
+        ],
+        "data_subject_categories": [
+            5,
+            6
+        ],
+        "recipients": [
+            3
+        ],
+        "subprocessors": [
+            1
+        ]
+    },
+    {
+        "id": 25,
+        "user": 1,
+        "entity": 1,
+        "legal_basis": 4,
+        "name": "Enquêtes de satisfaction",
+        "description": "Collecte et analyse des retours des clients et utilisateurs afin d'améliorer les services.",
+        "purpose": "Analyse et amélioration des services",
+        "subpurpose": "Mesure de la satisfaction",
+        "description_purpose": "Recueillir les avis des clients et utilisateurs afin d'améliorer la qualité des services.",
+        "status": "DRAFT",
+        "retention_period": "12 mois",
+        "international_transfer": false,
+        "aipd_required": false,
+        "data_categories": [
+            1,
+            2,
+            6
+        ],
+        "data_subject_categories": [
+            3,
+            5
+        ],
+        "recipients": [
+            3
+        ],
+        "subprocessors": [
+            2
+        ]
+    },
+    {
+        "id": 26,
+        "user": 1,
+        "entity": 1,
+        "legal_basis": 1,
+        "name": "Signature électronique des contrats",
+        "description": "Gestion de la signature électronique des contrats et documents administratifs.",
+        "purpose": "Gestion des contrats",
+        "subpurpose": "Signature électronique",
+        "description_purpose": "Permettre la signature électronique et assurer la conservation des documents signés.",
+        "status": "ACTIVE",
+        "retention_period": "Durée du contrat puis archivage selon les obligations applicables",
+        "international_transfer": true,
+        "aipd_required": false,
+        "data_categories": [
+            1,
+            2,
+            3
+        ],
+        "data_subject_categories": [
+            1,
+            3,
+            8
+        ],
+        "recipients": [
+            7
+        ],
+        "subprocessors": [
+            5
+        ]
+    },
+    {
+        "id": 27,
+        "user": 1,
+        "entity": 1,
+        "legal_basis": 1,
+        "name": "Gestion des paiements",
+        "description": "Traitement des informations nécessaires à l'exécution et au suivi des paiements.",
+        "purpose": "Gestion des paiements",
+        "subpurpose": "Traitement des transactions",
+        "description_purpose": "Permettre le traitement sécurisé des paiements et assurer leur suivi.",
+        "status": "ACTIVE",
+        "retention_period": "Durée nécessaire à la transaction puis conservation légale",
+        "international_transfer": true,
+        "aipd_required": false,
+        "data_categories": [
+            1,
+            2,
+            5
+        ],
+        "data_subject_categories": [
+            3
+        ],
+        "recipients": [
+            14,
+            5
+        ],
+        "subprocessors": [
+            4
+        ]
+    },
+    {
+        "id": 28,
+        "user": 1,
+        "entity": 1,
+        "legal_basis": 2,
+        "name": "Gestion des obligations fiscales",
+        "description": "Traitement des données nécessaires au respect des obligations fiscales de l'organisation.",
+        "purpose": "Gestion de la comptabilité et de la facturation",
+        "subpurpose": "Respect des obligations fiscales",
+        "description_purpose": "Collecter et conserver les informations nécessaires au respect des obligations fiscales.",
+        "status": "ACTIVE",
+        "retention_period": "Durée légale applicable aux documents fiscaux",
+        "international_transfer": false,
+        "aipd_required": false,
+        "data_categories": [
+            1,
+            2,
+            5
+        ],
+        "data_subject_categories": [
+            3,
+            8,
+            9
+        ],
+        "recipients": [
+            17,
+            10
+        ],
+        "subprocessors": [
+            1
+        ]
+    },
+    {
+        "id": 29,
+        "user": 1,
+        "entity": 1,
+        "legal_basis": 3,
+        "name": "Gestion des assurances",
+        "description": "Gestion des contrats d'assurance et des éventuels dossiers de sinistre.",
+        "purpose": "Gestion des assurances",
+        "subpurpose": "Gestion des contrats et sinistres",
+        "description_purpose": "Gérer les contrats d'assurance et les dossiers nécessaires au traitement des sinistres.",
+        "status": "ACTIVE",
+        "retention_period": "Durée du contrat et durée nécessaire à la gestion des sinistres",
+        "international_transfer": false,
+        "aipd_required": false,
+        "data_categories": [
+            1,
+            2
+        ],
+        "data_subject_categories": [
+            1,
+            3
+        ],
+        "recipients": [
+            13
+        ],
+        "subprocessors": []
+    },
+    {
+        "id": 30,
+        "user": 1,
+        "entity": 1,
+        "legal_basis": 3,
+        "name": "Gestion de la conformité RGPD",
+        "description": "Pilotage des activités de conformité et documentation relative à la protection des données personnelles.",
+        "purpose": "Gestion de la conformité réglementaire",
+        "subpurpose": "Pilotage de la conformité RGPD",
+        "description_purpose": "Assurer le suivi des obligations RGPD, documenter les traitements et démontrer la conformité de l'organisation.",
+        "status": "ACTIVE",
+        "retention_period": "Durée nécessaire au suivi de la conformité et à la démonstration de conformité",
+        "international_transfer": false,
+        "aipd_required": false,
+        "data_categories": [
+            1,
+            2,
+            3
+        ],
+        "data_subject_categories": [
+            1,
+            3,
+            5,
+            19
+        ],
+        "recipients": [
+            6,
+            7,
+            16
+        ],
+        "subprocessors": []
+    }
+]

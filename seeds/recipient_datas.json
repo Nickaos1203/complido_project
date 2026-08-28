@@ -1,0 +1,122 @@
+[
+    {
+        "id": 1,
+        "name": "Direction générale",
+        "type": "INTERNAL",
+        "description": "Service interne pouvant accéder aux données nécessaires au pilotage et à la gestion de l'organisation."
+    },
+    {
+        "id": 2,
+        "name": "Service des ressources humaines",
+        "type": "INTERNAL",
+        "description": "Service chargé de la gestion administrative des salariés, du recrutement et du suivi des collaborateurs."
+    },
+    {
+        "id": 3,
+        "name": "Service informatique",
+        "type": "INTERNAL",
+        "description": "Service chargé de l'administration des systèmes d'information, des applications et de la sécurité informatique."
+    },
+    {
+        "id": 4,
+        "name": "Service commercial",
+        "type": "INTERNAL",
+        "description": "Service chargé de la gestion de la relation client, du suivi commercial et de la prospection."
+    },
+    {
+        "id": 5,
+        "name": "Service comptabilité",
+        "type": "INTERNAL",
+        "description": "Service chargé de la facturation, de la comptabilité et du suivi financier."
+    },
+    {
+        "id": 6,
+        "name": "Délégué à la protection des données (DPO)",
+        "type": "INTERNAL",
+        "description": "Personne ou service chargé du suivi de la conformité de l'organisation en matière de protection des données personnelles."
+    },
+    {
+        "id": 7,
+        "name": "Service juridique",
+        "type": "INTERNAL",
+        "description": "Service chargé de l'analyse et du suivi des questions juridiques liées aux activités de l'organisation."
+    },
+    {
+        "id": 8,
+        "name": "Hébergeur informatique",
+        "type": "EXTERNAL",
+        "description": "Prestataire externe assurant l'hébergement des applications, infrastructures et données."
+    },
+    {
+        "id": 9,
+        "name": "Prestataire de paie",
+        "type": "EXTERNAL",
+        "description": "Prestataire intervenant dans la préparation et la gestion des bulletins et données de paie."
+    },
+    {
+        "id": 10,
+        "name": "Cabinet comptable",
+        "type": "EXTERNAL",
+        "description": "Prestataire externe intervenant dans les activités comptables, fiscales et financières."
+    },
+    {
+        "id": 11,
+        "name": "Prestataire informatique",
+        "type": "EXTERNAL",
+        "description": "Société externe intervenant pour la maintenance, le support ou l'administration des systèmes informatiques."
+    },
+    {
+        "id": 12,
+        "name": "Prestataire d'envoi d'emails",
+        "type": "EXTERNAL",
+        "description": "Service externe utilisé pour l'envoi d'emails transactionnels, notifications ou communications commerciales."
+    },
+    {
+        "id": 13,
+        "name": "Assureur",
+        "type": "EXTERNAL",
+        "description": "Organisme d'assurance susceptible de recevoir certaines données nécessaires à la gestion des contrats ou des sinistres."
+    },
+    {
+        "id": 14,
+        "name": "Banque",
+        "type": "EXTERNAL",
+        "description": "Établissement bancaire recevant les données nécessaires aux opérations de paiement ou de virement."
+    },
+    {
+        "id": 15,
+        "name": "Avocat ou conseil juridique",
+        "type": "EXTERNAL",
+        "description": "Professionnel externe pouvant recevoir certaines données dans le cadre d'une mission juridique."
+    },
+    {
+        "id": 16,
+        "name": "Commission nationale de l'informatique et des libertés (CNIL)",
+        "type": "PUBLIC",
+        "description": "Autorité française chargée de veiller à la protection des données personnelles et au respect de la réglementation."
+    },
+    {
+        "id": 17,
+        "name": "Administration fiscale",
+        "type": "PUBLIC",
+        "description": "Autorité publique susceptible de recevoir des données dans le cadre des obligations fiscales de l'organisation."
+    },
+    {
+        "id": 18,
+        "name": "URSSAF",
+        "type": "PUBLIC",
+        "description": "Organisme public ou organisme chargé d'une mission de service public susceptible de recevoir les données nécessaires aux obligations sociales."
+    },
+    {
+        "id": 19,
+        "name": "Inspection du travail",
+        "type": "PUBLIC",
+        "description": "Autorité publique pouvant accéder à certaines données dans le cadre de ses missions de contrôle."
+    },
+    {
+        "id": 20,
+        "name": "Autorité judiciaire",
+        "type": "PUBLIC",
+        "description": "Autorité publique pouvant recevoir des données lorsque la transmission est requise dans le cadre d'une procédure judiciaire."
+    }
+]

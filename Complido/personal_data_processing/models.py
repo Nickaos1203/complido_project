@@ -1,6 +1,8 @@
 from django.db import models
+from django.conf import settings
 
 from entities.models import Entity
+from users.models import User
 
 
 class LegalBasis(models.Model):
@@ -16,23 +18,6 @@ class LegalBasis(models.Model):
     class Meta:
         verbose_name = "Base légale"
         verbose_name_plural = "Bases légales"
-        ordering = ["name"]
-
-    def __str__(self):
-        return self.name
-
-
-class Purpose(models.Model):
-    """
-    Finalité d'un traitement.
-    """
-
-    name = models.CharField(max_length=255)
-    description = models.TextField(blank=True)
-
-    class Meta:
-        verbose_name = "Finalité"
-        verbose_name_plural = "Finalités"
         ordering = ["name"]
 
     def __str__(self):
@@ -169,20 +154,44 @@ class DataProcessing(models.Model):
         ACTIVE = "ACTIVE", "Actif"
         ARCHIVED = "ARCHIVED", "Archivé"
 
+    # nom du traitement
+    name = models.CharField(max_length=255)
+
+    # précision sur le traitement et le contexte
+    description = models.TextField(blank=True)
+
     # Organisation propriétaire du traitement
     entity = models.ForeignKey(Entity, on_delete=models.CASCADE, related_name="data_processings")
 
+    # status du traitement
+    status = models.CharField(max_length=30, choices=Status.choices, default=Status.DRAFT)
+
+    # utilisateur
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, related_name="data_processings", null=True, blank=True)
+
+    # une finalité pour un traitement
+    purpose = models.CharField(max_length=255, blank=True)
+
+    # Sous-finalité facultative
+    subpurpose = models.CharField(max_length=255, blank=True)
+
+    # Description de la finalité
+    description_purpose = models.TextField(blank=True)
+
     # Une seule base légale par traitement
     legal_basis = models.ForeignKey(LegalBasis, on_delete=models.PROTECT, related_name="data_processings")
-    name = models.CharField(max_length=255)
-    description = models.TextField(blank=True)
-    status = models.CharField(max_length=30, choices=Status.choices, default=Status.DRAFT)
+    
+
+    # durée de conservation
     retention_period = models.CharField(max_length=255, blank=True)
+
+    # transferts internationaux
     international_transfer = models.BooleanField(default=False)
+
+    # analyse d'impact requis
     aipd_required = models.BooleanField(default=False)
 
     # Relations N,N simples
-    purposes = models.ManyToManyField(Purpose, related_name="data_processings", blank=True)
     data_categories = models.ManyToManyField(DataCategory, related_name="data_processings", blank=True)
     data_subject_categories = models.ManyToManyField(DataSubjectCategory, related_name="data_processings", blank=True)
     recipients = models.ManyToManyField(Recipient, related_name="data_processings", blank=True)

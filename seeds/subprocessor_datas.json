@@ -1,0 +1,32 @@
+[
+    {
+        "id": 1,
+        "name": "OVHcloud",
+        "description": "Prestataire d'hébergement et d'infrastructure cloud utilisé pour héberger des applications, bases de données et fichiers.",
+        "contact": "support@ovhcloud.com"
+    },
+    {
+        "id": 2,
+        "name": "Microsoft Azure",
+        "description": "Plateforme cloud fournissant des services d'hébergement, de stockage, de calcul et de sauvegarde pour les systèmes d'information.",
+        "contact": "support.azure@microsoft.com"
+    },
+    {
+        "id": 3,
+        "name": "Brevo",
+        "description": "Prestataire spécialisé dans l'envoi d'emails transactionnels, de notifications et de communications électroniques.",
+        "contact": "support@brevo.com"
+    },
+    {
+        "id": 4,
+        "name": "Stripe",
+        "description": "Prestataire de services de paiement utilisé pour traiter les paiements et gérer les informations nécessaires aux transactions.",
+        "contact": "support@stripe.com"
+    },
+    {
+        "id": 5,
+        "name": "DocuSign",
+        "description": "Prestataire de signature électronique permettant la gestion et la signature de documents numériques.",
+        "contact": "support@docusign.com"
+    }
+]

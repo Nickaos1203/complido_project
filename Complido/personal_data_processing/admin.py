@@ -2,7 +2,6 @@ from django.contrib import admin
 from .models import (
     DataProcessing,
     LegalBasis,
-    Purpose,
     DataCategory,
     DataSubjectCategory,
     Recipient,
@@ -17,7 +16,6 @@ from .models import (
 admin.site.register([
     DataProcessing,
     LegalBasis,
-    Purpose,
     DataCategory,
     DataSubjectCategory,
     Recipient,

@@ -145,10 +145,10 @@ MAILERS = {
 AUTH_USER_MODEL = "users.User"
 
 # # URL de login
-# LOGIN_URL = "users:login"
+LOGIN_URL = "users:login"
 
 # # redirection après le login
-# LOGIN_REDIRECT_URL = "dashboard"
+LOGIN_REDIRECT_URL = "users:homepage"
 
 # # redirection après le logout
-# LOGOUT_REDIRECT_URL = "users:login"
+LOGOUT_REDIRECT_URL = "users:homepage"

@@ -1,0 +1,32 @@
+[
+    {
+        "id": 1,
+        "name": "Consentement",
+        "description": "La personne concernée a consenti au traitement de ses données à caractère personnel pour une ou plusieurs finalités spécifiques."
+    },
+    {
+        "id": 2,
+        "name": "Exécution du contrat",
+        "description": "Le traitement est nécessaire à l'exécution d'un contrat auquel la personne concernée est partie ou à l'exécution de mesures précontractuelles prises à sa demande."
+    },
+    {
+        "id": 3,
+        "name": "Obligation légale",
+        "description": "Le traitement est nécessaire au respect d'une obligation légale à laquelle le responsable du traitement est soumis."
+    },
+    {
+        "id": 4,
+        "name": "Sauvegarde des intérêts vitaux",
+        "description": "Le traitement est nécessaire à la sauvegarde des intérêts vitaux de la personne concernée ou d'une autre personne physique."
+    },
+    {
+        "id": 5,
+        "name": "Mission d'intérêt public",
+        "description": "Le traitement est nécessaire à l'exécution d'une mission d'intérêt public ou relevant de l'exercice de l'autorité publique dont est investi le responsable du traitement."
+    },
+    {
+        "id": 6,
+        "name": "Intérêt légitime",
+        "description": "Le traitement est nécessaire aux fins des intérêts légitimes poursuivis par le responsable du traitement ou par un tiers, à moins que ne prévalent les intérêts ou les libertés et droits fondamentaux de la personne concernée."
+    }
+]

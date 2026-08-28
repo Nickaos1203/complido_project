@@ -1,0 +1,660 @@
+[
+    {
+        "id": 1,
+        "processing": 1,
+        "security_measure": 1,
+        "status": "IMPLEMENTED",
+        "comment": "Les habilitations sont définies selon les fonctions exercées par les membres du service RH."
+    },
+    {
+        "id": 2,
+        "processing": 1,
+        "security_measure": 2,
+        "status": "IMPLEMENTED",
+        "comment": "Une revue des habilitations est réalisée périodiquement par le responsable RH."
+    },
+    {
+        "id": 3,
+        "processing": 1,
+        "security_measure": 4,
+        "status": "IMPLEMENTED",
+        "comment": "Les collaborateurs suivent une sensibilisation à la protection des données."
+    },
+    {
+        "id": 4,
+        "processing": 1,
+        "security_measure": 10,
+        "status": "IMPLEMENTED",
+        "comment": "Les accès aux dossiers RH sont journalisés."
+    },
+    {
+        "id": 5,
+        "processing": 2,
+        "security_measure": 1,
+        "status": "IMPLEMENTED",
+        "comment": "L'accès aux données de paie est limité aux personnes habilitées."
+    },
+    {
+        "id": 6,
+        "processing": 2,
+        "security_measure": 8,
+        "status": "IMPLEMENTED",
+        "comment": "Les fichiers contenant les données de paie sont chiffrés."
+    },
+    {
+        "id": 7,
+        "processing": 2,
+        "security_measure": 11,
+        "status": "IMPLEMENTED",
+        "comment": "Les données de paie font l'objet de sauvegardes régulières."
+    },
+    {
+        "id": 8,
+        "processing": 2,
+        "security_measure": 5,
+        "status": "IMPLEMENTED",
+        "comment": "Une procédure de gestion des incidents est appliquée."
+    },
+    {
+        "id": 9,
+        "processing": 3,
+        "security_measure": 1,
+        "status": "IMPLEMENTED",
+        "comment": "Les demandes de congés sont accessibles uniquement aux salariés et responsables concernés."
+    },
+    {
+        "id": 10,
+        "processing": 3,
+        "security_measure": 2,
+        "status": "IMPLEMENTED",
+        "comment": "Les droits d'accès sont vérifiés lors des changements de poste."
+    },
+    {
+        "id": 11,
+        "processing": 3,
+        "security_measure": 3,
+        "status": "IMPLEMENTED",
+        "comment": "Les comptes utilisateurs respectent les règles internes de gestion des mots de passe."
+    },
+    {
+        "id": 12,
+        "processing": 4,
+        "security_measure": 1,
+        "status": "IMPLEMENTED",
+        "comment": "L'accès aux candidatures est limité aux membres du service recrutement."
+    },
+    {
+        "id": 13,
+        "processing": 4,
+        "security_measure": 4,
+        "status": "IMPLEMENTED",
+        "comment": "Les recruteurs sont sensibilisés aux règles de confidentialité applicables aux candidatures."
+    },
+    {
+        "id": 14,
+        "processing": 4,
+        "security_measure": 6,
+        "status": "IMPLEMENTED",
+        "comment": "Une durée de conservation des candidatures est définie."
+    },
+    {
+        "id": 15,
+        "processing": 5,
+        "security_measure": 1,
+        "status": "IMPLEMENTED",
+        "comment": "Les utilisateurs disposent uniquement des droits nécessaires à leurs fonctions."
+    },
+    {
+        "id": 16,
+        "processing": 5,
+        "security_measure": 2,
+        "status": "PARTIAL",
+        "comment": "La revue automatique des droits d'accès est encore en cours de déploiement."
+    },
+    {
+        "id": 17,
+        "processing": 5,
+        "security_measure": 7,
+        "status": "IMPLEMENTED",
+        "comment": "Une authentification multifacteur est activée pour les comptes administrateurs."
+    },
+    {
+        "id": 18,
+        "processing": 5,
+        "security_measure": 8,
+        "status": "IMPLEMENTED",
+        "comment": "Les données sensibles sont chiffrées lors de leur stockage."
+    },
+    {
+        "id": 19,
+        "processing": 6,
+        "security_measure": 1,
+        "status": "IMPLEMENTED",
+        "comment": "Les données clients sont accessibles uniquement aux équipes autorisées."
+    },
+    {
+        "id": 20,
+        "processing": 6,
+        "security_measure": 10,
+        "status": "IMPLEMENTED",
+        "comment": "Les accès aux informations clients sont journalisés."
+    },
+    {
+        "id": 21,
+        "processing": 6,
+        "security_measure": 6,
+        "status": "IMPLEMENTED",
+        "comment": "Une politique de conservation des données clients est appliquée."
+    },
+    {
+        "id": 22,
+        "processing": 7,
+        "security_measure": 8,
+        "status": "IMPLEMENTED",
+        "comment": "Les échanges de données de commande sont protégés par chiffrement."
+    },
+    {
+        "id": 23,
+        "processing": 7,
+        "security_measure": 11,
+        "status": "IMPLEMENTED",
+        "comment": "Les informations relatives aux commandes sont sauvegardées régulièrement."
+    },
+    {
+        "id": 24,
+        "processing": 7,
+        "security_measure": 9,
+        "status": "IMPLEMENTED",
+        "comment": "Les communications avec les services externes utilisent des protocoles sécurisés."
+    },
+    {
+        "id": 25,
+        "processing": 8,
+        "security_measure": 1,
+        "status": "IMPLEMENTED",
+        "comment": "L'accès aux données de facturation est restreint au personnel habilité."
+    },
+    {
+        "id": 26,
+        "processing": 8,
+        "security_measure": 8,
+        "status": "IMPLEMENTED",
+        "comment": "Les documents de facturation sont protégés par chiffrement."
+    },
+    {
+        "id": 27,
+        "processing": 8,
+        "security_measure": 6,
+        "status": "IMPLEMENTED",
+        "comment": "Les durées légales de conservation des factures sont appliquées."
+    },
+    {
+        "id": 28,
+        "processing": 9,
+        "security_measure": 1,
+        "status": "IMPLEMENTED",
+        "comment": "Les données de prospection sont accessibles aux équipes commerciales autorisées."
+    },
+    {
+        "id": 29,
+        "processing": 9,
+        "security_measure": 2,
+        "status": "PARTIAL",
+        "comment": "La revue des droits commerciaux est réalisée mais n'est pas encore entièrement automatisée."
+    },
+    {
+        "id": 30,
+        "processing": 9,
+        "security_measure": 6,
+        "status": "IMPLEMENTED",
+        "comment": "Une durée de conservation des prospects est définie."
+    },
+    {
+        "id": 31,
+        "processing": 10,
+        "security_measure": 8,
+        "status": "IMPLEMENTED",
+        "comment": "Les données utilisées pour l'envoi des newsletters sont protégées par chiffrement."
+    },
+    {
+        "id": 32,
+        "processing": 10,
+        "security_measure": 6,
+        "status": "IMPLEMENTED",
+        "comment": "Les abonnements sont supprimés conformément aux règles de conservation."
+    },
+    {
+        "id": 33,
+        "processing": 10,
+        "security_measure": 4,
+        "status": "IMPLEMENTED",
+        "comment": "Les équipes marketing sont sensibilisées à la protection des données."
+    },
+    {
+        "id": 34,
+        "processing": 11,
+        "security_measure": 8,
+        "status": "IMPLEMENTED",
+        "comment": "Les données échangées avec le site sont protégées par chiffrement."
+    },
+    {
+        "id": 35,
+        "processing": 11,
+        "security_measure": 9,
+        "status": "IMPLEMENTED",
+        "comment": "Les communications entre les utilisateurs et le site utilisent HTTPS."
+    },
+    {
+        "id": 36,
+        "processing": 11,
+        "security_measure": 12,
+        "status": "IMPLEMENTED",
+        "comment": "Les systèmes hébergeant le site disposent d'une protection contre les logiciels malveillants."
+    },
+    {
+        "id": 37,
+        "processing": 12,
+        "security_measure": 1,
+        "status": "IMPLEMENTED",
+        "comment": "L'accès aux paramètres de consentement est limité aux administrateurs."
+    },
+    {
+        "id": 38,
+        "processing": 12,
+        "security_measure": 10,
+        "status": "IMPLEMENTED",
+        "comment": "Les modifications des préférences sont journalisées."
+    },
+    {
+        "id": 39,
+        "processing": 12,
+        "security_measure": 6,
+        "status": "IMPLEMENTED",
+        "comment": "Les préférences sont conservées uniquement pendant la durée nécessaire."
+    },
+    {
+        "id": 40,
+        "processing": 13,
+        "security_measure": 10,
+        "status": "IMPLEMENTED",
+        "comment": "Les événements de sécurité sont enregistrés dans des journaux protégés."
+    },
+    {
+        "id": 41,
+        "processing": 13,
+        "security_measure": 7,
+        "status": "IMPLEMENTED",
+        "comment": "L'accès aux outils de journalisation nécessite une authentification renforcée."
+    },
+    {
+        "id": 42,
+        "processing": 13,
+        "security_measure": 8,
+        "status": "IMPLEMENTED",
+        "comment": "Les journaux contenant des données personnelles sont chiffrés."
+    },
+    {
+        "id": 43,
+        "processing": 14,
+        "security_measure": 1,
+        "status": "IMPLEMENTED",
+        "comment": "L'accès aux dossiers de demandes RGPD est limité aux personnes habilitées."
+    },
+    {
+        "id": 44,
+        "processing": 14,
+        "security_measure": 5,
+        "status": "IMPLEMENTED",
+        "comment": "Une procédure formalisée encadre le traitement des demandes de droits."
+    },
+    {
+        "id": 45,
+        "processing": 14,
+        "security_measure": 6,
+        "status": "IMPLEMENTED",
+        "comment": "Les dossiers sont conservés pendant la durée nécessaire à la démonstration de conformité."
+    },
+    {
+        "id": 46,
+        "processing": 15,
+        "security_measure": 1,
+        "status": "IMPLEMENTED",
+        "comment": "Les informations fournisseurs sont accessibles uniquement aux équipes habilitées."
+    },
+    {
+        "id": 47,
+        "processing": 15,
+        "security_measure": 2,
+        "status": "IMPLEMENTED",
+        "comment": "Les habilitations sont revues lors des changements de fonction."
+    },
+    {
+        "id": 48,
+        "processing": 15,
+        "security_measure": 6,
+        "status": "IMPLEMENTED",
+        "comment": "Une durée de conservation des informations fournisseurs est définie."
+    },
+    {
+        "id": 49,
+        "processing": 16,
+        "security_measure": 8,
+        "status": "IMPLEMENTED",
+        "comment": "Les contrats sont stockés dans un espace sécurisé."
+    },
+    {
+        "id": 50,
+        "processing": 16,
+        "security_measure": 10,
+        "status": "IMPLEMENTED",
+        "comment": "Les consultations et modifications des contrats sont journalisées."
+    },
+    {
+        "id": 51,
+        "processing": 16,
+        "security_measure": 6,
+        "status": "IMPLEMENTED",
+        "comment": "Les contrats sont conservés conformément aux obligations applicables."
+    },
+    {
+        "id": 52,
+        "processing": 17,
+        "security_measure": 1,
+        "status": "IMPLEMENTED",
+        "comment": "Les données des visiteurs sont accessibles uniquement au personnel habilité."
+    },
+    {
+        "id": 53,
+        "processing": 17,
+        "security_measure": 13,
+        "status": "IMPLEMENTED",
+        "comment": "Les accès physiques aux locaux sont contrôlés."
+    },
+    {
+        "id": 54,
+        "processing": 17,
+        "security_measure": 6,
+        "status": "IMPLEMENTED",
+        "comment": "Les données des visiteurs sont supprimées après trois mois."
+    },
+    {
+        "id": 55,
+        "processing": 18,
+        "security_measure": 13,
+        "status": "IMPLEMENTED",
+        "comment": "Les accès aux locaux sont contrôlés par badge ou dispositif équivalent."
+    },
+    {
+        "id": 56,
+        "processing": 18,
+        "security_measure": 2,
+        "status": "IMPLEMENTED",
+        "comment": "Les droits d'accès sont régulièrement vérifiés."
+    },
+    {
+        "id": 57,
+        "processing": 18,
+        "security_measure": 14,
+        "status": "IMPLEMENTED",
+        "comment": "Les équipements de contrôle d'accès sont protégés contre les accès non autorisés."
+    },
+    {
+        "id": 58,
+        "processing": 19,
+        "security_measure": 13,
+        "status": "IMPLEMENTED",
+        "comment": "Les caméras sont installées dans des zones contrôlées."
+    },
+    {
+        "id": 59,
+        "processing": 19,
+        "security_measure": 1,
+        "status": "IMPLEMENTED",
+        "comment": "L'accès aux images est limité aux personnes spécifiquement habilitées."
+    },
+    {
+        "id": 60,
+        "processing": 19,
+        "security_measure": 6,
+        "status": "IMPLEMENTED",
+        "comment": "Les images sont automatiquement supprimées à l'issue de la durée de conservation."
+    },
+    {
+        "id": 61,
+        "processing": 20,
+        "security_measure": 1,
+        "status": "IMPLEMENTED",
+        "comment": "Les données comptables sont accessibles uniquement aux personnes habilitées."
+    },
+    {
+        "id": 62,
+        "processing": 20,
+        "security_measure": 8,
+        "status": "IMPLEMENTED",
+        "comment": "Les données comptables sont protégées par chiffrement."
+    },
+    {
+        "id": 63,
+        "processing": 20,
+        "security_measure": 11,
+        "status": "IMPLEMENTED",
+        "comment": "Les données comptables sont sauvegardées régulièrement."
+    },
+    {
+        "id": 64,
+        "processing": 21,
+        "security_measure": 1,
+        "status": "IMPLEMENTED",
+        "comment": "L'accès aux données sociales est limité au personnel RH habilité."
+    },
+    {
+        "id": 65,
+        "processing": 21,
+        "security_measure": 8,
+        "status": "IMPLEMENTED",
+        "comment": "Les documents transmis aux organismes sociaux sont protégés."
+    },
+    {
+        "id": 66,
+        "processing": 21,
+        "security_measure": 5,
+        "status": "IMPLEMENTED",
+        "comment": "Une procédure encadre les transmissions aux organismes sociaux."
+    },
+    {
+        "id": 67,
+        "processing": 22,
+        "security_measure": 1,
+        "status": "IMPLEMENTED",
+        "comment": "Les tickets de support sont accessibles uniquement aux agents concernés."
+    },
+    {
+        "id": 68,
+        "processing": 22,
+        "security_measure": 10,
+        "status": "IMPLEMENTED",
+        "comment": "Les accès aux tickets sont journalisés."
+    },
+    {
+        "id": 69,
+        "processing": 22,
+        "security_measure": 6,
+        "status": "IMPLEMENTED",
+        "comment": "Les tickets sont supprimés conformément à la politique de conservation."
+    },
+    {
+        "id": 70,
+        "processing": 23,
+        "security_measure": 5,
+        "status": "IMPLEMENTED",
+        "comment": "Une procédure de gestion des incidents est formalisée."
+    },
+    {
+        "id": 71,
+        "processing": 23,
+        "security_measure": 10,
+        "status": "IMPLEMENTED",
+        "comment": "Les événements liés aux incidents sont journalisés."
+    },
+    {
+        "id": 72,
+        "processing": 23,
+        "security_measure": 12,
+        "status": "IMPLEMENTED",
+        "comment": "Les systèmes disposent de protections contre les logiciels malveillants."
+    },
+    {
+        "id": 73,
+        "processing": 24,
+        "security_measure": 10,
+        "status": "PARTIAL",
+        "comment": "La journalisation des statistiques est en cours de standardisation."
+    },
+    {
+        "id": 74,
+        "processing": 24,
+        "security_measure": 8,
+        "status": "IMPLEMENTED",
+        "comment": "Les données statistiques sont protégées lors de leur stockage."
+    },
+    {
+        "id": 75,
+        "processing": 24,
+        "security_measure": 6,
+        "status": "PLANNED",
+        "comment": "Une politique spécifique de conservation des statistiques doit encore être formalisée."
+    },
+    {
+        "id": 76,
+        "processing": 25,
+        "security_measure": 1,
+        "status": "IMPLEMENTED",
+        "comment": "Les réponses aux enquêtes sont accessibles uniquement aux équipes concernées."
+    },
+    {
+        "id": 77,
+        "processing": 25,
+        "security_measure": 8,
+        "status": "IMPLEMENTED",
+        "comment": "Les données collectées sont protégées par chiffrement."
+    },
+    {
+        "id": 78,
+        "processing": 25,
+        "security_measure": 6,
+        "status": "PARTIAL",
+        "comment": "La durée de conservation est définie mais son application automatique reste à finaliser."
+    },
+    {
+        "id": 79,
+        "processing": 26,
+        "security_measure": 8,
+        "status": "IMPLEMENTED",
+        "comment": "Les documents contractuels sont chiffrés lors de leur stockage."
+    },
+    {
+        "id": 80,
+        "processing": 26,
+        "security_measure": 9,
+        "status": "IMPLEMENTED",
+        "comment": "Les communications avec le prestataire de signature sont sécurisées."
+    },
+    {
+        "id": 81,
+        "processing": 26,
+        "security_measure": 10,
+        "status": "IMPLEMENTED",
+        "comment": "Les opérations liées aux documents sont journalisées."
+    },
+    {
+        "id": 82,
+        "processing": 27,
+        "security_measure": 8,
+        "status": "IMPLEMENTED",
+        "comment": "Les données de paiement sont chiffrées."
+    },
+    {
+        "id": 83,
+        "processing": 27,
+        "security_measure": 9,
+        "status": "IMPLEMENTED",
+        "comment": "Les échanges avec le prestataire de paiement sont sécurisés."
+    },
+    {
+        "id": 84,
+        "processing": 27,
+        "security_measure": 7,
+        "status": "IMPLEMENTED",
+        "comment": "Une authentification multifacteur est utilisée pour les comptes administrateurs."
+    },
+    {
+        "id": 85,
+        "processing": 28,
+        "security_measure": 1,
+        "status": "IMPLEMENTED",
+        "comment": "Les données fiscales sont accessibles uniquement aux collaborateurs habilités."
+    },
+    {
+        "id": 86,
+        "processing": 28,
+        "security_measure": 8,
+        "status": "IMPLEMENTED",
+        "comment": "Les documents fiscaux sont protégés par chiffrement."
+    },
+    {
+        "id": 87,
+        "processing": 28,
+        "security_measure": 11,
+        "status": "IMPLEMENTED",
+        "comment": "Les documents fiscaux font l'objet de sauvegardes régulières."
+    },
+    {
+        "id": 88,
+        "processing": 29,
+        "security_measure": 1,
+        "status": "IMPLEMENTED",
+        "comment": "Les informations relatives aux assurances sont accessibles uniquement aux personnes habilitées."
+    },
+    {
+        "id": 89,
+        "processing": 29,
+        "security_measure": 8,
+        "status": "IMPLEMENTED",
+        "comment": "Les documents d'assurance sont stockés dans un espace sécurisé."
+    },
+    {
+        "id": 90,
+        "processing": 29,
+        "security_measure": 6,
+        "status": "IMPLEMENTED",
+        "comment": "Les informations sont conservées pendant les durées nécessaires à la gestion des contrats et sinistres."
+    },
+    {
+        "id": 91,
+        "processing": 30,
+        "security_measure": 1,
+        "status": "IMPLEMENTED",
+        "comment": "L'accès aux informations de conformité est réservé aux personnes habilitées."
+    },
+    {
+        "id": 92,
+        "processing": 30,
+        "security_measure": 2,
+        "status": "IMPLEMENTED",
+        "comment": "Les habilitations sont régulièrement revues."
+    },
+    {
+        "id": 93,
+        "processing": 30,
+        "security_measure": 4,
+        "status": "IMPLEMENTED",
+        "comment": "Les collaborateurs concernés sont sensibilisés aux exigences du RGPD."
+    },
+    {
+        "id": 94,
+        "processing": 30,
+        "security_measure": 5,
+        "status": "IMPLEMENTED",
+        "comment": "Une procédure de gestion des violations de données est disponible."
+    }
+]

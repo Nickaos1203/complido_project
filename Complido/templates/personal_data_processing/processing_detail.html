@@ -4,4 +4,1182 @@
 
 {% block content %}
 
+<div class="container-fluid px-4 py-4">
+
+    <!-- ===================================================== -->
+    <!-- FIL D'ARIANE                                          -->
+    <!-- ===================================================== -->
+
+    <div class="d-flex align-items-center gap-2 mb-3">
+
+        {% comment %} {% url 'treatment_list' %} {% endcomment %}
+        <a href=""
+           class="text-decoration-none text-muted">
+            <i class="bi bi-arrow-left me-1"></i>
+            Traitements
+        </a>
+
+        <i class="bi bi-chevron-right text-muted small"></i>
+
+        <span class="text-muted">
+            {{ processing.name }}
+        </span>
+
+    </div>
+
+
+    <!-- ===================================================== -->
+    <!-- EN-TÊTE DU TRAITEMENT                                 -->
+    <!-- ===================================================== -->
+
+    <div class="d-flex justify-content-between align-items-start mb-4">
+
+        <div>
+
+            <div class="d-flex align-items-center gap-3 mb-2">
+
+                <h1 class="fw-bold mb-0">
+                    {{ processing.name }}
+                </h1>
+
+                {% if processing.status == "ACTIVE" %}
+
+                    <span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-2">
+                        Actif
+                    </span>
+
+                {% elif processing.status == "DRAFT" %}
+
+                    <span class="badge bg-warning-subtle text-warning border border-warning-subtle px-3 py-2">
+                        Brouillon
+                    </span>
+
+                {% elif processing.status == "ARCHIVED" %}
+
+                    <span class="badge bg-secondary-subtle text-secondary border border-secondary-subtle px-3 py-2">
+                        Archivé
+                    </span>
+
+                {% endif %}
+
+            </div>
+
+
+            {% if processing.description %}
+
+                <p class="text-muted mb-2">
+                    {{ processing.description }}
+                </p>
+
+            {% endif %}
+
+
+            <div class="small text-muted">
+
+                Créé le
+                {{ processing.created_at|date:"d/m/Y" }}
+
+                {% if processing.updated_at %}
+
+                    <span class="mx-2">•</span>
+
+                    Mis à jour le
+                    {{ processing.updated_at|date:"d/m/Y" }}
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+
+        <!-- ACTIONS -->
+
+        <div class="d-flex gap-2">
+
+            {% comment %} {% url 'treatment_update' processing.pk %} {% endcomment %}
+            <a href=""
+               class="btn btn-outline-secondary">
+
+                <i class="bi bi-pencil me-2"></i>
+                Modifier
+
+            </a>
+
+
+            <button
+                type="button"
+                class="btn btn-outline-secondary">
+
+                <i class="bi bi-copy me-2"></i>
+                Dupliquer
+
+            </button>
+
+
+            {% if processing.status != "ARCHIVED" %}
+
+                <button
+                    type="button"
+                    class="btn btn-outline-danger">
+
+                    <i class="bi bi-archive me-2"></i>
+                    Archiver
+
+                </button>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+
+    <!-- ===================================================== -->
+    <!-- NAVIGATION                                            -->
+    <!-- ===================================================== -->
+
+    <ul class="nav nav-tabs mb-4">
+
+        <li class="nav-item">
+
+            <a class="nav-link active"
+               href="#resume">
+
+                <i class="bi bi-house me-2"></i>
+                Vue d'ensemble
+
+            </a>
+
+        </li>
+
+
+        <li class="nav-item">
+
+            <a class="nav-link"
+               href="#donnees">
+
+                <i class="bi bi-database me-2"></i>
+                Données
+
+            </a>
+
+        </li>
+
+
+        <li class="nav-item">
+
+            <a class="nav-link"
+               href="#personnes">
+
+                <i class="bi bi-people me-2"></i>
+                Personnes concernées
+
+            </a>
+
+        </li>
+
+
+        <li class="nav-item">
+
+            <a class="nav-link"
+               href="#destinataires">
+
+                <i class="bi bi-send me-2"></i>
+                Destinataires & sous-traitants
+
+            </a>
+
+        </li>
+
+
+        <li class="nav-item">
+
+            <a class="nav-link"
+               href="#operations">
+
+                <i class="bi bi-list-check me-2"></i>
+                Opérations
+
+            </a>
+
+        </li>
+
+
+        <li class="nav-item">
+
+            <a class="nav-link"
+               href="#securite">
+
+                <i class="bi bi-shield-check me-2"></i>
+                Mesures de sécurité
+
+            </a>
+
+        </li>
+
+    </ul>
+
+
+    <!-- ===================================================== -->
+    <!-- INFORMATIONS GÉNÉRALES                               -->
+    <!-- ===================================================== -->
+
+    <div class="row g-4 mb-4">
+
+        <div class="col-lg-6">
+
+            <div class="card border-0 shadow-sm h-100">
+
+                <div class="card-body p-4">
+
+                    <h5 class="fw-semibold mb-4">
+
+                        <i class="bi bi-info-circle me-2"></i>
+                        Informations générales
+
+                    </h5>
+
+
+                    <div class="row mb-3">
+
+                        <div class="col-md-5 text-muted">
+                            Responsable du traitement
+                        </div>
+
+                        <div class="col-md-7 fw-semibold">
+
+                            {% if processing.user %}
+                                {{ processing.user }}
+                            {% else %}
+                                <span class="text-muted">
+                                    Non renseigné
+                                </span>
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="row mb-3">
+
+                        <div class="col-md-5 text-muted">
+                            Organisation
+                        </div>
+
+                        <div class="col-md-7">
+                            {{ processing.entity }}
+                        </div>
+
+                    </div>
+
+
+                    <div class="row mb-3">
+
+                        <div class="col-md-5 text-muted">
+                            Finalité
+                        </div>
+
+                        <div class="col-md-7">
+                            {{ processing.purpose|default:"Non renseignée" }}
+                        </div>
+
+                    </div>
+
+
+                    <div class="row mb-3">
+
+                        <div class="col-md-5 text-muted">
+                            Sous-finalité
+                        </div>
+
+                        <div class="col-md-7">
+                            {{ processing.subpurpose|default:"Non renseignée" }}
+                        </div>
+
+                    </div>
+
+
+                    <div class="row mb-3">
+
+                        <div class="col-md-5 text-muted">
+                            Description de la finalité
+                        </div>
+
+                        <div class="col-md-7">
+                            {{ processing.description_purpose|default:"Non renseignée" }}
+                        </div>
+
+                    </div>
+
+
+                    <div class="row mb-3">
+
+                        <div class="col-md-5 text-muted">
+                            Base légale
+                        </div>
+
+                        <div class="col-md-7">
+
+                            {% if processing.legal_basis %}
+
+                                <span class="fw-semibold">
+                                    {{ processing.legal_basis.name }}
+                                </span>
+
+                                {% if processing.legal_basis.description %}
+
+                                    <div class="small text-muted mt-1">
+                                        {{ processing.legal_basis.description }}
+                                    </div>
+
+                                {% endif %}
+
+                            {% else %}
+
+                                <span class="text-muted">
+                                    Non renseignée
+                                </span>
+
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="row mb-3">
+
+                        <div class="col-md-5 text-muted">
+                            Durée de conservation
+                        </div>
+
+                        <div class="col-md-7">
+                            {{ processing.retention_period|default:"Non renseignée" }}
+                        </div>
+
+                    </div>
+
+
+                    <div class="row">
+
+                        <div class="col-md-5 text-muted">
+                            Transfert international
+                        </div>
+
+                        <div class="col-md-7">
+
+                            {% if processing.international_transfer %}
+
+                                <span class="badge bg-warning-subtle text-warning border border-warning-subtle px-3 py-2">
+                                    Oui
+                                </span>
+
+                            {% else %}
+
+                                <span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-2">
+                                    Non
+                                </span>
+
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================================================= -->
+        <!-- INDICATEURS                                       -->
+        <!-- ================================================= -->
+
+        <div class="col-lg-6">
+
+            <div class="card border-0 shadow-sm h-100">
+
+                <div class="card-body p-4">
+
+                    <h5 class="fw-semibold mb-4">
+
+                        <i class="bi bi-bar-chart me-2"></i>
+                        Indicateurs du traitement
+
+                    </h5>
+
+
+                    <div class="row g-3">
+
+
+                        <!-- CATÉGORIES DE DONNÉES -->
+
+                        <div class="col-md-6">
+
+                            <div class="border rounded-3 p-3 h-100">
+
+                                <div class="text-muted small mb-2">
+                                    Catégories de données
+                                </div>
+
+                                <div class="fs-3 fw-bold">
+                                    {{ processing.data_categories.count }}
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- PERSONNES CONCERNÉES -->
+
+                        <div class="col-md-6">
+
+                            <div class="border rounded-3 p-3 h-100">
+
+                                <div class="text-muted small mb-2">
+                                    Personnes concernées
+                                </div>
+
+                                <div class="fs-3 fw-bold">
+                                    {{ processing.data_subject_categories.count }}
+                                </div>
+
+                                <div class="small text-muted">
+                                    catégories
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- DESTINATAIRES -->
+
+                        <div class="col-md-6">
+
+                            <div class="border rounded-3 p-3 h-100">
+
+                                <div class="text-muted small mb-2">
+                                    Destinataires
+                                </div>
+
+                                <div class="fs-3 fw-bold">
+                                    {{ processing.recipients.count }}
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- SOUS-TRAITANTS -->
+
+                        <div class="col-md-6">
+
+                            <div class="border rounded-3 p-3 h-100">
+
+                                <div class="text-muted small mb-2">
+                                    Sous-traitants
+                                </div>
+
+                                <div class="fs-3 fw-bold">
+                                    {{ processing.subprocessors.count }}
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- OPÉRATIONS -->
+
+                        <div class="col-md-6">
+
+                            <div class="border rounded-3 p-3 h-100">
+
+                                <div class="text-muted small mb-2">
+                                    Opérations
+                                </div>
+
+                                <div class="fs-3 fw-bold">
+                                    {{ processing.processing_operations.count }}
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- MESURES DE SÉCURITÉ -->
+
+                        <div class="col-md-6">
+
+                            <div class="border rounded-3 p-3 h-100">
+
+                                <div class="text-muted small mb-2">
+                                    Mesures de sécurité
+                                </div>
+
+                                <div class="fs-3 fw-bold">
+                                    {{ processing.processing_security_measures.count }}
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- AIPD -->
+
+                    <div class="border rounded-3 p-3 mt-3">
+
+                        <div class="d-flex justify-content-between align-items-center">
+
+                            <div>
+
+                                <div class="fw-semibold">
+                                    Analyse d'impact (AIPD)
+                                </div>
+
+                                <div class="small text-muted">
+                                    Analyse d'impact relative à la protection des données
+                                </div>
+
+                            </div>
+
+
+                            {% if processing.aipd_required %}
+
+                                <span class="badge bg-warning-subtle text-warning border border-warning-subtle px-3 py-2">
+                                    Requise
+                                </span>
+
+                            {% else %}
+
+                                <span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-2">
+                                    Non requise
+                                </span>
+
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ===================================================== -->
+    <!-- CATÉGORIES DE DONNÉES                                -->
+    <!-- ===================================================== -->
+
+    <div class="row g-4 mb-4" id="donnees">
+
+        <div class="col-lg-6">
+
+            <div class="card border-0 shadow-sm h-100">
+
+                <div class="card-body p-4">
+
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+
+                        <h5 class="fw-semibold mb-0">
+
+                            <i class="bi bi-database me-2"></i>
+                            Catégories de données
+
+                        </h5>
+
+                        <span class="badge bg-light text-dark">
+                            {{ processing.data_categories.count }}
+                        </span>
+
+                    </div>
+
+
+                    {% for category in processing.data_categories.all %}
+
+                        <div class="border-bottom py-3">
+
+                            <div class="fw-semibold">
+                                {{ category.name }}
+                            </div>
+
+                            {% if category.description %}
+
+                                <div class="small text-muted mt-1">
+                                    {{ category.description }}
+                                </div>
+
+                            {% endif %}
+
+                        </div>
+
+                    {% empty %}
+
+                        <p class="text-muted mb-0">
+                            Aucune catégorie de données renseignée.
+                        </p>
+
+                    {% endfor %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================================================= -->
+        <!-- PERSONNES CONCERNÉES                              -->
+        <!-- ================================================= -->
+
+        <div class="col-lg-6" id="personnes">
+
+            <div class="card border-0 shadow-sm h-100">
+
+                <div class="card-body p-4">
+
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+
+                        <h5 class="fw-semibold mb-0">
+
+                            <i class="bi bi-people me-2"></i>
+                            Personnes concernées
+
+                        </h5>
+
+                        <span class="badge bg-light text-dark">
+                            {{ processing.data_subject_categories.count }}
+                        </span>
+
+                    </div>
+
+
+                    {% for category in processing.data_subject_categories.all %}
+
+                        <div class="border-bottom py-3">
+
+                            <div class="fw-semibold">
+                                {{ category.name }}
+                            </div>
+
+                            {% if category.description %}
+
+                                <div class="small text-muted mt-1">
+                                    {{ category.description }}
+                                </div>
+
+                            {% endif %}
+
+                        </div>
+
+                    {% empty %}
+
+                        <p class="text-muted mb-0">
+                            Aucune catégorie de personnes renseignée.
+                        </p>
+
+                    {% endfor %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ===================================================== -->
+    <!-- DESTINATAIRES / SOUS-TRAITANTS                       -->
+    <!-- ===================================================== -->
+
+    <div class="row g-4 mb-4" id="destinataires">
+
+        <!-- DESTINATAIRES -->
+
+        <div class="col-lg-6">
+
+            <div class="card border-0 shadow-sm h-100">
+
+                <div class="card-body p-4">
+
+                    <h5 class="fw-semibold mb-4">
+
+                        <i class="bi bi-send me-2"></i>
+                        Destinataires
+
+                    </h5>
+
+
+                    {% for recipient in processing.recipients.all %}
+
+                        <div class="d-flex align-items-start gap-3 border-bottom py-3">
+
+                            <div
+                                class="rounded-circle bg-light d-flex align-items-center justify-content-center"
+                                style="width: 40px; height: 40px; flex-shrink: 0;">
+
+                                <i class="bi bi-person"></i>
+
+                            </div>
+
+                            <div class="flex-grow-1">
+
+                                <div class="d-flex justify-content-between">
+
+                                    <span class="fw-semibold">
+                                        {{ recipient.name }}
+                                    </span>
+
+                                    <span class="badge bg-primary-subtle text-primary border border-primary-subtle">
+                                        {{ recipient.get_type_display }}
+                                    </span>
+
+                                </div>
+
+                                {% if recipient.description %}
+
+                                    <div class="small text-muted mt-1">
+                                        {{ recipient.description }}
+                                    </div>
+
+                                {% endif %}
+
+                            </div>
+
+                        </div>
+
+                    {% empty %}
+
+                        <p class="text-muted">
+                            Aucun destinataire renseigné.
+                        </p>
+
+                    {% endfor %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- SOUS-TRAITANTS -->
+
+        <div class="col-lg-6">
+
+            <div class="card border-0 shadow-sm h-100">
+
+                <div class="card-body p-4">
+
+                    <h5 class="fw-semibold mb-4">
+
+                        <i class="bi bi-buildings me-2"></i>
+                        Sous-traitants
+
+                    </h5>
+
+
+                    {% for subcontractor in processing.subprocessors.all %}
+
+                        <div class="border-bottom py-3">
+
+                            <div class="fw-semibold">
+                                {{ subcontractor.name }}
+                            </div>
+
+                            {% if subcontractor.description %}
+
+                                <div class="small text-muted mt-1">
+                                    {{ subcontractor.description }}
+                                </div>
+
+                            {% endif %}
+
+                            {% if subcontractor.contact %}
+
+                                <div class="small text-muted mt-2">
+
+                                    <i class="bi bi-envelope me-1"></i>
+
+                                    {{ subcontractor.contact }}
+
+                                </div>
+
+                            {% endif %}
+
+                        </div>
+
+                    {% empty %}
+
+                        <p class="text-muted">
+                            Aucun sous-traitant renseigné.
+                        </p>
+
+                    {% endfor %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ===================================================== -->
+    <!-- OPÉRATIONS                                           -->
+    <!-- ===================================================== -->
+
+    <div class="card border-0 shadow-sm mb-4" id="operations">
+
+        <div class="card-body p-4">
+
+            <h5 class="fw-semibold mb-4">
+
+                <i class="bi bi-list-check me-2"></i>
+                Opérations réalisées
+
+            </h5>
+
+
+            {% for operation in processing.processing_operations.all %}
+
+                <div class="d-flex gap-3 mb-3">
+
+                    <div
+                        class="rounded-circle border d-flex align-items-center justify-content-center fw-semibold"
+                        style="width: 32px; height: 32px; flex-shrink: 0;">
+
+                        {{ operation.display_order }}
+
+                    </div>
+
+
+                    <div>
+
+                        <div class="fw-semibold">
+
+                            {{ operation.operation_type.name }}
+
+                        </div>
+
+
+                        {% if operation.operation_type.description %}
+
+                            <div class="small text-muted">
+                                {{ operation.operation_type.description }}
+                            </div>
+
+                        {% endif %}
+
+
+                        {% if operation.description %}
+
+                            <div class="small text-muted mt-1">
+                                {{ operation.description }}
+                            </div>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+            {% empty %}
+
+                <p class="text-muted mb-0">
+                    Aucune opération renseignée.
+                </p>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+
+    <!-- ===================================================== -->
+    <!-- MESURES DE SÉCURITÉ                                  -->
+    <!-- ===================================================== -->
+
+    <div class="card border-0 shadow-sm mb-4" id="securite">
+
+        <div class="card-body p-4">
+
+            <div class="d-flex justify-content-between align-items-center mb-4">
+
+                <h5 class="fw-semibold mb-0">
+
+                    <i class="bi bi-shield-check me-2"></i>
+                    Mesures de sécurité
+
+                </h5>
+
+                <span class="badge bg-light text-dark">
+                    {{ processing.processing_security_measures.count }}
+                </span>
+
+            </div>
+
+
+            <div class="table-responsive">
+
+                <table class="table align-middle mb-0">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Mesure de sécurité
+                            </th>
+
+                            <th>
+                                Catégorie
+                            </th>
+
+                            <th>
+                                Statut
+                            </th>
+
+                            <th>
+                                Commentaire
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                    {% for item in processing.processing_security_measures.all %}
+
+                        <tr>
+
+                            <td>
+
+                                <div class="fw-semibold">
+                                    {{ item.security_measure.name }}
+                                </div>
+
+                                {% if item.security_measure.description %}
+
+                                    <div class="small text-muted">
+                                        {{ item.security_measure.description }}
+                                    </div>
+
+                                {% endif %}
+
+                            </td>
+
+
+                            <td>
+
+                                {{ item.security_measure.get_category_display }}
+
+                            </td>
+
+
+                            <td>
+
+                                {% if item.status == "IMPLEMENTED" %}
+
+                                    <span class="badge bg-success-subtle text-success border border-success-subtle">
+                                        Mise en œuvre
+                                    </span>
+
+                                {% elif item.status == "PARTIAL" %}
+
+                                    <span class="badge bg-warning-subtle text-warning border border-warning-subtle">
+                                        Partiellement mise en œuvre
+                                    </span>
+
+                                {% elif item.status == "PLANNED" %}
+
+                                    <span class="badge bg-primary-subtle text-primary border border-primary-subtle">
+                                        Prévue
+                                    </span>
+
+                                {% elif item.status == "NOT_APPLICABLE" %}
+
+                                    <span class="badge bg-secondary-subtle text-secondary border border-secondary-subtle">
+                                        Non applicable
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+
+                            <td class="text-muted">
+
+                                {{ item.comment|default:"—" }}
+
+                            </td>
+
+                        </tr>
+
+                    {% empty %}
+
+                        <tr>
+
+                            <td colspan="4"
+                                class="text-center text-muted py-4">
+
+                                Aucune mesure de sécurité renseignée.
+
+                            </td>
+
+                        </tr>
+
+                    {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ===================================================== -->
+    <!-- INFORMATIONS COMPLÉMENTAIRES                         -->
+    <!-- ===================================================== -->
+
+    <div class="card border-0 shadow-sm mb-4">
+
+        <div class="card-body p-4">
+
+            <h5 class="fw-semibold mb-4">
+
+                <i class="bi bi-info-circle me-2"></i>
+                Informations complémentaires
+
+            </h5>
+
+
+            <div class="row">
+
+                <div class="col-md-6">
+
+
+                    <div class="row mb-3">
+
+                        <div class="col-sm-5 text-muted">
+                            Organisation
+                        </div>
+
+                        <div class="col-sm-7 fw-semibold">
+                            {{ processing.entity }}
+                        </div>
+
+                    </div>
+
+
+                    <div class="row mb-3">
+
+                        <div class="col-sm-5 text-muted">
+                            Créé par
+                        </div>
+
+                        <div class="col-sm-7">
+
+                            {% if processing.user %}
+                                {{ processing.user }}
+                            {% else %}
+                                —
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="row">
+
+                        <div class="col-sm-5 text-muted">
+                            Date de création
+                        </div>
+
+                        <div class="col-sm-7">
+                            {{ processing.created_at|date:"d/m/Y H:i" }}
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-md-6">
+
+
+                    <div class="row mb-3">
+
+                        <div class="col-sm-5 text-muted">
+                            Dernière mise à jour
+                        </div>
+
+                        <div class="col-sm-7">
+                            {{ processing.updated_at|date:"d/m/Y H:i" }}
+                        </div>
+
+                    </div>
+
+
+                    <div class="row">
+
+                        <div class="col-sm-5 text-muted">
+                            Transfert international
+                        </div>
+
+                        <div class="col-sm-7">
+
+                            {% if processing.international_transfer %}
+
+                                <span class="badge bg-warning-subtle text-warning border border-warning-subtle">
+                                    Oui
+                                </span>
+
+                            {% else %}
+
+                                <span class="badge bg-success-subtle text-success border border-success-subtle">
+                                    Non
+                                </span>
+
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
 {% endblock %}

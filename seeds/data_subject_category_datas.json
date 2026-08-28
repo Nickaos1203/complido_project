@@ -1,0 +1,102 @@
+[
+    {
+        "id": 1,
+        "name": "Salariés",
+        "description": "Personnes employées par l'organisation, y compris les salariés en CDI, CDD et contrats d'alternance."
+    },
+    {
+        "id": 2,
+        "name": "Anciens salariés",
+        "description": "Personnes ayant précédemment travaillé pour l'organisation et dont certaines données doivent être conservées pour répondre aux obligations légales."
+    },
+    {
+        "id": 3,
+        "name": "Candidats à un recrutement",
+        "description": "Personnes ayant candidaté à une offre d'emploi ou ayant transmis spontanément une candidature à l'organisation."
+    },
+    {
+        "id": 4,
+        "name": "Clients",
+        "description": "Personnes physiques clientes de l'organisation ou personnes physiques représentant des clients professionnels."
+    },
+    {
+        "id": 5,
+        "name": "Prospects",
+        "description": "Personnes susceptibles d'être intéressées par les produits ou services proposés par l'organisation."
+    },
+    {
+        "id": 6,
+        "name": "Utilisateurs",
+        "description": "Personnes utilisant une application, un site web, une plateforme ou un service numérique de l'organisation."
+    },
+    {
+        "id": 7,
+        "name": "Membres",
+        "description": "Personnes adhérant ou appartenant à une association, une organisation ou un service nécessitant une gestion des membres."
+    },
+    {
+        "id": 8,
+        "name": "Fournisseurs",
+        "description": "Personnes physiques fournisseurs ou personnes physiques représentant une entreprise fournisseur."
+    },
+    {
+        "id": 9,
+        "name": "Prestataires",
+        "description": "Personnes physiques intervenant pour le compte de prestataires ou de sous-traitants de l'organisation."
+    },
+    {
+        "id": 10,
+        "name": "Partenaires",
+        "description": "Personnes physiques représentant ou travaillant pour des organisations partenaires."
+    },
+    {
+        "id": 11,
+        "name": "Visiteurs",
+        "description": "Personnes visitant les locaux, événements, sites web ou services de l'organisation."
+    },
+    {
+        "id": 12,
+        "name": "Contacts professionnels",
+        "description": "Personnes physiques identifiées dans le cadre de relations professionnelles avec l'organisation."
+    },
+    {
+        "id": 13,
+        "name": "Bénéficiaires",
+        "description": "Personnes bénéficiant d'un service, d'une prestation, d'une aide ou d'un dispositif proposé par l'organisation."
+    },
+    {
+        "id": 14,
+        "name": "Usagers",
+        "description": "Personnes utilisant un service proposé ou géré par l'organisation."
+    },
+    {
+        "id": 15,
+        "name": "Administrateurs",
+        "description": "Personnes disposant de droits d'administration sur une application, un système ou un service."
+    },
+    {
+        "id": 16,
+        "name": "Utilisateurs internes",
+        "description": "Personnes appartenant à l'organisation et utilisant les outils ou systèmes d'information internes."
+    },
+    {
+        "id": 17,
+        "name": "Mineurs",
+        "description": "Personnes âgées de moins de 18 ans susceptibles d'être concernées par certains traitements."
+    },
+    {
+        "id": 18,
+        "name": "Parents ou représentants légaux",
+        "description": "Parents, tuteurs ou représentants légaux de personnes concernées par un traitement."
+    },
+    {
+        "id": 19,
+        "name": "Personnes exerçant leurs droits",
+        "description": "Personnes sollicitant l'exercice de leurs droits relatifs à la protection de leurs données personnelles."
+    },
+    {
+        "id": 20,
+        "name": "Contacts des organismes publics",
+        "description": "Personnes physiques représentant des administrations, collectivités ou autres organismes publics."
+    }
+]

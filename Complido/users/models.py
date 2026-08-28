@@ -12,6 +12,7 @@ class User(AbstractUser):
         REFERENT = "REFERENT", "Référent"
 
     entity = models.ForeignKey(Entity, on_delete=models.CASCADE, related_name="users", null=True, blank=True)
+    department = models.CharField(max_length=30, null=True, blank=True)
     role = models.CharField(max_length=20, choices=Role.choices, default=Role.REFERENT)
 
     def __str__(self):

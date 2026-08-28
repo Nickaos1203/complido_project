@@ -1,0 +1,730 @@
+[
+    {
+        "id": 1,
+        "processing": 1,
+        "operation_type": 1,
+        "display_order": 1,
+        "description": "Collecte des informations administratives auprès des salariés."
+    },
+    {
+        "id": 2,
+        "processing": 1,
+        "operation_type": 2,
+        "display_order": 2,
+        "description": "Enregistrement des informations dans le dossier administratif du salarié."
+    },
+    {
+        "id": 3,
+        "processing": 1,
+        "operation_type": 4,
+        "display_order": 3,
+        "description": "Conservation des données pendant la durée nécessaire à la gestion administrative."
+    },
+    {
+        "id": 4,
+        "processing": 1,
+        "operation_type": 5,
+        "display_order": 4,
+        "description": "Consultation des dossiers par les personnes habilitées du service RH."
+    },
+    {
+        "id": 5,
+        "processing": 2,
+        "operation_type": 1,
+        "display_order": 1,
+        "description": "Collecte des informations nécessaires à l'établissement de la paie."
+    },
+    {
+        "id": 6,
+        "processing": 2,
+        "operation_type": 6,
+        "display_order": 2,
+        "description": "Utilisation des informations pour calculer les éléments de rémunération."
+    },
+    {
+        "id": 7,
+        "processing": 2,
+        "operation_type": 7,
+        "display_order": 3,
+        "description": "Transmission des éléments nécessaires aux organismes sociaux et au prestataire de paie."
+    },
+    {
+        "id": 8,
+        "processing": 2,
+        "operation_type": 10,
+        "display_order": 4,
+        "description": "Archivage des documents de paie conformément aux obligations applicables."
+    },
+    {
+        "id": 9,
+        "processing": 3,
+        "operation_type": 1,
+        "display_order": 1,
+        "description": "Collecte des demandes de congés et informations relatives aux absences."
+    },
+    {
+        "id": 10,
+        "processing": 3,
+        "operation_type": 2,
+        "display_order": 2,
+        "description": "Enregistrement des demandes dans le système de gestion RH."
+    },
+    {
+        "id": 11,
+        "processing": 3,
+        "operation_type": 5,
+        "display_order": 3,
+        "description": "Consultation et validation des demandes par les responsables habilités."
+    },
+    {
+        "id": 12,
+        "processing": 4,
+        "operation_type": 1,
+        "display_order": 1,
+        "description": "Collecte des CV, coordonnées et informations fournies par les candidats."
+    },
+    {
+        "id": 13,
+        "processing": 4,
+        "operation_type": 2,
+        "display_order": 2,
+        "description": "Enregistrement des candidatures dans le système de recrutement."
+    },
+    {
+        "id": 14,
+        "processing": 4,
+        "operation_type": 13,
+        "display_order": 3,
+        "description": "Analyse des candidatures au regard des critères du poste."
+    },
+    {
+        "id": 15,
+        "processing": 4,
+        "operation_type": 9,
+        "display_order": 4,
+        "description": "Suppression des candidatures conformément à la politique de conservation."
+    },
+    {
+        "id": 16,
+        "processing": 5,
+        "operation_type": 1,
+        "display_order": 1,
+        "description": "Collecte des informations nécessaires à la création du compte utilisateur."
+    },
+    {
+        "id": 17,
+        "processing": 5,
+        "operation_type": 2,
+        "display_order": 2,
+        "description": "Création et enregistrement du compte utilisateur."
+    },
+    {
+        "id": 18,
+        "processing": 5,
+        "operation_type": 14,
+        "display_order": 3,
+        "description": "Mise en œuvre de mesures de sécurité pour protéger les comptes."
+    },
+    {
+        "id": 19,
+        "processing": 5,
+        "operation_type": 9,
+        "display_order": 4,
+        "description": "Suppression des comptes devenus inutiles."
+    },
+    {
+        "id": 20,
+        "processing": 6,
+        "operation_type": 1,
+        "display_order": 1,
+        "description": "Collecte des informations relatives aux clients."
+    },
+    {
+        "id": 21,
+        "processing": 6,
+        "operation_type": 2,
+        "display_order": 2,
+        "description": "Enregistrement des informations dans l'outil de gestion client."
+    },
+    {
+        "id": 22,
+        "processing": 6,
+        "operation_type": 5,
+        "display_order": 3,
+        "description": "Consultation des informations par les équipes autorisées."
+    },
+    {
+        "id": 23,
+        "processing": 6,
+        "operation_type": 8,
+        "display_order": 4,
+        "description": "Mise à jour des informations clients."
+    },
+    {
+        "id": 24,
+        "processing": 7,
+        "operation_type": 1,
+        "display_order": 1,
+        "description": "Collecte des informations nécessaires au traitement de la commande."
+    },
+    {
+        "id": 25,
+        "processing": 7,
+        "operation_type": 2,
+        "display_order": 2,
+        "description": "Enregistrement de la commande dans le système."
+    },
+    {
+        "id": 26,
+        "processing": 7,
+        "operation_type": 6,
+        "display_order": 3,
+        "description": "Utilisation des informations pour préparer et suivre la commande."
+    },
+    {
+        "id": 27,
+        "processing": 7,
+        "operation_type": 7,
+        "display_order": 4,
+        "description": "Transmission des informations nécessaires au transporteur ou prestataire concerné."
+    },
+    {
+        "id": 28,
+        "processing": 8,
+        "operation_type": 2,
+        "display_order": 1,
+        "description": "Enregistrement des informations nécessaires à la facturation."
+    },
+    {
+        "id": 29,
+        "processing": 8,
+        "operation_type": 6,
+        "display_order": 2,
+        "description": "Utilisation des données pour établir les factures."
+    },
+    {
+        "id": 30,
+        "processing": 8,
+        "operation_type": 4,
+        "display_order": 3,
+        "description": "Conservation des factures conformément aux obligations légales."
+    },
+    {
+        "id": 31,
+        "processing": 8,
+        "operation_type": 10,
+        "display_order": 4,
+        "description": "Archivage des documents comptables."
+    },
+    {
+        "id": 32,
+        "processing": 9,
+        "operation_type": 1,
+        "display_order": 1,
+        "description": "Collecte des coordonnées des prospects."
+    },
+    {
+        "id": 33,
+        "processing": 9,
+        "operation_type": 2,
+        "display_order": 2,
+        "description": "Enregistrement des prospects dans l'outil commercial."
+    },
+    {
+        "id": 34,
+        "processing": 9,
+        "operation_type": 7,
+        "display_order": 3,
+        "description": "Transmission des informations aux équipes commerciales habilitées."
+    },
+    {
+        "id": 35,
+        "processing": 10,
+        "operation_type": 1,
+        "display_order": 1,
+        "description": "Collecte de l'adresse électronique lors de l'inscription à la newsletter."
+    },
+    {
+        "id": 36,
+        "processing": 10,
+        "operation_type": 2,
+        "display_order": 2,
+        "description": "Enregistrement de l'abonnement à la newsletter."
+    },
+    {
+        "id": 37,
+        "processing": 10,
+        "operation_type": 7,
+        "display_order": 3,
+        "description": "Transmission de l'adresse au service d'envoi de newsletters."
+    },
+    {
+        "id": 38,
+        "processing": 10,
+        "operation_type": 9,
+        "display_order": 4,
+        "description": "Suppression de l'abonnement après désinscription."
+    },
+    {
+        "id": 39,
+        "processing": 11,
+        "operation_type": 1,
+        "display_order": 1,
+        "description": "Collecte des données techniques nécessaires au fonctionnement du site."
+    },
+    {
+        "id": 40,
+        "processing": 11,
+        "operation_type": 12,
+        "display_order": 2,
+        "description": "Hébergement des données et fichiers nécessaires au fonctionnement du site."
+    },
+    {
+        "id": 41,
+        "processing": 11,
+        "operation_type": 14,
+        "display_order": 3,
+        "description": "Protection des données techniques contre les accès non autorisés."
+    },
+    {
+        "id": 42,
+        "processing": 12,
+        "operation_type": 1,
+        "display_order": 1,
+        "description": "Collecte du choix de l'utilisateur concernant les cookies."
+    },
+    {
+        "id": 43,
+        "processing": 12,
+        "operation_type": 2,
+        "display_order": 2,
+        "description": "Enregistrement des préférences de consentement."
+    },
+    {
+        "id": 44,
+        "processing": 12,
+        "operation_type": 8,
+        "display_order": 3,
+        "description": "Modification des préférences lorsque l'utilisateur met à jour son consentement."
+    },
+    {
+        "id": 45,
+        "processing": 13,
+        "operation_type": 2,
+        "display_order": 1,
+        "description": "Enregistrement des événements techniques dans les journaux."
+    },
+    {
+        "id": 46,
+        "processing": 13,
+        "operation_type": 13,
+        "display_order": 2,
+        "description": "Analyse des journaux afin d'identifier les événements suspects."
+    },
+    {
+        "id": 47,
+        "processing": 13,
+        "operation_type": 14,
+        "display_order": 3,
+        "description": "Sécurisation et protection des journaux techniques."
+    },
+    {
+        "id": 48,
+        "processing": 14,
+        "operation_type": 1,
+        "display_order": 1,
+        "description": "Collecte des demandes d'exercice des droits."
+    },
+    {
+        "id": 49,
+        "processing": 14,
+        "operation_type": 2,
+        "display_order": 2,
+        "description": "Enregistrement et suivi des demandes RGPD."
+    },
+    {
+        "id": 50,
+        "processing": 14,
+        "operation_type": 6,
+        "display_order": 3,
+        "description": "Traitement des demandes par les personnes habilitées."
+    },
+    {
+        "id": 51,
+        "processing": 14,
+        "operation_type": 9,
+        "display_order": 4,
+        "description": "Suppression des informations lorsque leur conservation n'est plus nécessaire."
+    },
+    {
+        "id": 52,
+        "processing": 15,
+        "operation_type": 1,
+        "display_order": 1,
+        "description": "Collecte des informations relatives aux fournisseurs."
+    },
+    {
+        "id": 53,
+        "processing": 15,
+        "operation_type": 2,
+        "display_order": 2,
+        "description": "Enregistrement des informations dans le référentiel fournisseurs."
+    },
+    {
+        "id": 54,
+        "processing": 15,
+        "operation_type": 8,
+        "display_order": 3,
+        "description": "Mise à jour des informations fournisseurs."
+    },
+    {
+        "id": 55,
+        "processing": 16,
+        "operation_type": 1,
+        "display_order": 1,
+        "description": "Collecte des informations nécessaires à la rédaction du contrat."
+    },
+    {
+        "id": 56,
+        "processing": 16,
+        "operation_type": 2,
+        "display_order": 2,
+        "description": "Enregistrement des informations contractuelles."
+    },
+    {
+        "id": 57,
+        "processing": 16,
+        "operation_type": 10,
+        "display_order": 3,
+        "description": "Archivage des contrats arrivés à échéance."
+    },
+    {
+        "id": 58,
+        "processing": 17,
+        "operation_type": 1,
+        "display_order": 1,
+        "description": "Collecte des informations du visiteur à son arrivée."
+    },
+    {
+        "id": 59,
+        "processing": 17,
+        "operation_type": 2,
+        "display_order": 2,
+        "description": "Enregistrement de la visite."
+    },
+    {
+        "id": 60,
+        "processing": 17,
+        "operation_type": 9,
+        "display_order": 3,
+        "description": "Suppression des informations après expiration de la durée de conservation."
+    },
+    {
+        "id": 61,
+        "processing": 18,
+        "operation_type": 1,
+        "display_order": 1,
+        "description": "Collecte des informations nécessaires à l'attribution d'un badge ou moyen d'accès."
+    },
+    {
+        "id": 62,
+        "processing": 18,
+        "operation_type": 2,
+        "display_order": 2,
+        "description": "Enregistrement des droits d'accès."
+    },
+    {
+        "id": 63,
+        "processing": 18,
+        "operation_type": 15,
+        "display_order": 3,
+        "description": "Contrôle des accès aux zones sécurisées."
+    },
+    {
+        "id": 64,
+        "processing": 18,
+        "operation_type": 9,
+        "display_order": 4,
+        "description": "Suppression des droits d'accès lorsqu'ils ne sont plus nécessaires."
+    },
+    {
+        "id": 65,
+        "processing": 19,
+        "operation_type": 1,
+        "display_order": 1,
+        "description": "Collecte des images provenant des caméras de vidéosurveillance."
+    },
+    {
+        "id": 66,
+        "processing": 19,
+        "operation_type": 2,
+        "display_order": 2,
+        "description": "Enregistrement des images."
+    },
+    {
+        "id": 67,
+        "processing": 19,
+        "operation_type": 5,
+        "display_order": 3,
+        "description": "Consultation des images uniquement par les personnes habilitées."
+    },
+    {
+        "id": 68,
+        "processing": 19,
+        "operation_type": 9,
+        "display_order": 4,
+        "description": "Suppression automatique des images à l'expiration de la durée de conservation."
+    },
+    {
+        "id": 69,
+        "processing": 20,
+        "operation_type": 1,
+        "display_order": 1,
+        "description": "Collecte des informations nécessaires à la comptabilité."
+    },
+    {
+        "id": 70,
+        "processing": 20,
+        "operation_type": 2,
+        "display_order": 2,
+        "description": "Enregistrement des opérations comptables."
+    },
+    {
+        "id": 71,
+        "processing": 20,
+        "operation_type": 4,
+        "display_order": 3,
+        "description": "Conservation des données comptables pendant la durée légale."
+    },
+    {
+        "id": 72,
+        "processing": 20,
+        "operation_type": 10,
+        "display_order": 4,
+        "description": "Archivage des pièces comptables."
+    },
+    {
+        "id": 73,
+        "processing": 21,
+        "operation_type": 1,
+        "display_order": 1,
+        "description": "Collecte des informations nécessaires aux déclarations sociales."
+    },
+    {
+        "id": 74,
+        "processing": 21,
+        "operation_type": 7,
+        "display_order": 2,
+        "description": "Transmission des déclarations aux organismes compétents."
+    },
+    {
+        "id": 75,
+        "processing": 21,
+        "operation_type": 10,
+        "display_order": 3,
+        "description": "Archivage des justificatifs et déclarations."
+    },
+    {
+        "id": 76,
+        "processing": 22,
+        "operation_type": 1,
+        "display_order": 1,
+        "description": "Collecte des demandes et informations communiquées par les clients."
+    },
+    {
+        "id": 77,
+        "processing": 22,
+        "operation_type": 2,
+        "display_order": 2,
+        "description": "Enregistrement des demandes dans le système de support."
+    },
+    {
+        "id": 78,
+        "processing": 22,
+        "operation_type": 6,
+        "display_order": 3,
+        "description": "Utilisation des informations pour résoudre la demande du client."
+    },
+    {
+        "id": 79,
+        "processing": 22,
+        "operation_type": 9,
+        "display_order": 4,
+        "description": "Suppression des tickets selon la politique de conservation."
+    },
+    {
+        "id": 80,
+        "processing": 23,
+        "operation_type": 2,
+        "display_order": 1,
+        "description": "Enregistrement des informations relatives à l'incident de sécurité."
+    },
+    {
+        "id": 81,
+        "processing": 23,
+        "operation_type": 13,
+        "display_order": 2,
+        "description": "Analyse des circonstances et des impacts de l'incident."
+    },
+    {
+        "id": 82,
+        "processing": 23,
+        "operation_type": 15,
+        "display_order": 3,
+        "description": "Contrôle des actions mises en œuvre pour résoudre l'incident."
+    },
+    {
+        "id": 83,
+        "processing": 24,
+        "operation_type": 1,
+        "display_order": 1,
+        "description": "Collecte des données nécessaires aux statistiques d'utilisation."
+    },
+    {
+        "id": 84,
+        "processing": 24,
+        "operation_type": 13,
+        "display_order": 2,
+        "description": "Analyse des données afin d'identifier les tendances d'utilisation."
+    },
+    {
+        "id": 85,
+        "processing": 24,
+        "operation_type": 9,
+        "display_order": 3,
+        "description": "Suppression des données statistiques à l'expiration de leur durée de conservation."
+    },
+    {
+        "id": 86,
+        "processing": 25,
+        "operation_type": 1,
+        "display_order": 1,
+        "description": "Collecte des réponses aux enquêtes de satisfaction."
+    },
+    {
+        "id": 87,
+        "processing": 25,
+        "operation_type": 2,
+        "display_order": 2,
+        "description": "Enregistrement des réponses dans l'outil d'enquête."
+    },
+    {
+        "id": 88,
+        "processing": 25,
+        "operation_type": 13,
+        "display_order": 3,
+        "description": "Analyse des réponses afin d'identifier les axes d'amélioration."
+    },
+    {
+        "id": 89,
+        "processing": 26,
+        "operation_type": 1,
+        "display_order": 1,
+        "description": "Collecte des informations nécessaires à la signature du contrat."
+    },
+    {
+        "id": 90,
+        "processing": 26,
+        "operation_type": 7,
+        "display_order": 2,
+        "description": "Transmission du document au prestataire de signature électronique."
+    },
+    {
+        "id": 91,
+        "processing": 26,
+        "operation_type": 10,
+        "display_order": 3,
+        "description": "Archivage du document signé."
+    },
+    {
+        "id": 92,
+        "processing": 27,
+        "operation_type": 1,
+        "display_order": 1,
+        "description": "Collecte des informations nécessaires au paiement."
+    },
+    {
+        "id": 93,
+        "processing": 27,
+        "operation_type": 6,
+        "display_order": 2,
+        "description": "Utilisation des informations pour effectuer la transaction."
+    },
+    {
+        "id": 94,
+        "processing": 27,
+        "operation_type": 7,
+        "display_order": 3,
+        "description": "Transmission des informations nécessaires au prestataire de paiement."
+    },
+    {
+        "id": 95,
+        "processing": 28,
+        "operation_type": 1,
+        "display_order": 1,
+        "description": "Collecte des informations nécessaires au respect des obligations fiscales."
+    },
+    {
+        "id": 96,
+        "processing": 28,
+        "operation_type": 7,
+        "display_order": 2,
+        "description": "Transmission des informations aux administrations compétentes."
+    },
+    {
+        "id": 97,
+        "processing": 28,
+        "operation_type": 10,
+        "display_order": 3,
+        "description": "Archivage des documents fiscaux."
+    },
+    {
+        "id": 98,
+        "processing": 29,
+        "operation_type": 1,
+        "display_order": 1,
+        "description": "Collecte des informations nécessaires à la gestion des contrats d'assurance."
+    },
+    {
+        "id": 99,
+        "processing": 29,
+        "operation_type": 2,
+        "display_order": 2,
+        "description": "Enregistrement des informations relatives aux contrats et sinistres."
+    },
+    {
+        "id": 100,
+        "processing": 29,
+        "operation_type": 7,
+        "display_order": 3,
+        "description": "Transmission des informations nécessaires à l'assureur."
+    },
+    {
+        "id": 101,
+        "processing": 30,
+        "operation_type": 1,
+        "display_order": 1,
+        "description": "Collecte des informations nécessaires au suivi de la conformité RGPD."
+    },
+    {
+        "id": 102,
+        "processing": 30,
+        "operation_type": 2,
+        "display_order": 2,
+        "description": "Enregistrement et documentation des informations relatives aux traitements."
+    },
+    {
+        "id": 103,
+        "processing": 30,
+        "operation_type": 5,
+        "display_order": 3,
+        "description": "Consultation des informations par les personnes responsables de la conformité."
+    },
+    {
+        "id": 104,
+        "processing": 30,
+        "operation_type": 10,
+        "display_order": 4,
+        "description": "Archivage des documents nécessaires à la démonstration de conformité."
+    }
+]

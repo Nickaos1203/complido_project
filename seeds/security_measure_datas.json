@@ -1,0 +1,92 @@
+[
+    {
+        "id": 1,
+        "name": "Gestion des habilitations",
+        "description": "Définition et attribution des droits d'accès aux données personnelles selon les fonctions et les besoins professionnels.",
+        "category": "ORGANIZATIONAL"
+    },
+    {
+        "id": 2,
+        "name": "Revue périodique des droits d'accès",
+        "description": "Vérification régulière des habilitations afin de supprimer les accès devenus inutiles ou inappropriés.",
+        "category": "ORGANIZATIONAL"
+    },
+    {
+        "id": 3,
+        "name": "Politique de gestion des mots de passe",
+        "description": "Mise en place de règles concernant la complexité, la confidentialité et le renouvellement des mots de passe.",
+        "category": "ORGANIZATIONAL"
+    },
+    {
+        "id": 4,
+        "name": "Sensibilisation du personnel",
+        "description": "Formation et sensibilisation régulière des collaborateurs aux enjeux de la protection des données personnelles et de la sécurité.",
+        "category": "ORGANIZATIONAL"
+    },
+    {
+        "id": 5,
+        "name": "Procédure de gestion des incidents",
+        "description": "Procédure permettant de détecter, déclarer, analyser et traiter les incidents de sécurité et violations de données personnelles.",
+        "category": "ORGANIZATIONAL"
+    },
+    {
+        "id": 6,
+        "name": "Politique de conservation des données",
+        "description": "Définition des durées de conservation et des règles de suppression ou d'archivage des données personnelles.",
+        "category": "ORGANIZATIONAL"
+    },
+    {
+        "id": 7,
+        "name": "Authentification multifacteur",
+        "description": "Utilisation de plusieurs facteurs d'authentification afin de renforcer la sécurité des comptes utilisateurs.",
+        "category": "TECHNICAL"
+    },
+    {
+        "id": 8,
+        "name": "Chiffrement des données",
+        "description": "Chiffrement des données personnelles afin de limiter les risques d'accès non autorisé lors du stockage ou de la transmission.",
+        "category": "TECHNICAL"
+    },
+    {
+        "id": 9,
+        "name": "Chiffrement des communications",
+        "description": "Utilisation de protocoles sécurisés pour protéger les données personnelles lors de leur transmission sur les réseaux.",
+        "category": "TECHNICAL"
+    },
+    {
+        "id": 10,
+        "name": "Journalisation des accès",
+        "description": "Enregistrement des accès et actions réalisées sur les systèmes contenant des données personnelles afin de permettre leur traçabilité.",
+        "category": "TECHNICAL"
+    },
+    {
+        "id": 11,
+        "name": "Sauvegardes régulières",
+        "description": "Réalisation de sauvegardes régulières des données et des systèmes afin de permettre leur restauration en cas d'incident.",
+        "category": "TECHNICAL"
+    },
+    {
+        "id": 12,
+        "name": "Protection contre les logiciels malveillants",
+        "description": "Mise en place de solutions de détection et de protection contre les virus, ransomwares et autres logiciels malveillants.",
+        "category": "TECHNICAL"
+    },
+    {
+        "id": 13,
+        "name": "Contrôle d'accès aux locaux",
+        "description": "Restriction de l'accès aux locaux et zones contenant des équipements ou supports susceptibles de contenir des données personnelles.",
+        "category": "PHYSICAL"
+    },
+    {
+        "id": 14,
+        "name": "Protection des équipements",
+        "description": "Mesures destinées à protéger les serveurs, ordinateurs et autres équipements contre le vol, la dégradation ou l'accès physique non autorisé.",
+        "category": "PHYSICAL"
+    },
+    {
+        "id": 15,
+        "name": "Sécurisation des supports de stockage",
+        "description": "Protection physique des supports contenant des données personnelles, notamment lors de leur stockage, transport ou destruction.",
+        "category": "PHYSICAL"
+    }
+]

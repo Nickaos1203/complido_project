@@ -1,7 +1,687 @@
-{% extends 'base.html'%}
+{% extends 'base_logout.html'%}
+{% load static %}
+
+
 
 {% block title %}Homepage{% endblock %}
 
 {% block content %}
-<h1>homepage</h1>
+
+<section class="bg-white">
+    <div class="container pt-5 mt-4 pb-5">
+    <div class="container py-5">
+
+        <div class="row align-items-center min-vh-75">
+
+            <div class="col-lg-6">
+                <p class="text-primary fw-bold text-uppercase mb-2"><span class="text-dark">COMPLIDO - </span>Solution de conformité RGPD</p>
+                <h1 class="display-4 fw-bold text-dark">Pilotez votre conformité <span class="text-primary">RGPD simplement.</span></h1>
+                <p class="lead text-secondary my-4">
+                    Complido vous aide à centraliser vos traitements,
+                    évaluer les risques, suivre vos actions et démontrer
+                    votre conformité au quotidien.
+                </p>
+
+                <div class="d-flex flex-wrap gap-2">
+                    <a href="#" class="btn btn-primary btn-lg">Cliquez ici pour créer votre compte</a>
+                    {% comment %} <a href="#fonctionnalites" class="btn btn-outline-primary btn-lg">Demander une démo</a> {% endcomment %}
+                </div>
+
+                <div class="mt-4 text-secondary">
+                     <i class="bi bi-shield-check text-primary me-2"></i>Conçu pour les DPO, référents RGPD et équipes métiers
+                </div>
+            </div>
+
+            <div class="col-lg-6 mt-5 mt-lg-0">
+                <img src="{% static 'homepage/00_dashboard_picture.png' %}" alt="Tableau de bord Complido" class="img-fluid rounded-3 shadow">
+            </div>
+
+        </div>
+
+        <div class="text-center mt-4">
+            <a href="#fonctionnalites" class="text-primary fs-3"><i class="bi bi-chevron-down"></i></a>
+        </div>
+
+    </div>
+
+</section>
+
+<section id="fonctionnalites" class="bg-light py-5">
+
+    <div class="container py-5">
+
+        <div class="text-center mb-5">
+
+            <p class="text-primary fw-bold text-uppercase">Fonctionnalités</p>
+            <h2 class="fw-bold">Tout ce qu'il vous faut,<span class="text-primary">au même endroit</span></h2>
+            <p class="text-secondary mx-auto mt-3">
+                Une plateforme centralisée pour piloter simplement
+                l'ensemble de vos obligations liées au RGPD.
+            </p>
+
+        </div>
+
+
+        <div class="row g-4">
+
+            <div class="col-md-6 col-lg-3">
+
+                <div class="card h-100 border-0 shadow-sm">
+
+                    <div class="card-body text-center p-4">
+
+                        <div class="display-5 text-primary mb-3">
+
+                            <i class="bi bi-file-earmark-text"></i>
+
+                        </div>
+
+                        <h5 class="fw-bold">Registre des traitements</h5>
+                        <p class="text-secondary">
+                            Centralisez et organisez vos traitements
+                            de données en toute simplicité.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-6 col-lg-3">
+
+                <div class="card h-100 border-0 shadow-sm">
+
+                    <div class="card-body text-center p-4">
+
+                        <div class="display-5 text-primary mb-3">
+
+                            <i class="bi bi-shield-check"></i>
+
+                        </div>
+
+                        <h5 class="fw-bold">
+
+                            Analyses d'impact
+
+                        </h5>
+
+                        <p class="text-secondary">
+
+                            Réalisez vos AIPD et suivez les risques
+                            associés à vos traitements.
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- MESURES -->
+
+            <div class="col-md-6 col-lg-3">
+
+                <div class="card h-100 border-0 shadow-sm">
+
+                    <div class="card-body text-center p-4">
+
+                        <div class="display-5 text-primary mb-3">
+
+                            <i class="bi bi-clipboard-check"></i>
+
+                        </div>
+
+                        <h5 class="fw-bold">
+
+                            Mesures de sécurité
+
+                        </h5>
+
+                        <p class="text-secondary">
+
+                            Définissez, suivez et évaluez vos mesures
+                            techniques et organisationnelles.
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- OBLIGATIONS -->
+
+            <div class="col-md-6 col-lg-3">
+
+                <div class="card h-100 border-0 shadow-sm">
+
+                    <div class="card-body text-center p-4">
+
+                        <div class="display-5 text-primary mb-3">
+
+                            <i class="bi bi-bell"></i>
+
+                        </div>
+
+                        <h5 class="fw-bold">
+
+                            Gestion des obligations
+
+                        </h5>
+
+                        <p class="text-secondary">
+
+                            Ne manquez aucune échéance grâce au suivi
+                            des actions et obligations.
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="text-center mt-5">
+
+            <a
+                href="#"
+                class="btn btn-primary"
+            >
+                Voir toutes les fonctionnalités
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     AVANTAGES
+========================================================= -->
+
+<section class="bg-white py-5">
+
+    <div class="container py-5">
+
+        <div class="text-center mb-5">
+
+            <p class="text-primary fw-bold text-uppercase">
+
+                Pourquoi choisir Complido ?
+
+            </p>
+
+            <h2 class="fw-bold">
+
+                Une solution pensée pour les
+                <span class="text-primary">
+                    acteurs de la conformité
+                </span>
+
+            </h2>
+
+        </div>
+
+
+        <div class="row g-5">
+
+
+            <!-- AVANTAGE 1 -->
+
+            <div class="col-md-6 col-lg-3 text-center">
+
+                <i class="bi bi-people display-5 text-primary"></i>
+
+                <h5 class="fw-bold mt-3">
+
+                    Conçu pour les experts RGPD
+
+                </h5>
+
+                <p class="text-secondary">
+
+                    Une solution adaptée aux pratiques terrain
+                    et aux exigences réglementaires.
+
+                </p>
+
+            </div>
+
+
+            <!-- AVANTAGE 2 -->
+
+            <div class="col-md-6 col-lg-3 text-center">
+
+                <i class="bi bi-lock display-5 text-primary"></i>
+
+                <h5 class="fw-bold mt-3">
+
+                    Sécurisé et confidentiel
+
+                </h5>
+
+                <p class="text-secondary">
+
+                    Vos données sont protégées selon
+                    les meilleures pratiques de sécurité.
+
+                </p>
+
+            </div>
+
+
+            <!-- AVANTAGE 3 -->
+
+            <div class="col-md-6 col-lg-3 text-center">
+
+                <i class="bi bi-graph-up display-5 text-primary"></i>
+
+                <h5 class="fw-bold mt-3">
+
+                    Simple et intuitif
+
+                </h5>
+
+                <p class="text-secondary">
+
+                    Une interface claire pour gagner du temps
+                    et vous concentrer sur l'essentiel.
+
+                </p>
+
+            </div>
+
+
+            <!-- AVANTAGE 4 -->
+
+            <div class="col-md-6 col-lg-3 text-center">
+
+                <i class="bi bi-person-check display-5 text-primary"></i>
+
+                <h5 class="fw-bold mt-3">
+
+                    Collaboration facilitée
+
+                </h5>
+
+                <p class="text-secondary">
+
+                    Travaillez à plusieurs et partagez
+                    facilement les informations.
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     CTA
+========================================================= -->
+
+<section class="bg-light py-5">
+
+    <div class="container">
+
+        <div class="bg-primary text-white rounded-3 shadow p-5">
+
+            <div class="row align-items-center">
+
+                <div class="col-lg-8">
+
+                    <h2 class="fw-bold">
+
+                        Prêt à simplifier votre conformité RGPD ?
+
+                    </h2>
+
+                    <p class="mb-0">
+
+                        Découvrez Complido en action avec une
+                        démonstration personnalisée.
+
+                    </p>
+
+                </div>
+
+
+                <div class="col-lg-4 text-lg-end mt-4 mt-lg-0">
+
+                    <a
+                        href="#"
+                        class="btn btn-light btn-lg"
+                    >
+                        Demander une démo
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     POUR QUI ?
+========================================================= -->
+
+<section
+    id="publics"
+    class="bg-white py-5"
+>
+
+    <div class="container py-5">
+
+        <div class="text-center mb-5">
+
+            <p class="text-primary fw-bold text-uppercase">
+
+                Pour qui ?
+
+            </p>
+
+            <h2 class="fw-bold">
+
+                Une solution pour tous les acteurs
+                de la protection des données
+
+            </h2>
+
+        </div>
+
+
+        <div class="row g-4">
+
+            <div class="col-md-4">
+
+                <div class="card h-100 shadow-sm">
+
+                    <div class="bg-light text-center p-4">
+
+                        <img
+                            src="{% static 'homepage/01_expert_group.png' %}"
+                            alt="DPO"
+                            class="img-fluid"
+                            style="max-height: 180px;"
+                        >
+
+                    </div>
+
+                    <div class="card-body p-4">
+
+                        <h5 class="fw-bold">
+                            DPO
+                        </h5>
+
+                        <p class="text-secondary">
+
+                            Pilotez votre conformité et gardez
+                            une vision globale de vos activités
+                            de traitement.
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 RÉFÉRENTE RGPD
+                 
+                 IMAGE À INSÉRER :
+                 static/images/referente-rgpd.png
+            ================================================== -->
+
+            <div class="col-md-4">
+
+                <div class="card h-100 shadow-sm">
+
+                    <div class="bg-light text-center p-4">
+
+                        <img
+                            src="{% static 'homepage/03_using_app.png' %}"
+                            alt="Référente RGPD"
+                            class="img-fluid"
+                            style="max-height: 180px;"
+                        >
+
+                    </div>
+
+                    <div class="card-body p-4">
+
+                        <h5 class="fw-bold">
+                            Référents RGPD
+                        </h5>
+
+                        <p class="text-secondary">
+
+                            Suivez vos actions, collaborez avec
+                            les équipes et assurez le suivi
+                            de vos obligations.
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-4">
+
+                <div class="card h-100 shadow-sm">
+
+                    <div class="bg-light text-center p-4">
+
+                        <img
+                            src="{% static 'homepage/04_collaboration.png' %}"
+                            alt="Équipe métier"
+                            class="img-fluid"
+                            style="max-height: 180px;"
+                        >
+
+                    </div>
+
+                    <div class="card-body p-4">
+
+                        <h5 class="fw-bold">
+                            Équipes métiers
+                        </h5>
+
+                        <p class="text-secondary">
+
+                            Déclarez vos traitements, accédez
+                            aux ressources et adoptez les
+                            bons réflexes.
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     RESSOURCES
+========================================================= -->
+
+<section
+    id="ressources"
+    class="bg-light py-5"
+>
+
+    <div class="container py-5">
+
+        <div class="text-center mb-5">
+
+            <p class="text-primary fw-bold text-uppercase">
+                Ressources
+            </p>
+
+            <h2 class="fw-bold">
+
+                Des ressources pour
+                <span class="text-primary">
+                    vous accompagner
+                </span>
+
+            </h2>
+
+        </div>
+
+
+        <div class="row g-4">
+
+
+            <div class="col-md-4">
+
+                <div class="card h-100 shadow-sm border-0">
+
+                    <div class="card-body p-4">
+
+                        <i class="bi bi-book display-5 text-primary"></i>
+
+                        <h5 class="fw-bold mt-3">
+
+                            Guides pratiques
+
+                        </h5>
+
+                        <p class="text-secondary">
+
+                            Des guides pas à pas pour vous aider
+                            dans vos démarches RGPD.
+
+                        </p>
+
+                        <a
+                            href="#"
+                            class="btn btn-link px-0"
+                        >
+                            Découvrir
+                            <i class="bi bi-arrow-right"></i>
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-4">
+
+                <div class="card h-100 shadow-sm border-0">
+
+                    <div class="card-body p-4">
+
+                        <i class="bi bi-file-earmark-text display-5 text-primary"></i>
+
+                        <h5 class="fw-bold mt-3">
+
+                            Modèles de documents
+
+                        </h5>
+
+                        <p class="text-secondary">
+
+                            Gagnez du temps avec nos modèles
+                            conformes et personnalisables.
+
+                        </p>
+
+                        <a
+                            href="#"
+                            class="btn btn-link px-0"
+                        >
+                            Découvrir
+                            <i class="bi bi-arrow-right"></i>
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-4">
+
+                <div class="card h-100 shadow-sm border-0">
+
+                    <div class="card-body p-4">
+
+                        <i class="bi bi-question-circle display-5 text-primary"></i>
+
+                        <h5 class="fw-bold mt-3">
+
+                            FAQ
+
+                        </h5>
+
+                        <p class="text-secondary">
+
+                            Trouvez rapidement les réponses
+                            aux questions les plus fréquentes.
+
+                        </p>
+
+                        <a
+                            href="#"
+                            class="btn btn-link px-0"
+                        >
+                            Découvrir
+                            <i class="bi bi-arrow-right"></i>
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
 {% endblock %}

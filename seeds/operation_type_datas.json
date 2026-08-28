@@ -1,0 +1,52 @@
+[
+    {
+        "id": 1,
+        "name": "Collecte",
+        "description": "Collecte de données personnelles auprès de la personne concernée ou d'une autre source autorisée."
+    },
+    {
+        "id": 2,
+        "name": "Enregistrement",
+        "description": "Enregistrement et stockage des données personnelles dans un système d'information ou une base de données."
+    },
+    {
+        "id": 3,
+        "name": "Organisation",
+        "description": "Classement, structuration et organisation des données personnelles afin de permettre leur gestion et leur utilisation."
+    },
+    {
+        "id": 4,
+        "name": "Consultation",
+        "description": "Accès et consultation des données personnelles par les personnes autorisées."
+    },
+    {
+        "id": 5,
+        "name": "Modification",
+        "description": "Mise à jour, correction ou modification des données personnelles enregistrées."
+    },
+    {
+        "id": 6,
+        "name": "Extraction",
+        "description": "Extraction de données personnelles depuis un système ou une base de données pour un usage déterminé."
+    },
+    {
+        "id": 7,
+        "name": "Transmission",
+        "description": "Transmission ou communication des données personnelles à un destinataire interne ou externe autorisé."
+    },
+    {
+        "id": 8,
+        "name": "Utilisation",
+        "description": "Utilisation des données personnelles dans le cadre des finalités définies pour le traitement."
+    },
+    {
+        "id": 9,
+        "name": "Archivage",
+        "description": "Conservation des données personnelles dans un espace d'archivage pendant la durée prévue par la réglementation ou la politique interne."
+    },
+    {
+        "id": 10,
+        "name": "Suppression",
+        "description": "Suppression, destruction ou anonymisation des données personnelles lorsque leur conservation n'est plus nécessaire."
+    }
+]
