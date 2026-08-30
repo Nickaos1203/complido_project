@@ -1,0 +1,2011 @@
+```html
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container-fluid px-4 py-4">
+
+    <!-- ===================================================== -->
+    <!-- EN-TÊTE                                               -->
+    <!-- ===================================================== -->
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <div class="d-flex align-items-center gap-2 mb-2">
+
+                <a href="{% url 'personal_data_processing:processings_list' %}"
+                   class="text-decoration-none text-muted small">
+
+                    <i class="bi bi-arrow-left me-1"></i>
+                    Traitements
+
+                </a>
+
+                <i class="bi bi-chevron-right text-muted small"></i>
+
+                <span class="small text-muted">
+
+                    {% if processing %}
+                        Modification
+                    {% else %}
+                        Nouveau traitement
+                    {% endif %}
+
+                </span>
+
+            </div>
+
+
+            <h1 class="h2 fw-bold mb-1">
+
+                {% if processing %}
+                    Modifier le traitement
+                {% else %}
+                    Nouveau traitement
+                {% endif %}
+
+            </h1>
+
+
+            <p class="text-muted mb-0">
+
+                {% if processing %}
+                    Modifiez les informations de ce traitement.
+                {% else %}
+                    Ajoutez un nouveau traitement au registre des traitements.
+                {% endif %}
+
+            </p>
+
+        </div>
+
+
+        <div class="d-flex gap-2">
+
+            <a
+                href="{% url 'personal_data_processing:processings_list' %}"
+                class="btn btn-outline-secondary"
+            >
+                Annuler
+            </a>
+
+
+            <button
+                type="submit"
+                form="processing-form"
+                class="btn btn-dark px-4"
+            >
+
+                <i class="bi bi-check-lg me-2"></i>
+
+                {% if processing %}
+                    Enregistrer les modifications
+                {% else %}
+                    Enregistrer
+                {% endif %}
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- ===================================================== -->
+    <!-- FORMULAIRE                                            -->
+    <!-- ===================================================== -->
+
+    <form
+        id="processing-form"
+        method="post"
+    >
+
+        {% csrf_token %}
+
+
+        <!-- ================================================= -->
+        <!-- 1. IDENTIFICATION                                 -->
+        <!-- ================================================= -->
+
+        <div class="card shadow-sm border-0 mb-4">
+
+            <div class="card-body p-4">
+
+                <div class="d-flex align-items-center mb-4">
+
+                    <div
+                        class="bg-dark text-white rounded-circle
+                               d-flex align-items-center justify-content-center
+                               flex-shrink-0"
+                        style="width: 38px; height: 38px;"
+                    >
+
+                        <strong>1</strong>
+
+                    </div>
+
+
+                    <div class="ms-3">
+
+                        <h5 class="fw-semibold mb-1">
+                            Identification du traitement
+                        </h5>
+
+                        <p class="text-muted small mb-0">
+                            Identifiez le traitement et son responsable.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="row g-4">
+
+
+                    <!-- NOM -->
+
+                    <div class="col-lg-6">
+
+                        <label
+                            for="id_name"
+                            class="form-label fw-semibold"
+                        >
+
+                            Nom du traitement
+                            <span class="text-danger">*</span>
+
+                        </label>
+
+
+                        <input
+                            type="text"
+                            name="name"
+                            id="id_name"
+                            class="form-control"
+                            value="{{ processing.name|default:'' }}"
+                            placeholder="Ex. : Gestion des clients"
+                            required
+                        >
+
+
+                        <div class="form-text">
+                            Donnez un nom court et facilement identifiable.
+                        </div>
+
+                    </div>
+
+
+                    <!-- STATUT -->
+
+                    <div class="col-lg-3">
+
+                        <label
+                            for="id_status"
+                            class="form-label fw-semibold"
+                        >
+
+                            Statut
+                            <span class="text-danger">*</span>
+
+                        </label>
+
+
+                        <select
+                            name="status"
+                            id="id_status"
+                            class="form-select"
+                            required
+                        >
+
+                            <option
+                                value="DRAFT"
+                                {% if not processing or processing.status == "DRAFT" %}
+                                    selected
+                                {% endif %}
+                            >
+                                Brouillon
+                            </option>
+
+
+                            <option
+                                value="ACTIVE"
+                                {% if processing.status == "ACTIVE" %}
+                                    selected
+                                {% endif %}
+                            >
+                                Actif
+                            </option>
+
+
+                            <option
+                                value="ARCHIVED"
+                                {% if processing.status == "ARCHIVED" %}
+                                    selected
+                                {% endif %}
+                            >
+                                Archivé
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- RESPONSABLE -->
+
+                    <div class="col-lg-3">
+
+                        <label
+                            for="id_user"
+                            class="form-label fw-semibold"
+                        >
+
+                            Responsable
+                            <span class="text-danger">*</span>
+
+                        </label>
+
+
+                        <select
+                            name="user"
+                            id="id_user"
+                            class="form-select"
+                            required
+                        >
+
+                            <option value="">
+                                Sélectionner
+                            </option>
+
+
+                            {% for user in users %}
+
+                                <option
+                                    value="{{ user.id }}"
+                                    {% if processing and processing.user_id == user.id %}
+                                        selected
+                                    {% endif %}
+                                >
+                                    {{ user.get_full_name|default:user.username }}
+                                </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- ORGANISATION -->
+
+                    <div class="col-lg-4">
+
+                        <label
+                            for="id_entity"
+                            class="form-label fw-semibold"
+                        >
+
+                            Organisation
+                            <span class="text-danger">*</span>
+
+                        </label>
+
+
+                        <select
+                            name="entity"
+                            id="id_entity"
+                            class="form-select"
+                            required
+                        >
+
+                            <option value="">
+                                Sélectionner une organisation
+                            </option>
+
+
+                            {% for entity in entities %}
+
+                                <option
+                                    value="{{ entity.id }}"
+                                    {% if processing and processing.entity_id == entity.id %}
+                                        selected
+                                    {% endif %}
+                                >
+                                    {{ entity.name }}
+                                </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- DESCRIPTION -->
+
+                    <div class="col-lg-8">
+
+                        <label
+                            for="id_description"
+                            class="form-label fw-semibold"
+                        >
+
+                            Description du traitement
+
+                        </label>
+
+
+                        <textarea
+                            name="description"
+                            id="id_description"
+                            class="form-control"
+                            rows="3"
+                            placeholder="Décrivez brièvement le traitement et son contexte..."
+                        >{{ processing.description|default:'' }}</textarea>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================================================= -->
+        <!-- 2. FINALITÉS & BASE LÉGALE                         -->
+        <!-- ================================================= -->
+
+        <div class="card shadow-sm border-0 mb-4">
+
+            <div class="card-body p-4">
+
+                <div class="d-flex align-items-center mb-4">
+
+                    <div
+                        class="bg-dark text-white rounded-circle
+                               d-flex align-items-center justify-content-center
+                               flex-shrink-0"
+                        style="width: 38px; height: 38px;"
+                    >
+
+                        <strong>2</strong>
+
+                    </div>
+
+
+                    <div class="ms-3">
+
+                        <h5 class="fw-semibold mb-1">
+                            Finalités & base légale
+                        </h5>
+
+                        <p class="text-muted small mb-0">
+                            Expliquez pourquoi les données sont traitées.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="row g-4">
+
+
+                    <!-- FINALITÉ -->
+
+                    <div class="col-lg-8">
+
+                        <label
+                            for="id_purpose"
+                            class="form-label fw-semibold"
+                        >
+
+                            Finalité principale
+                            <span class="text-danger">*</span>
+
+                        </label>
+
+
+                        <input
+                            type="text"
+                            name="purpose"
+                            id="id_purpose"
+                            class="form-control"
+                            value="{{ processing.purpose|default:'' }}"
+                            placeholder="Ex. : Gérer la relation contractuelle avec les clients"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- SOUS-FINALITÉ -->
+
+                    <div class="col-lg-4">
+
+                        <label
+                            for="id_subpurpose"
+                            class="form-label fw-semibold"
+                        >
+
+                            Sous-finalité
+
+                        </label>
+
+
+                        <input
+                            type="text"
+                            name="subpurpose"
+                            id="id_subpurpose"
+                            class="form-control"
+                            value="{{ processing.subpurpose|default:'' }}"
+                            placeholder="Ex. : Suivi des contrats"
+                        >
+
+                    </div>
+
+
+                    <!-- DESCRIPTION FINALITÉ -->
+
+                    <div class="col-lg-7">
+
+                        <label
+                            for="id_description_purpose"
+                            class="form-label fw-semibold"
+                        >
+
+                            Description de la finalité
+
+                        </label>
+
+
+                        <textarea
+                            name="description_purpose"
+                            id="id_description_purpose"
+                            class="form-control"
+                            rows="4"
+                            placeholder="Précisez les objectifs poursuivis par le traitement..."
+                        >{{ processing.description_purpose|default:'' }}</textarea>
+
+                    </div>
+
+
+                    <!-- BASE LÉGALE -->
+
+                    <div class="col-lg-5">
+
+                        <label
+                            for="id_legal_basis"
+                            class="form-label fw-semibold"
+                        >
+
+                            Base légale
+                            <span class="text-danger">*</span>
+
+                        </label>
+
+
+                        <select
+                            name="legal_basis"
+                            id="id_legal_basis"
+                            class="form-select"
+                            required
+                        >
+
+                            <option value="">
+                                Sélectionner une base légale
+                            </option>
+
+
+                            {% for basis in legal_bases %}
+
+                                <option
+                                    value="{{ basis.id }}"
+                                    {% if processing and processing.legal_basis_id == basis.id %}
+                                        selected
+                                    {% endif %}
+                                >
+                                    {{ basis.name }}
+                                </option>
+
+                            {% endfor %}
+
+                        </select>
+
+
+                        <div class="form-text">
+                            Sélectionnez la base légale justifiant le traitement.
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================================================= -->
+        <!-- 3. DONNÉES & PERSONNES CONCERNÉES                 -->
+        <!-- ================================================= -->
+
+        <div class="card shadow-sm border-0 mb-4">
+
+            <div class="card-body p-4">
+
+                <div class="d-flex align-items-center mb-4">
+
+                    <div
+                        class="bg-dark text-white rounded-circle
+                               d-flex align-items-center justify-content-center
+                               flex-shrink-0"
+                        style="width: 38px; height: 38px;"
+                    >
+
+                        <strong>3</strong>
+
+                    </div>
+
+
+                    <div class="ms-3">
+
+                        <h5 class="fw-semibold mb-1">
+                            Données & personnes concernées
+                        </h5>
+
+                        <p class="text-muted small mb-0">
+                            Déterminez quelles données sont traitées et qui est concerné.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="row g-4">
+
+
+                    <!-- ===================================== -->
+                    <!-- CATÉGORIES DE DONNÉES                 -->
+                    <!-- ===================================== -->
+
+                    <div class="col-lg-6">
+
+                        <label class="form-label fw-semibold">
+
+                            Catégories de données
+
+                        </label>
+
+
+                        <div class="dropdown">
+
+                            <button
+                                type="button"
+                                class="form-select text-start dropdown-toggle"
+                                data-bs-toggle="dropdown"
+                                data-bs-auto-close="outside"
+                            >
+
+                                Sélectionner les catégories
+
+                            </button>
+
+
+                            <div
+                                class="dropdown-menu w-100 p-2"
+                                style="max-height: 320px; overflow-y: auto;"
+                            >
+
+                                {% for category in data_categories %}
+
+                                    <label
+                                        class="dropdown-item rounded d-flex align-items-start gap-2"
+                                    >
+
+                                        <input
+                                            type="checkbox"
+                                            class="form-check-input mt-1"
+                                            name="data_categories"
+                                            value="{{ category.id }}"
+
+                                            {% if processing and category in processing.data_categories.all %}
+                                                checked
+                                            {% endif %}
+                                        >
+
+                                        <span>
+
+                                            <strong class="d-block">
+                                                {{ category.name }}
+                                            </strong>
+
+
+                                            {% if category.description %}
+
+                                                <small class="text-muted">
+                                                    {{ category.description }}
+                                                </small>
+
+                                            {% endif %}
+
+                                        </span>
+
+                                    </label>
+
+                                {% empty %}
+
+                                    <span class="dropdown-item text-muted">
+                                        Aucune catégorie disponible.
+                                    </span>
+
+                                {% endfor %}
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-text">
+                            Plusieurs catégories peuvent être sélectionnées.
+                        </div>
+
+
+                        <div class="d-flex flex-wrap gap-2 mt-2">
+
+                            {% for category in data_categories %}
+
+                                {% if processing and category in processing.data_categories.all %}
+
+                                    <span class="badge bg-dark">
+
+                                        {{ category.name }}
+
+                                    </span>
+
+                                {% endif %}
+
+                            {% endfor %}
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ===================================== -->
+                    <!-- PERSONNES CONCERNÉES                  -->
+                    <!-- ===================================== -->
+
+                    <div class="col-lg-6">
+
+                        <label class="form-label fw-semibold">
+
+                            Personnes concernées
+
+                        </label>
+
+
+                        <div class="dropdown">
+
+                            <button
+                                type="button"
+                                class="form-select text-start dropdown-toggle"
+                                data-bs-toggle="dropdown"
+                                data-bs-auto-close="outside"
+                            >
+
+                                Sélectionner les catégories
+
+                            </button>
+
+
+                            <div
+                                class="dropdown-menu w-100 p-2"
+                                style="max-height: 320px; overflow-y: auto;"
+                            >
+
+                                {% for category in data_subject_categories %}
+
+                                    <label
+                                        class="dropdown-item rounded d-flex align-items-start gap-2"
+                                    >
+
+                                        <input
+                                            type="checkbox"
+                                            class="form-check-input mt-1"
+                                            name="data_subject_categories"
+                                            value="{{ category.id }}"
+
+                                            {% if processing and category in processing.data_subject_categories.all %}
+                                                checked
+                                            {% endif %}
+                                        >
+
+                                        <span>
+
+                                            <strong class="d-block">
+                                                {{ category.name }}
+                                            </strong>
+
+
+                                            {% if category.description %}
+
+                                                <small class="text-muted">
+                                                    {{ category.description }}
+                                                </small>
+
+                                            {% endif %}
+
+                                        </span>
+
+                                    </label>
+
+                                {% empty %}
+
+                                    <span class="dropdown-item text-muted">
+                                        Aucune catégorie disponible.
+                                    </span>
+
+                                {% endfor %}
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-text">
+                            Plusieurs catégories peuvent être sélectionnées.
+                        </div>
+
+
+                        <div class="d-flex flex-wrap gap-2 mt-2">
+
+                            {% for category in data_subject_categories %}
+
+                                {% if processing and category in processing.data_subject_categories.all %}
+
+                                    <span class="badge bg-dark">
+
+                                        {{ category.name }}
+
+                                    </span>
+
+                                {% endif %}
+
+                            {% endfor %}
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================================================= -->
+        <!-- 4. DESTINATAIRES & SOUS-TRAITANTS                 -->
+        <!-- ================================================= -->
+
+        <div class="card shadow-sm border-0 mb-4">
+
+            <div class="card-body p-4">
+
+                <div class="d-flex align-items-center mb-4">
+
+                    <div
+                        class="bg-dark text-white rounded-circle
+                               d-flex align-items-center justify-content-center
+                               flex-shrink-0"
+                        style="width: 38px; height: 38px;"
+                    >
+
+                        <strong>4</strong>
+
+                    </div>
+
+
+                    <div class="ms-3">
+
+                        <h5 class="fw-semibold mb-1">
+                            Destinataires & sous-traitants
+                        </h5>
+
+                        <p class="text-muted small mb-0">
+                            Identifiez les personnes ou organisations ayant accès aux données.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="row g-4">
+
+
+                    <!-- DESTINATAIRES -->
+
+                    <div class="col-lg-6">
+
+                        <label class="form-label fw-semibold">
+                            Destinataires
+                        </label>
+
+
+                        <div class="dropdown">
+
+                            <button
+                                type="button"
+                                class="form-select text-start dropdown-toggle"
+                                data-bs-toggle="dropdown"
+                                data-bs-auto-close="outside"
+                            >
+
+                                Sélectionner les destinataires
+
+                            </button>
+
+
+                            <div
+                                class="dropdown-menu w-100 p-2"
+                                style="max-height: 320px; overflow-y: auto;"
+                            >
+
+                                {% for recipient in recipients %}
+
+                                    <label
+                                        class="dropdown-item rounded d-flex align-items-start gap-2"
+                                    >
+
+                                        <input
+                                            type="checkbox"
+                                            class="form-check-input mt-1"
+                                            name="recipients"
+                                            value="{{ recipient.id }}"
+
+                                            {% if processing and recipient in processing.recipients.all %}
+                                                checked
+                                            {% endif %}
+                                        >
+
+                                        <span>
+
+                                            <strong class="d-block">
+                                                {{ recipient.name }}
+                                            </strong>
+
+
+                                            <small class="text-muted">
+
+                                                {{ recipient.get_type_display }}
+
+                                                {% if recipient.description %}
+                                                    — {{ recipient.description }}
+                                                {% endif %}
+
+                                            </small>
+
+                                        </span>
+
+                                    </label>
+
+                                {% empty %}
+
+                                    <span class="dropdown-item text-muted">
+                                        Aucun destinataire disponible.
+                                    </span>
+
+                                {% endfor %}
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="d-flex flex-wrap gap-2 mt-2">
+
+                            {% for recipient in recipients %}
+
+                                {% if processing and recipient in processing.recipients.all %}
+
+                                    <span class="badge bg-dark">
+                                        {{ recipient.name }}
+                                    </span>
+
+                                {% endif %}
+
+                            {% endfor %}
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- SOUS-TRAITANTS -->
+
+                    <div class="col-lg-6">
+
+                        <label class="form-label fw-semibold">
+                            Sous-traitants
+                        </label>
+
+
+                        <div class="dropdown">
+
+                            <button
+                                type="button"
+                                class="form-select text-start dropdown-toggle"
+                                data-bs-toggle="dropdown"
+                                data-bs-auto-close="outside"
+                            >
+
+                                Sélectionner les sous-traitants
+
+                            </button>
+
+
+                            <div
+                                class="dropdown-menu w-100 p-2"
+                                style="max-height: 320px; overflow-y: auto;"
+                            >
+
+                                {% for subcontractor in subprocessors %}
+
+                                    <label
+                                        class="dropdown-item rounded d-flex align-items-start gap-2"
+                                    >
+
+                                        <input
+                                            type="checkbox"
+                                            class="form-check-input mt-1"
+                                            name="subprocessors"
+                                            value="{{ subcontractor.id }}"
+
+                                            {% if processing and subcontractor in processing.subprocessors.all %}
+                                                checked
+                                            {% endif %}
+                                        >
+
+                                        <span>
+
+                                            <strong class="d-block">
+                                                {{ subcontractor.name }}
+                                            </strong>
+
+
+                                            {% if subcontractor.contact %}
+
+                                                <small class="text-muted">
+                                                    {{ subcontractor.contact }}
+                                                </small>
+
+                                            {% endif %}
+
+                                        </span>
+
+                                    </label>
+
+                                {% empty %}
+
+                                    <span class="dropdown-item text-muted">
+                                        Aucun sous-traitant disponible.
+                                    </span>
+
+                                {% endfor %}
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="d-flex flex-wrap gap-2 mt-2">
+
+                            {% for subcontractor in subprocessors %}
+
+                                {% if processing and subcontractor in processing.subprocessors.all %}
+
+                                    <span class="badge bg-dark">
+                                        {{ subcontractor.name }}
+                                    </span>
+
+                                {% endif %}
+
+                            {% endfor %}
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================================================= -->
+        <!-- 5. OPÉRATIONS                                    -->
+        <!-- ================================================= -->
+
+        <div class="card shadow-sm border-0 mb-4">
+
+            <div class="card-body p-4">
+
+                <div class="d-flex justify-content-between align-items-center mb-4">
+
+                    <div class="d-flex align-items-center">
+
+                        <div
+                            class="bg-dark text-white rounded-circle
+                                   d-flex align-items-center justify-content-center
+                                   flex-shrink-0"
+                            style="width: 38px; height: 38px;"
+                        >
+
+                            <strong>5</strong>
+
+                        </div>
+
+
+                        <div class="ms-3">
+
+                            <h5 class="fw-semibold mb-1">
+                                Opérations
+                            </h5>
+
+                            <p class="text-muted small mb-0">
+                                Décrivez les opérations réalisées sur les données.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <button
+                        type="button"
+                        id="add-operation"
+                        class="btn btn-outline-dark btn-sm"
+                    >
+
+                        <i class="bi bi-plus-lg me-1"></i>
+                        Ajouter
+
+                    </button>
+
+                </div>
+
+
+                <div class="table-responsive">
+
+                    <table class="table align-middle mb-0">
+
+                        <thead class="table-light">
+
+                            <tr>
+
+                                <th style="width: 90px;">
+                                    Ordre
+                                </th>
+
+                                <th>
+                                    Opération
+                                </th>
+
+                                <th>
+                                    Description
+                                </th>
+
+                                <th style="width: 60px;">
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody id="operations-container">
+
+                            {% for processing_operation in processing.processing_operations.all %}
+
+                                <tr class="operation-row">
+
+                                    <td>
+
+                                        <input
+                                            type="number"
+                                            name="operation_order"
+                                            value="{{ processing_operation.display_order }}"
+                                            min="1"
+                                            class="form-control"
+                                        >
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <select
+                                            name="operation_type"
+                                            class="form-select"
+                                        >
+
+                                            <option value="">
+                                                Sélectionner
+                                            </option>
+
+
+                                            {% for operation in operation_types %}
+
+                                                <option
+                                                    value="{{ operation.id }}"
+                                                    {% if processing_operation.operation_type_id == operation.id %}
+                                                        selected
+                                                    {% endif %}
+                                                >
+                                                    {{ operation.name }}
+                                                </option>
+
+                                            {% endfor %}
+
+                                        </select>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <input
+                                            type="text"
+                                            name="operation_description"
+                                            value="{{ processing_operation.description }}"
+                                            class="form-control"
+                                            placeholder="Description..."
+                                        >
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <button
+                                            type="button"
+                                            class="btn btn-outline-danger btn-sm remove-operation"
+                                        >
+
+                                            <i class="bi bi-trash"></i>
+
+                                        </button>
+
+                                    </td>
+
+                                </tr>
+
+                            {% empty %}
+
+                                <tr class="operation-row">
+
+                                    <td>
+
+                                        <input
+                                            type="number"
+                                            name="operation_order"
+                                            value="1"
+                                            min="1"
+                                            class="form-control"
+                                        >
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <select
+                                            name="operation_type"
+                                            class="form-select"
+                                        >
+
+                                            <option value="">
+                                                Sélectionner
+                                            </option>
+
+
+                                            {% for operation in operation_types %}
+
+                                                <option value="{{ operation.id }}">
+                                                    {{ operation.name }}
+                                                </option>
+
+                                            {% endfor %}
+
+                                        </select>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <input
+                                            type="text"
+                                            name="operation_description"
+                                            class="form-control"
+                                            placeholder="Description..."
+                                        >
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <button
+                                            type="button"
+                                            class="btn btn-outline-danger btn-sm remove-operation"
+                                        >
+
+                                            <i class="bi bi-trash"></i>
+
+                                        </button>
+
+                                    </td>
+
+                                </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================================================= -->
+        <!-- 6. CONSERVATION & CONFORMITÉ                     -->
+        <!-- ================================================= -->
+
+        <div class="card shadow-sm border-0 mb-4">
+
+            <div class="card-body p-4">
+
+                <div class="d-flex align-items-center mb-4">
+
+                    <div
+                        class="bg-dark text-white rounded-circle
+                               d-flex align-items-center justify-content-center
+                               flex-shrink-0"
+                        style="width: 38px; height: 38px;"
+                    >
+
+                        <strong>6</strong>
+
+                    </div>
+
+
+                    <div class="ms-3">
+
+                        <h5 class="fw-semibold mb-1">
+                            Conservation & conformité
+                        </h5>
+
+                        <p class="text-muted small mb-0">
+                            Complétez les paramètres de conformité du traitement.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="row g-4">
+
+
+                    <!-- CONSERVATION -->
+
+                    <div class="col-lg-6">
+
+                        <label
+                            for="id_retention_period"
+                            class="form-label fw-semibold"
+                        >
+
+                            Durée de conservation
+                            <span class="text-danger">*</span>
+
+                        </label>
+
+
+                        <input
+                            type="text"
+                            name="retention_period"
+                            id="id_retention_period"
+                            class="form-control"
+                            value="{{ processing.retention_period|default:'' }}"
+                            placeholder="Ex. : 5 ans après la fin du contrat"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- TRANSFERT -->
+
+                    <div class="col-lg-3">
+
+                        <div class="border rounded-3 p-3 h-100">
+
+                            <div class="form-check form-switch">
+
+                                <input
+                                    class="form-check-input"
+                                    type="checkbox"
+                                    name="international_transfer"
+                                    id="id_international_transfer"
+
+                                    {% if processing and processing.international_transfer %}
+                                        checked
+                                    {% endif %}
+                                >
+
+
+                                <label
+                                    class="form-check-label fw-semibold"
+                                    for="id_international_transfer"
+                                >
+
+                                    Transfert international
+
+                                </label>
+
+                            </div>
+
+
+                            <div class="small text-muted mt-2">
+                                Les données sont-elles transférées hors UE ?
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- AIPD -->
+
+                    <div class="col-lg-3">
+
+                        <div class="border rounded-3 p-3 h-100">
+
+                            <div class="form-check form-switch">
+
+                                <input
+                                    class="form-check-input"
+                                    type="checkbox"
+                                    name="aipd_required"
+                                    id="id_aipd_required"
+
+                                    {% if processing and processing.aipd_required %}
+                                        checked
+                                    {% endif %}
+                                >
+
+
+                                <label
+                                    class="form-check-label fw-semibold"
+                                    for="id_aipd_required"
+                                >
+
+                                    AIPD requise
+
+                                </label>
+
+                            </div>
+
+
+                            <div class="small text-muted mt-2">
+                                Une analyse d'impact est-elle requise ?
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================================================= -->
+        <!-- 7. SÉCURITÉ                                      -->
+        <!-- ================================================= -->
+
+        <div class="card shadow-sm border-0 mb-4">
+
+            <div class="card-body p-4">
+
+                <div class="d-flex align-items-center mb-4">
+
+                    <div
+                        class="bg-dark text-white rounded-circle
+                               d-flex align-items-center justify-content-center
+                               flex-shrink-0"
+                        style="width: 38px; height: 38px;"
+                    >
+
+                        <strong>7</strong>
+
+                    </div>
+
+
+                    <div class="ms-3">
+
+                        <h5 class="fw-semibold mb-1">
+                            Mesures de sécurité
+                        </h5>
+
+                        <p class="text-muted small mb-0">
+                            Sélectionnez les mesures applicables au traitement.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- RECHERCHE -->
+
+                <div class="input-group mb-3">
+
+                    <span class="input-group-text bg-white">
+
+                        <i class="bi bi-search"></i>
+
+                    </span>
+
+
+                    <input
+                        type="search"
+                        class="form-control"
+                        id="security-search"
+                        placeholder="Rechercher une mesure de sécurité..."
+                    >
+
+                </div>
+
+
+                <div class="table-responsive">
+
+                    <table class="table align-middle">
+
+                        <thead class="table-light">
+
+                            <tr>
+
+                                <th style="width: 50px;"></th>
+
+                                <th>
+                                    Mesure
+                                </th>
+
+                                <th>
+                                    Catégorie
+                                </th>
+
+                                <th style="width: 230px;">
+                                    État
+                                </th>
+
+                                <th>
+                                    Commentaire
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody id="security-container">
+
+                        {% for measure in security_measures %}
+
+                            <tr class="security-row">
+
+                                <td>
+
+                                    <input
+                                        type="checkbox"
+                                        class="form-check-input security-checkbox"
+                                        name="security_measures"
+                                        value="{{ measure.id }}"
+                                        id="security_{{ measure.id }}"
+
+                                        {% for processing_measure in processing.processing_security_measures.all %}
+
+                                            {% if processing_measure.security_measure_id == measure.id %}
+                                                checked
+                                            {% endif %}
+
+                                        {% endfor %}
+                                    >
+
+                                </td>
+
+
+                                <td>
+
+                                    <label
+                                        for="security_{{ measure.id }}"
+                                        class="fw-semibold mb-0"
+                                    >
+
+                                        {{ measure.name }}
+
+                                    </label>
+
+
+                                    {% if measure.description %}
+
+                                        <div class="small text-muted">
+                                            {{ measure.description }}
+                                        </div>
+
+                                    {% endif %}
+
+                                </td>
+
+
+                                <td>
+
+                                    <span class="badge bg-light text-dark">
+
+                                        {{ measure.get_category_display }}
+
+                                    </span>
+
+                                </td>
+
+
+                                <td>
+
+                                    <select
+                                        name="security_status_{{ measure.id }}"
+                                        class="form-select form-select-sm"
+                                    >
+
+                                        <option value="PLANNED">
+                                            Prévue
+                                        </option>
+
+                                        <option value="PARTIAL">
+                                            Partiellement mise en œuvre
+                                        </option>
+
+                                        <option value="IMPLEMENTED">
+                                            Mise en œuvre
+                                        </option>
+
+                                        <option value="NOT_APPLICABLE">
+                                            Non applicable
+                                        </option>
+
+                                    </select>
+
+                                </td>
+
+
+                                <td>
+
+                                    <input
+                                        type="text"
+                                        name="security_comment_{{ measure.id }}"
+                                        class="form-control form-control-sm"
+                                        placeholder="Commentaire..."
+
+                                        {% for processing_measure in processing.processing_security_measures.all %}
+
+                                            {% if processing_measure.security_measure_id == measure.id %}
+
+                                                value="{{ processing_measure.comment }}"
+
+                                            {% endif %}
+
+                                        {% endfor %}
+                                    >
+
+                                </td>
+
+                            </tr>
+
+                        {% empty %}
+
+                            <tr>
+
+                                <td
+                                    colspan="5"
+                                    class="text-center text-muted py-4"
+                                >
+
+                                    Aucune mesure de sécurité disponible.
+
+                                </td>
+
+                            </tr>
+
+                        {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================================================= -->
+        <!-- ACTIONS FINALES                                  -->
+        <!-- ================================================= -->
+
+        <div class="card border-0 shadow-sm mb-4">
+
+            <div class="card-body p-3">
+
+                <div class="d-flex justify-content-between align-items-center">
+
+                    <div class="small text-muted">
+
+                        <span class="text-danger">*</span>
+                        Champs obligatoires
+
+                    </div>
+
+
+                    <div class="d-flex gap-2">
+
+                        <a
+                            href="{% url 'personal_data_processing:processings_list' %}"
+                            class="btn btn-outline-secondary"
+                        >
+
+                            Annuler
+
+                        </a>
+
+
+                        <button
+                            type="submit"
+                            class="btn btn-dark px-4"
+                        >
+
+                            <i class="bi bi-check-lg me-2"></i>
+
+
+                            {% if processing %}
+                                Enregistrer les modifications
+                            {% else %}
+                                Enregistrer le traitement
+                            {% endif %}
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </form>
+
+</div>
+
+
+<!-- ========================================================= -->
+<!-- JAVASCRIPT                                                -->
+<!-- ========================================================= -->
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+
+    /* =========================================================
+       OPÉRATIONS
+       ========================================================= */
+
+    const operationsContainer =
+        document.getElementById("operations-container");
+
+    const addOperationButton =
+        document.getElementById("add-operation");
+
+
+    if (operationsContainer && addOperationButton) {
+
+        addOperationButton.addEventListener(
+            "click",
+            function () {
+
+                const rows =
+                    operationsContainer.querySelectorAll(
+                        ".operation-row"
+                    );
+
+                const order = rows.length + 1;
+
+
+                const row =
+                    document.createElement("tr");
+
+                row.classList.add("operation-row");
+
+
+                row.innerHTML = `
+
+                    <td>
+
+                        <input
+                            type="number"
+                            name="operation_order"
+                            value="${order}"
+                            min="1"
+                            class="form-control"
+                        >
+
+                    </td>
+
+
+                    <td>
+
+                        <select
+                            name="operation_type"
+                            class="form-select"
+                        >
+
+                            <option value="">
+                                Sélectionner
+                            </option>
+
+                            {% for operation in operation_types %}
+
+                                <option value="{{ operation.id }}">
+                                    {{ operation.name }}
+                                </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </td>
+
+
+                    <td>
+
+                        <input
+                            type="text"
+                            name="operation_description"
+                            class="form-control"
+                            placeholder="Description..."
+                        >
+
+                    </td>
+
+
+                    <td>
+
+                        <button
+                            type="button"
+                            class="btn btn-outline-danger btn-sm remove-operation"
+                        >
+
+                            <i class="bi bi-trash"></i>
+
+                        </button>
+
+                    </td>
+
+                `;
+
+
+                operationsContainer.appendChild(row);
+
+            }
+        );
+
+
+        operationsContainer.addEventListener(
+            "click",
+            function (event) {
+
+                const button =
+                    event.target.closest(
+                        ".remove-operation"
+                    );
+
+
+                if (!button) {
+                    return;
+                }
+
+
+                const rows =
+                    operationsContainer.querySelectorAll(
+                        ".operation-row"
+                    );
+
+
+                if (rows.length <= 1) {
+                    return;
+                }
+
+
+                button
+                    .closest(".operation-row")
+                    .remove();
+
+
+                operationsContainer
+                    .querySelectorAll(".operation-row")
+                    .forEach(
+                        function (row, index) {
+
+                            const input =
+                                row.querySelector(
+                                    'input[name="operation_order"]'
+                                );
+
+
+                            if (input) {
+                                input.value = index + 1;
+                            }
+
+                        }
+                    );
+
+            }
+        );
+
+    }
+
+
+    /* =========================================================
+       RECHERCHE DES MESURES DE SÉCURITÉ
+       ========================================================= */
+
+    const securitySearch =
+        document.getElementById("security-search");
+
+
+    if (securitySearch) {
+
+        securitySearch.addEventListener(
+            "input",
+            function () {
+
+                const value =
+                    this.value.toLowerCase().trim();
+
+
+                document
+                    .querySelectorAll(".security-row")
+                    .forEach(
+                        function (row) {
+
+                            const text =
+                                row.textContent.toLowerCase();
+
+
+                            row.style.display =
+                                text.includes(value)
+                                    ? ""
+                                    : "none";
+
+                        }
+                    );
+
+            }
+        );
+
+    }
+
+
+    /* =========================================================
+       AFFICHAGE DES SÉLECTIONS DES MULTI-SELECTS
+       ========================================================= */
+
+    document
+        .querySelectorAll(".dropdown")
+        .forEach(
+            function (dropdown) {
+
+                const button =
+                    dropdown.querySelector(
+                        "button"
+                    );
+
+
+                const checkboxes =
+                    dropdown.querySelectorAll(
+                        'input[type="checkbox"]'
+                    );
+
+
+                if (!button || !checkboxes.length) {
+                    return;
+                }
+
+
+                function updateButton() {
+
+                    const selected =
+                        Array.from(checkboxes)
+                            .filter(
+                                function (checkbox) {
+                                    return checkbox.checked;
+                                }
+                            );
+
+
+                    if (selected.length === 0) {
+
+                        button.innerHTML = `
+                            Sélectionner
+                            <span class="float-end">
+                                <i class="bi bi-chevron-down"></i>
+                            </span>
+                        `;
+
+                        return;
+
+                    }
+
+
+                    button.innerHTML = `
+                        ${selected.length}
+                        élément${selected.length > 1 ? "s" : ""}
+                        sélectionné${selected.length > 1 ? "s" : ""}
+                        <span class="float-end">
+                            <i class="bi bi-chevron-down"></i>
+                        </span>
+                    `;
+
+                }
+
+
+                checkboxes.forEach(
+                    function (checkbox) {
+
+                        checkbox.addEventListener(
+                            "change",
+                            updateButton
+                        );
+
+                    }
+                );
+
+
+                updateButton();
+
+            }
+        );
+
+});
+
+</script>
+
+{% endblock %}
+```

@@ -10,22 +10,7 @@
     <!-- FIL D'ARIANE                                          -->
     <!-- ===================================================== -->
 
-    <div class="d-flex align-items-center gap-2 mb-3">
 
-        {% comment %} {% url 'treatment_list' %} {% endcomment %}
-        <a href=""
-           class="text-decoration-none text-muted">
-            <i class="bi bi-arrow-left me-1"></i>
-            Traitements
-        </a>
-
-        <i class="bi bi-chevron-right text-muted small"></i>
-
-        <span class="text-muted">
-            {{ processing.name }}
-        </span>
-
-    </div>
 
 
     <!-- ===================================================== -->
@@ -97,35 +82,17 @@
 
         <div class="d-flex gap-2">
 
-            {% comment %} {% url 'treatment_update' processing.pk %} {% endcomment %}
-            <a href=""
-               class="btn btn-outline-secondary">
-
-                <i class="bi bi-pencil me-2"></i>
-                Modifier
-
-            </a>
-
-
-            <button
-                type="button"
-                class="btn btn-outline-secondary">
-
-                <i class="bi bi-copy me-2"></i>
-                Dupliquer
-
-            </button>
-
+            <a href="{% url 'personal_data_processing:processing_update' processing.id %}" class="btn btn-outline-secondary">
+                <i class="bi bi-pencil me-2"></i> Modifier</a>
 
             {% if processing.status != "ARCHIVED" %}
 
                 <button
                     type="button"
-                    class="btn btn-outline-danger">
-
-                    <i class="bi bi-archive me-2"></i>
-                    Archiver
-
+                    class="btn btn-outline-danger"
+                    data-bs-toggle="modal"
+                    data-bs-target="#deleteProcessingModal">
+                    <i class="bi bi-archive me-2"></i> Archiver
                 </button>
 
             {% endif %}
@@ -133,93 +100,6 @@
         </div>
 
     </div>
-
-
-    <!-- ===================================================== -->
-    <!-- NAVIGATION                                            -->
-    <!-- ===================================================== -->
-
-    <ul class="nav nav-tabs mb-4">
-
-        <li class="nav-item">
-
-            <a class="nav-link active"
-               href="#resume">
-
-                <i class="bi bi-house me-2"></i>
-                Vue d'ensemble
-
-            </a>
-
-        </li>
-
-
-        <li class="nav-item">
-
-            <a class="nav-link"
-               href="#donnees">
-
-                <i class="bi bi-database me-2"></i>
-                Données
-
-            </a>
-
-        </li>
-
-
-        <li class="nav-item">
-
-            <a class="nav-link"
-               href="#personnes">
-
-                <i class="bi bi-people me-2"></i>
-                Personnes concernées
-
-            </a>
-
-        </li>
-
-
-        <li class="nav-item">
-
-            <a class="nav-link"
-               href="#destinataires">
-
-                <i class="bi bi-send me-2"></i>
-                Destinataires & sous-traitants
-
-            </a>
-
-        </li>
-
-
-        <li class="nav-item">
-
-            <a class="nav-link"
-               href="#operations">
-
-                <i class="bi bi-list-check me-2"></i>
-                Opérations
-
-            </a>
-
-        </li>
-
-
-        <li class="nav-item">
-
-            <a class="nav-link"
-               href="#securite">
-
-                <i class="bi bi-shield-check me-2"></i>
-                Mesures de sécurité
-
-            </a>
-
-        </li>
-
-    </ul>
-
 
     <!-- ===================================================== -->
     <!-- INFORMATIONS GÉNÉRALES                               -->
@@ -1054,6 +934,123 @@
                     </tbody>
 
                 </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ===================================================== -->
+    <!-- MODAL CONFIRMATION SUPPRESSION                       -->
+    <!-- ===================================================== -->
+
+    <div
+        class="modal fade"
+        id="deleteProcessingModal"
+        tabindex="-1"
+        aria-labelledby="deleteProcessingModalLabel"
+        aria-hidden="true"
+    >
+
+        <div class="modal-dialog modal-dialog-centered">
+
+            <div class="modal-content">
+
+                <!-- HEADER -->
+
+                <div class="modal-header">
+
+                    <h5
+                        class="modal-title fw-semibold"
+                        id="deleteProcessingModalLabel"
+                    >
+
+                        <i class="bi bi-exclamation-triangle text-danger me-2"></i>
+
+                        Supprimer le traitement
+
+                    </h5>
+
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Fermer"
+                    ></button>
+
+                </div>
+
+
+                <!-- BODY -->
+
+                <div class="modal-body">
+
+                    <p class="mb-3">
+
+                        Êtes-vous sûr de vouloir supprimer le traitement :
+
+                    </p>
+
+
+                    <div class="alert alert-light border">
+
+                        <div class="fw-semibold">
+                            {{ processing.name }}
+                        </div>
+
+                    </div>
+
+
+                    <p class="text-muted small mb-0">
+
+                        Cette action est irréversible.
+                        Le traitement ainsi que les informations qui lui sont
+                        associées seront supprimés.
+
+                    </p>
+
+                </div>
+
+
+                <!-- FOOTER -->
+
+                <div class="modal-footer">
+
+                    <button
+                        type="button"
+                        class="btn btn-outline-secondary"
+                        data-bs-dismiss="modal"
+                    >
+
+                        Annuler
+
+                    </button>
+
+
+                    <form
+                        method="post"
+                        action="{% url 'personal_data_processing:processing_delete' processing.id %}"
+                        class="d-inline"
+                    >
+
+                        {% csrf_token %}
+
+                        <button
+                            type="submit"
+                            class="btn btn-danger"
+                        >
+
+                            <i class="bi bi-trash me-2"></i>
+
+                            Supprimer définitivement
+
+                        </button>
+
+                    </form>
+
+                </div>
 
             </div>
 
