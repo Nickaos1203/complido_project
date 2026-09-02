@@ -29,6 +29,13 @@
                     {% block content %}{% endblock %}
                 </div>
 
+
+                    <!-- ===== WIDGET CHATBOT ===== -->
+                    {% block chatbot %}
+                        {% include "comments/chatbot_widget.html" %}
+                    {% endblock %}
+
+                    <!-- FOOTER -->
                     {% include 'components/footer.html' %}
                     
             </main>

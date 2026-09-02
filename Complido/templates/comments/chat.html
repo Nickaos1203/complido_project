@@ -1,0 +1,32 @@
+<div id="chatbox">
+  <div id="conversation"></div>
+  <form id="chat-form">
+    <input type="text" id="user-input" placeholder="Pose ta question..." />
+    <button type="submit">Envoyer</button>
+  </form>
+</div>
+
+<script>
+const form = document.getElementById("chat-form");
+const input = document.getElementById("user-input");
+const convo = document.getElementById("conversation");
+
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const message = input.value.trim();
+  if (!message) return;
+
+  convo.innerHTML += `<p><b>Vous :</b> ${message}</p>`;
+  input.value = "";
+
+  const res = await fetch("/comments/api/chat/", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ message }),
+  });
+  const data = await res.json();
+
+  convo.innerHTML += `<p><b>Bot :</b> ${data.reply ?? data.error}</p>`;
+  convo.scrollTop = convo.scrollHeight;
+});
+</script>

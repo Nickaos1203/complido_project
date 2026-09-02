@@ -1,0 +1,169 @@
+<!-- comments/templates/comments/chatbot_widget.html -->
+
+<!-- CSS spécifique au chatbot (positionnement flottant uniquement) -->
+<style>
+  #chat-toggle-btn {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 1055;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    transition: transform 0.2s;
+  }
+  #chat-toggle-btn:hover { transform: scale(1.1); }
+
+  #chat-window {
+    position: fixed;
+    bottom: 100px;
+    right: 24px;
+    z-index: 1056;
+    width: 380px;
+    max-width: calc(100vw - 48px);
+    height: 520px;
+    max-height: calc(100vh - 140px);
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  #chat-window.open { display: flex; }
+
+  #chat-messages {
+    flex: 1;
+    overflow-y: auto;
+  }
+  .chat-msg { margin-bottom: 0.75rem; }
+  .chat-msg .bubble {
+    display: inline-block;
+    padding: 0.5rem 0.85rem;
+    border-radius: 1rem;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    max-width: 80%;
+  }
+  .chat-msg.user .bubble {
+    background: var(--bs-primary);
+    color: #fff;
+  }
+  .chat-msg.bot .bubble {
+    background: #e9ecef;
+    color: #212529;
+  }
+</style>
+
+<!-- Bouton flottant -->
+<button id="chat-toggle-btn" class="btn btn-primary shadow" aria-label="Ouvrir le chat">
+  <i class="bi bi-chat-dots-fill"></i>
+</button>
+
+<!-- Fenêtre de chat (carte Bootstrap) -->
+<div id="chat-window" role="dialog" aria-label="Chatbot">
+  <div class="card shadow-lg h-100">
+
+    <!-- Header -->
+    <div class="card-header bg-primary text-white d-flex align-items-center justify-content-between py-2">
+      <span class="fw-semibold"><i class="bi bi-robot me-1"></i> Assistant</span>
+      <button class="btn btn-sm btn-link text-white p-0" id="chat-close" aria-label="Fermer">
+        <i class="bi bi-x-lg fs-5"></i>
+      </button>
+    </div>
+
+    <!-- Messages -->
+    <div class="card-body p-3 bg-light" id="chat-messages"></div>
+
+    <!-- Indicateur de frappe -->
+    <div class="px-3 pb-1 text-muted small" id="typing" style="display: none;">
+      <span class="spinner-border spinner-border-sm me-1"></span> L'assistant écrit...
+    </div>
+
+    <!-- Formulaire -->
+    <div class="card-footer p-2">
+      <form id="chat-form" class="d-flex gap-2">
+        <input type="text" id="chat-input" class="form-control rounded-pill"
+               placeholder="Posez votre question..." autocomplete="off">
+        <button type="submit" id="chat-send" class="btn btn-primary rounded-circle px-3">
+          <i class="bi bi-send-fill"></i>
+        </button>
+      </form>
+    </div>
+
+  </div>
+</div>
+
+<!-- Script -->
+<script>
+(function () {
+  const btn    = document.getElementById("chat-toggle-btn");
+  const win    = document.getElementById("chat-window");
+  const close  = document.getElementById("chat-close");
+  const form   = document.getElementById("chat-form");
+  const input  = document.getElementById("chat-input");
+  const msgs   = document.getElementById("chat-messages");
+  const typing = document.getElementById("typing");
+  const sendBtn= document.getElementById("chat-send");
+
+  // Toggle ouvrir / fermer
+  btn.addEventListener("click", () => {
+    win.classList.toggle("open");
+    if (win.classList.contains("open")) input.focus();
+  });
+  close.addEventListener("click", () => win.classList.remove("open"));
+
+  // Fermer avec Échap
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") win.classList.remove("open");
+  });
+
+  function addMsg(role, text) {
+    const wrapper = document.createElement("div");
+    wrapper.className = "chat-msg " + role;
+
+    const row = document.createElement("div");
+    row.className = role === "user"
+      ? "d-flex justify-content-end"
+      : "d-flex justify-content-start";
+
+    const bubble = document.createElement("span");
+    bubble.className = "bubble";
+    bubble.textContent = text;
+
+    row.appendChild(bubble);
+    wrapper.appendChild(row);
+    msgs.appendChild(wrapper);
+    msgs.scrollTop = msgs.scrollHeight;
+  }
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const message = input.value.trim();
+    if (!message) return;
+
+    addMsg("user", message);
+    input.value = "";
+    sendBtn.disabled = true;
+    typing.style.display = "block";
+
+    try {
+      const res = await fetch("/comments/api/chat/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message }),
+      });
+      const data = await res.json();
+      addMsg("bot", data.reply || data.error || "Erreur inconnue");
+    } catch (err) {
+      addMsg("bot", "Erreur de connexion.");
+    } finally {
+      typing.style.display = "none";
+      sendBtn.disabled = false;
+      input.focus();
+    }
+  });
+})();
+</script>

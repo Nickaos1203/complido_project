@@ -22,5 +22,5 @@ urlpatterns = [
     path('', include("users.urls"),),
     path('data_processings/', include("personal_data_processing.urls"),),
     # path('entities/', include("entities.urls"),),
-    # path('comments/', include("comments.urls"),),
+    path('comments/', include("comments.urls"),),
 ]
