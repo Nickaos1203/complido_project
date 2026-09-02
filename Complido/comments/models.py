@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 
+
 class Conversation(models.Model):
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
@@ -13,6 +14,8 @@ class Conversation(models.Model):
 
     class Meta:
         ordering = ["-created_at"]
+
+
 
 class Message(models.Model):
     ROLE_CHOICES = [("user", "User"), ("assistant", "Assistant")]
