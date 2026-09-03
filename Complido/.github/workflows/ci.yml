@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - develop
+      - ci-github-actions
 
   pull_request:
     branches:
@@ -15,6 +16,10 @@ jobs:
   tests:
 
     runs-on: ubuntu-latest
+
+    defaults:
+        run:
+            working-directory: Complido
 
     services:
       postgres:
