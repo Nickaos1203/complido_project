@@ -14,9 +14,7 @@ class UserRegisterForm(UserCreationForm):
             "last_name",
             "username",
             "email",
-            "entity",
             "department",
-            "role",
             "password1",
             "password2",
         ]
@@ -27,42 +25,33 @@ class UserRegisterForm(UserCreationForm):
                 "autocomplete": "given-name",
                 "maxlength": 150,
             }),
+
             "last_name": forms.TextInput(attrs={
                 "class": "form-control",
                 "autocomplete": "family-name",
                 "maxlength": 150,
             }),
+
             "username": forms.TextInput(attrs={
                 "class": "form-control",
                 "autocomplete": "username",
                 "maxlength": 150,
             }),
+
             "email": forms.EmailInput(attrs={
                 "class": "form-control",
                 "autocomplete": "email",
                 "maxlength": 254,
             }),
-            "entity": forms.Select(attrs={
-                "class": "form-select",
-            }),
+
             "department": forms.TextInput(attrs={
                 "class": "form-control",
                 "maxlength": 30,
-            }),
-            "role": forms.Select(attrs={
-                "class": "form-select",
             }),
         }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-
-        # Un administrateur ne peut pas être créé depuis
-        # le formulaire utilisateur.
-        self.fields["role"].choices = [
-            (User.Role.DPO, "DPO"),
-            (User.Role.REFERENT, "Référent"),
-        ]
 
         self.fields["password1"].widget.attrs.update({
             "class": "form-control",

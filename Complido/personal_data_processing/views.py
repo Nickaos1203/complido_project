@@ -33,7 +33,7 @@ def processings_list(request):
     processings = DataProcessing.objects.all()
     context = {"processings": processings,}
 
-    return render(request, "personal_data_processing/processings_list.html", context)
+    return render(request, "personal_data_processing/processing_detail.html", context)
 
 
 @login_required
@@ -122,7 +122,7 @@ def processing_create(request):
 
         return render(
             request,
-            "personal_data_processing/processing_create.html",
+            "personal_data_processing/processings_list.html",
             context,
         )
 
@@ -421,7 +421,7 @@ def processing_create(request):
             # =====================================================
 
             return redirect(
-                "processing_detail",
+                "personal_data_processing:processing_detail",
                 id=processing.id,
             )
 
