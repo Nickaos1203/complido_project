@@ -4,7 +4,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
 from django.shortcuts import redirect, render
 
-# from .forms import LoginForm, RegisterForm
+
+from .forms import UserRegisterForm
 
 
 User = get_user_model()
@@ -38,14 +39,14 @@ def login_view(request):
             f"Bienvenue {user.get_full_name() or user.username} !"
         )
 
-        return redirect(next_url or "homepage")
+        return redirect("personal_data_processing:processings_list")
 
     messages.error(
         request,
         "Identifiant ou mot de passe incorrect."
     )
 
-    return redirect(next_url or "homepage")
+    return redirect("users:homepage")
 
 
 @login_required
@@ -60,32 +61,26 @@ def logout_view(request):
     return redirect("homepage")
 
 
-def register_view(request):
-    if request.user.is_authenticated:
-        return redirect("dashboard")
+def register(request):
 
     if request.method == "POST":
-        form = RegisterForm(request.POST)
+        form = UserRegisterForm(request.POST)
 
         if form.is_valid():
             user = form.save()
 
+            # Connexion automatique après création du compte
             login(request, user)
 
-            messages.success(
-                request,
-                "Votre compte a été créé avec succès."
-            )
-
-            return redirect("dashboard")
+            return redirect("personal_data_processing:processings_list")
 
     else:
-        form = RegisterForm()
+        form = UserRegisterForm()
 
     return render(
         request,
         "users/register.html",
         {
             "form": form,
-        },
+        }
     )

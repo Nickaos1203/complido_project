@@ -29,11 +29,12 @@
                     {% block content %}{% endblock %}
                 </div>
 
-
+                {% if user.is_authenticated %}
                     <!-- ===== WIDGET CHATBOT ===== -->
                     {% block chatbot %}
                         {% include "comments/chatbot_widget.html" %}
                     {% endblock %}
+                {% endif %}
 
                     <!-- FOOTER -->
                     {% include 'components/footer.html' %}
