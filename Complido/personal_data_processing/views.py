@@ -33,7 +33,7 @@ def processings_list(request):
     processings = DataProcessing.objects.all()
     context = {"processings": processings,}
 
-    return render(request, "personal_data_processing/processing_detail.html", context)
+    return render(request, "personal_data_processing/processings_list.html", context)
 
 
 @login_required

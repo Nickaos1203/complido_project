@@ -82,7 +82,9 @@
 
         <div class="d-flex gap-2">
 
-            <a href="{% url 'personal_data_processing:processing_update' processing.id %}" class="btn btn-outline-secondary">
+            {% comment %} 'personal_data_processing:processing_update' processing.id {% endcomment %}
+
+            <a href="" class="btn btn-outline-secondary">
                 <i class="bi bi-pencil me-2"></i> Modifier</a>
 
             {% if processing.status != "ARCHIVED" %}
@@ -1031,7 +1033,8 @@
 
                     <form
                         method="post"
-                        action="{% url 'personal_data_processing:processing_delete' processing.id %}"
+                        {% comment %} {% url 'personal_data_processing:processing_delete' processing.id %} {% endcomment %}
+                        action=""
                         class="d-inline"
                     >
 
