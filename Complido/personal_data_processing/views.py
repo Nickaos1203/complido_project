@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
+from django.db.models import Prefetch
 
 from .forms import PersonalDataProcessingForm
 
@@ -16,9 +17,12 @@ from .models import (
     Subprocessor,
     OperationType,
     SecurityMeasure,
+    ProcessingLegalBasis,
+    ProcessingDataCategory,
+    ProcessingOperation,
+    ProcessingSecurityMeasure,
 )
 
-from entities.models import Entity
 from users.models import User
 
 
@@ -28,799 +32,500 @@ User = get_user_model()
 @login_required
 def processings_list(request):
     """
-    Affiche la liste de tous les traitements.
+    Affiche la liste de tous les traitements de l'entité
+    de l'utilisateur connecté.
     """
-    processings = DataProcessing.objects.all()
+    processings = (
+        DataProcessing.objects
+        .filter(entity=request.user.entity)
+        .select_related("user")
+        .order_by("-updated_at")
+    )
+
     context = {"processings": processings,}
 
     return render(request, "personal_data_processing/processings_list.html", context)
 
 
+
 @login_required
 def processing_detail(request, id):
+    """
+    Affiche les détails d'un traitement de données personnelles.
+    """
 
     processing = get_object_or_404(
         DataProcessing.objects
-        .select_related(
-            "entity",
-            "user",
-            "legal_basis",
-        )
+        .select_related("user")
         .prefetch_related(
-            "data_categories",
+            Prefetch(
+                "processing_legal_basis",
+                queryset=ProcessingLegalBasis.objects.select_related(
+                    "legal_basis"
+                )
+            ),
+            Prefetch(
+                "processing_data_categories",
+                queryset=ProcessingDataCategory.objects.select_related(
+                    "data_category"
+                )
+            ),
+            Prefetch(
+                "processing_operations",
+                queryset=ProcessingOperation.objects.select_related(
+                    "operation_type"
+                ).order_by("display_order")
+            ),
+            Prefetch(
+                "processing_security_measures",
+                queryset=ProcessingSecurityMeasure.objects.select_related(
+                    "security_measure"
+                )
+            ),
             "data_subject_categories",
             "recipients",
             "subprocessors",
-            "processing_operations__operation_type",
-            "processing_security_measures__security_measure",
-        ),
-        id=id,
+        ), id=id, entity=request.user.entity,
     )
 
-    return render(
-        request,
-        "personal_data_processing/processing_detail.html",
-        {
-            "processing": processing,
-        },
-    )
+    context = {"processing": processing,}
+    return render(request, "personal_data_processing/processing_detail.html", context)
 
 
 @login_required
-def processing_delete(request, id):
-
-    processing = get_object_or_404(
-        DataProcessing,
-        id=id
-    )
-
-    if request.method == "POST":
-
-        processing_name = processing.name
-
-        processing.delete()
-
-        messages.success(
-            request,
-            f"Le traitement « {processing_name} » a été supprimé avec succès."
-        )
-
-        return redirect(
-            "personal_data_processing:processings_list"
-        )
-
-    return redirect(
-        "personal_data_processing:processing_detail",
-        id=processing.id
-    )
-
-
-
-@login_required
+@transaction.atomic
 def processing_create(request):
     """
-    Création d'un nouveau traitement de données personnelles.
+    Crée un nouveau traitement de données personnelles.
     """
 
-    # =========================================================
-    # GET
-    # =========================================================
+    if request.method == "POST":
+        # ---------------------------------------------------------
+        # 1. Récupération de l'entité de l'utilisateur connecté
+        # ---------------------------------------------------------
+        entity = getattr(request.user, "entity", None)
 
-    if request.method == "GET":
+        if entity is None:
+            messages.error(request, "Aucune entité n'est associée à votre compte.")
+            return redirect("processing_list")
 
-        context = {
-            "users": User.objects.all().order_by("last_name", "first_name"),
-            "entities": Entity.objects.all().order_by("name"),
-            "legal_bases": LegalBasis.objects.all(),
-            "data_categories": DataCategory.objects.all(),
-            "data_subject_categories": DataSubjectCategory.objects.all(),
-            "recipients": Recipient.objects.all(),
-            "subprocessors": Subprocessor.objects.all(),
-            "operation_types": OperationType.objects.all(),
-            "security_measures": SecurityMeasure.objects.all(),
-        }
+        # ---------------------------------------------------------
+        # 2. Informations générales
+        # ---------------------------------------------------------
+        name = request.POST.get("name", "").strip()
 
-        return render(
-            request,
-            "personal_data_processing/processings_list.html",
-            context,
+        # Seul le nom est obligatoire
+        if not name:
+            messages.error(request, "Le nom du traitement est obligatoire.")
+            return render(
+                request,
+                "processing/processing_create.html",
+                {
+                    "legal_bases": LegalBasis.objects.all(),
+                    "data_categories": DataCategory.objects.all(),
+                    "data_subject_categories": DataSubjectCategory.objects.all(),
+                    "recipients": Recipient.objects.all(),
+                    "subprocessors": Subprocessor.objects.all(),
+                    "operation_types": OperationType.objects.all(),
+                    "security_measures": SecurityMeasure.objects.all(),
+                }
+            )
+
+        # ---------------------------------------------------------
+        # 3. Création du traitement
+        # ---------------------------------------------------------
+        processing = DataProcessing.objects.create(
+            name=name,
+            description=request.POST.get("description", "").strip(),
+            entity=entity,
+            user=request.user,
+            status=request.POST.get("status", DataProcessing.Status.DRAFT),
+            purpose=request.POST.get("purpose", "").strip(),
+            subpurpose=request.POST.get("subpurpose", "").strip(),
+            description_purpose=request.POST.get("description_purpose", "").strip(),
+            retention_period=request.POST.get("retention_period", "").strip(),
+            international_transfer=(request.POST.get("international_transfer") == "on"),
+            aipd_required=(request.POST.get("aipd_required") == "on"),
         )
 
-    # =========================================================
-    # POST
-    # =========================================================
-
-    if request.method == "POST":
-
-        try:
-
-            with transaction.atomic():
-
-                # =================================================
-                # 1. RÉCUPÉRATION DES DONNÉES PRINCIPALES
-                # =================================================
-
-                name = request.POST.get("name", "").strip()
-                description = request.POST.get("description", "").strip()
-
-                entity_id = request.POST.get("entity")
-                user_id = request.POST.get("user")
-
-                status = request.POST.get(
-                    "status",
-                    DataProcessing.Status.DRAFT,
-                )
-
-                purpose = request.POST.get("purpose", "").strip()
-                subpurpose = request.POST.get("subpurpose", "").strip()
-
-                description_purpose = request.POST.get(
-                    "description_purpose",
-                    "",
-                ).strip()
-
-                legal_basis_id = request.POST.get("legal_basis")
-
-                retention_period = request.POST.get(
-                    "retention_period",
-                    "",
-                ).strip()
-
-                international_transfer = (
-                    request.POST.get("international_transfer") == "on"
-                )
-
-                aipd_required = (
-                    request.POST.get("aipd_required") == "on"
-                )
-
-
-                # =================================================
-                # 2. VALIDATIONS MINIMALES
-                # =================================================
-
-                if not name:
-                    raise ValueError(
-                        "Le nom du traitement est obligatoire."
-                    )
-
-                if not entity_id:
-                    raise ValueError(
-                        "L'organisation est obligatoire."
-                    )
-
-                if not legal_basis_id:
-                    raise ValueError(
-                        "La base légale est obligatoire."
-                    )
-
-                if not purpose:
-                    raise ValueError(
-                        "La finalité est obligatoire."
-                    )
-
-                if not retention_period:
-                    raise ValueError(
-                        "La durée de conservation est obligatoire."
-                    )
-
-
-                # =================================================
-                # 3. CRÉATION DU TRAITEMENT
-                # =================================================
-
-                processing = DataProcessing.objects.create(
-
-                    name=name,
-
-                    description=description,
-
-                    entity_id=entity_id,
-
-                    status=status,
-
-                    user_id=user_id if user_id else None,
-
-                    purpose=purpose,
-
-                    subpurpose=subpurpose,
-
-                    description_purpose=description_purpose,
-
-                    legal_basis_id=legal_basis_id,
-
-                    retention_period=retention_period,
-
-                    international_transfer=international_transfer,
-
-                    aipd_required=aipd_required,
-
-                )
-
-
-                # =================================================
-                # 4. CATÉGORIES DE DONNÉES
-                # =================================================
-
-                data_category_ids = request.POST.getlist(
-                    "data_categories"
-                )
-
-                if data_category_ids:
-
-                    processing.data_categories.set(
-                        data_category_ids
-                    )
-
-
-                # =================================================
-                # 5. CATÉGORIES DE PERSONNES CONCERNÉES
-                # =================================================
-
-                data_subject_category_ids = request.POST.getlist(
-                    "data_subject_categories"
-                )
-
-                if data_subject_category_ids:
-
-                    processing.data_subject_categories.set(
-                        data_subject_category_ids
-                    )
-
-
-                # =================================================
-                # 6. DESTINATAIRES
-                # =================================================
-
-                recipient_ids = request.POST.getlist(
-                    "recipients"
-                )
-
-                if recipient_ids:
-
-                    processing.recipients.set(
-                        recipient_ids
-                    )
-
-
-                # =================================================
-                # 7. SOUS-TRAITANTS
-                # =================================================
-
-                subprocessor_ids = request.POST.getlist(
-                    "subprocessors"
-                )
-
-                if subprocessor_ids:
-
-                    processing.subprocessors.set(
-                        subprocessor_ids
-                    )
-
-
-                # =================================================
-                # 8. OPÉRATIONS
-                # =================================================
-
-                operation_type_ids = request.POST.getlist(
-                    "operation_type"
-                )
-
-                operation_orders = request.POST.getlist(
-                    "operation_order"
-                )
-
-                operation_descriptions = request.POST.getlist(
-                    "operation_description"
-                )
-
-
-                for index, operation_type_id in enumerate(
-                    operation_type_ids
-                ):
-
-                    if not operation_type_id:
-                        continue
-
-
-                    # Ordre
-
-                    try:
-
-                        display_order = int(
-                            operation_orders[index]
-                        )
-
-                    except (
-                        ValueError,
-                        IndexError,
-                    ):
-
-                        display_order = index + 1
-
-
-                    # Description
-
-                    try:
-
-                        operation_description = (
-                            operation_descriptions[index].strip()
-                        )
-
-                    except IndexError:
-
-                        operation_description = ""
-
-
-                    processing.processing_operations.create(
-
-                        operation_type_id=operation_type_id,
-
-                        display_order=display_order,
-
-                        description=operation_description,
-
-                    )
-
-
-                # =================================================
-                # 9. MESURES DE SÉCURITÉ
-                # =================================================
-
-                security_measure_ids = request.POST.getlist(
-                    "security_measures"
-                )
-
-
-                for security_measure_id in security_measure_ids:
-
-                    status_key = (
-                        f"security_status_{security_measure_id}"
-                    )
-
-                    comment_key = (
-                        f"security_comment_{security_measure_id}"
-                    )
-
-
-                    security_status = request.POST.get(
-                        status_key,
-                        "PLANNED",
-                    )
-
-
-                    security_comment = request.POST.get(
-                        comment_key,
-                        "",
-                    ).strip()
-
-
-                    processing.processing_security_measures.create(
-
-                        security_measure_id=security_measure_id,
-
-                        status=security_status,
-
-                        comment=security_comment,
-
-                    )
-
-
-            # =====================================================
-            # 10. MESSAGE DE SUCCÈS
-            # =====================================================
-
-            messages.success(
-                request,
-                f"Le traitement « {processing.name} » a été créé avec succès.",
+        # ---------------------------------------------------------
+        # Base légale
+        # ---------------------------------------------------------
+        legal_basis_id = request.POST.get("legal_basis")
+        legal_basis_justification = request.POST.get("legal_basis_justification", "").strip()
+
+        if legal_basis_id:
+            ProcessingLegalBasis.objects.create(processing=processing, legal_basis_id=legal_basis_id, justification=legal_basis_justification,)
+
+        # ---------------------------------------------------------
+        # 5. Catégories de données
+        # ---------------------------------------------------------
+        data_category_ids = request.POST.getlist("data_category")
+        data_enumerations = request.POST.getlist("data_enumeration")
+
+        for index, category_id in enumerate(data_category_ids):
+            if not category_id:
+                continue
+
+            enumeration = ""
+
+            if index < len(data_enumerations):
+                enumeration = data_enumerations[index].strip()
+
+            ProcessingDataCategory.objects.create(
+                processing=processing,
+                data_category_id=category_id,
+                data_enumeration=enumeration,
             )
 
+        # ---------------------------------------------------------
+        # 6. Catégories de personnes concernées
+        # ---------------------------------------------------------
+        subject_category_ids = request.POST.getlist("data_subject_categories")
+        processing.data_subject_categories.set(subject_category_ids)
 
-            # =====================================================
-            # 11. REDIRECTION VERS LE DÉTAIL
-            # =====================================================
+        # ---------------------------------------------------------
+        # 7. Destinataires
+        # ---------------------------------------------------------
 
-            return redirect(
-                "personal_data_processing:processing_detail",
-                id=processing.id,
+        recipient_ids = request.POST.getlist("recipients")
+        processing.recipients.set(recipient_ids)
+
+        # ---------------------------------------------------------
+        # 8. Sous-traitants
+        # ---------------------------------------------------------
+        subprocessor_ids = request.POST.getlist("subprocessors")
+        processing.subprocessors.set(subprocessor_ids)
+
+        # ---------------------------------------------------------
+        # 9. Types d'opérations
+        # ---------------------------------------------------------
+
+        operation_type_ids = request.POST.getlist("operation_type")
+        operation_descriptions = request.POST.getlist("operation_description")
+
+        for index, operation_type_id in enumerate(operation_type_ids):
+
+            if not operation_type_id:
+                continue
+
+            description = ""
+
+            if index < len(operation_descriptions):
+                description = operation_descriptions[index].strip()
+
+            ProcessingOperation.objects.create(
+                processing=processing,
+                operation_type_id=operation_type_id,
+                display_order=index + 1,
+                description=description,
             )
 
+        # ---------------------------------------------------------
+        # 10. Mesures de sécurité
+        # ---------------------------------------------------------
+        security_measure_ids = request.POST.getlist("security_measure")
+        security_statuses = request.POST.getlist("security_status")
+        security_comments = request.POST.getlist("security_comment")
 
-        except ValueError as error:
+        for index, security_measure_id in enumerate(security_measure_ids):
 
-            messages.error(
-                request,
-                str(error),
+            if not security_measure_id:
+                continue
+
+            status = (security_statuses[index] if index < len(security_statuses) else ProcessingSecurityMeasure.Status.PLANNED)
+            comment = (security_comments[index].strip() if index < len(security_comments) else "")
+            ProcessingSecurityMeasure.objects.create(
+                processing=processing,
+                security_measure_id=security_measure_id,
+                status=status,
+                comment=comment,
             )
 
+        # ---------------------------------------------------------
+        # 11. Succès
+        # ---------------------------------------------------------
+        messages.success(request, f"Le traitement « {processing.name} » a été créé avec succès.")
 
-        except Exception as error:
+        return redirect("personal_data_processing:processing_detail", id=processing.id)
 
-            messages.error(
-                request,
-                "Une erreur est survenue lors de la création du traitement.",
-            )
-
-
-    # =========================================================
-    # EN CAS D'ERREUR : RÉAFFICHAGE DU FORMULAIRE
-    # =========================================================
-
+    # -------------------------------------------------------------
+    # GET : affichage du formulaire
+    # -------------------------------------------------------------
     context = {
-
-        "users": User.objects.all().order_by(
-            "last_name",
-            "first_name",
-        ),
-
-        "entities": Entity.objects.all().order_by(
-            "name"
-        ),
-
+        "entity": getattr(request.user, "entity", None),
         "legal_bases": LegalBasis.objects.all(),
-
         "data_categories": DataCategory.objects.all(),
-
-        "data_subject_categories": (
-            DataSubjectCategory.objects.all()
-        ),
-
+        "data_subject_categories": (DataSubjectCategory.objects.all()),
         "recipients": Recipient.objects.all(),
-
         "subprocessors": Subprocessor.objects.all(),
-
         "operation_types": OperationType.objects.all(),
-
-        "security_measures": SecurityMeasure.objects.all(),
-
+        "security_measures": (SecurityMeasure.objects.all()),
     }
 
-
-    return render(
-        request,
-        "personal_data_processing/processing_create.html",
-        context,
-    )
+    return render(request, "personal_data_processing/processing_create.html", context)
 
 
 @login_required
 def processing_update(request, id):
+    """
+    Modifie un traitement de données personnelles.
+
+    La modification est autorisée uniquement si :
+    - l'utilisateur connecté est le créateur du traitement ;
+    - ou l'utilisateur possède le rôle DPO au sein de la même entité.
+
+    Un utilisateur ne peut jamais modifier un traitement
+    appartenant à une autre entité.
+    """
 
     # =========================================================
     # RÉCUPÉRATION DU TRAITEMENT
     # =========================================================
-
-    processing = get_object_or_404(
-        DataProcessing,
-        id=id
-    )
-
+    processing = get_object_or_404(DataProcessing, id=id, entity=request.user.entity)
 
     # =========================================================
-    # POST
+    # CONTRÔLE DES DROITS
+    # =========================================================
+
+    is_creator = (processing.user_id == request.user.id)
+    is_dpo = (request.user.role == User.Role.DPO)
+
+    if not is_creator and not is_dpo:
+        messages.error(request, "Vous n'êtes pas autorisé à modifier ce traitement.")
+
+        return redirect("personal_data_processing:processing_detail", id=processing.id)
+
+    # =========================================================
+    # POST : MODIFICATION
     # =========================================================
 
     if request.method == "POST":
-
-        try:
-
-            with transaction.atomic():
-
-                # =================================================
-                # INFORMATIONS GÉNÉRALES
-                # =================================================
-
-                processing.name = request.POST.get(
-                    "name",
-                    ""
-                ).strip()
-
-                processing.description = request.POST.get(
-                    "description",
-                    ""
-                ).strip()
-
-                processing.status = request.POST.get(
-                    "status",
-                    DataProcessing.Status.DRAFT
-                )
-
-                user_id = request.POST.get("user")
-
-                if user_id:
-                    processing.user_id = user_id
-                else:
-                    processing.user = None
-
-
-                entity_id = request.POST.get("entity")
-
-                if entity_id:
-                    processing.entity_id = entity_id
-
-
-                # =================================================
-                # FINALITÉ
-                # =================================================
-
-                processing.purpose = request.POST.get(
-                    "purpose",
-                    ""
-                ).strip()
-
-                processing.subpurpose = request.POST.get(
-                    "subpurpose",
-                    ""
-                ).strip()
-
-                processing.description_purpose = request.POST.get(
-                    "description_purpose",
-                    ""
-                ).strip()
-
-
-                # =================================================
-                # BASE LÉGALE
-                # =================================================
-
-                legal_basis_id = request.POST.get(
-                    "legal_basis"
-                )
-
-                if legal_basis_id:
-                    processing.legal_basis_id = legal_basis_id
-
-
-                # =================================================
-                # CONSERVATION
-                # =================================================
-
-                processing.retention_period = request.POST.get(
-                    "retention_period",
-                    ""
-                ).strip()
-
-
-                # =================================================
-                # CONFORMITÉ
-                # =================================================
-
-                processing.international_transfer = (
-                    request.POST.get(
-                        "international_transfer"
-                    ) == "on"
-                )
-
-                processing.aipd_required = (
-                    request.POST.get(
-                        "aipd_required"
-                    ) == "on"
-                )
-
-
-                # =================================================
-                # SAUVEGARDE DU TRAITEMENT
-                # =================================================
-
-                processing.save()
-
-
-                # =================================================
-                # CATÉGORIES DE DONNÉES
-                # =================================================
-
-                data_categories = request.POST.getlist(
-                    "data_categories"
-                )
-
-                processing.data_categories.set(
-                    data_categories
-                )
-
-
-                # =================================================
-                # PERSONNES CONCERNÉES
-                # =================================================
-
-                data_subject_categories = request.POST.getlist(
-                    "data_subject_categories"
-                )
-
-                processing.data_subject_categories.set(
-                    data_subject_categories
-                )
-
-
-                # =================================================
-                # DESTINATAIRES
-                # =================================================
-
-                recipients = request.POST.getlist(
-                    "recipients"
-                )
-
-                processing.recipients.set(
-                    recipients
-                )
-
-
-                # =================================================
-                # SOUS-TRAITANTS
-                # =================================================
-
-                subprocessors = request.POST.getlist(
-                    "subprocessors"
-                )
-
-                processing.subprocessors.set(
-                    subprocessors
-                )
-
-
-                # =================================================
-                # OPÉRATIONS
-                # =================================================
-
-                # On supprime les anciennes associations.
-                processing.processing_operations.all().delete()
-
-
-                operation_types = request.POST.getlist(
-                    "operation_type"
-                )
-
-                operation_orders = request.POST.getlist(
-                    "operation_order"
-                )
-
-                operation_descriptions = request.POST.getlist(
-                    "operation_description"
-                )
-
-
-                for index, operation_type_id in enumerate(
-                    operation_types
-                ):
-
-                    if not operation_type_id:
-                        continue
-
-
-                    # Sécurité au cas où les listes POST
-                    # n'auraient pas exactement la même longueur.
-
-                    order = 1
-
-                    if index < len(operation_orders):
-
-                        try:
-                            order = int(
-                                operation_orders[index]
-                            )
-
-                        except (ValueError, TypeError):
-                            order = index + 1
-
-
-                    description = ""
-
-                    if index < len(operation_descriptions):
-
-                        description = (
-                            operation_descriptions[index]
-                            or ""
-                        ).strip()
-
-
-                    ProcessingOperation.objects.create(
-
-                        processing=processing,
-
-                        operation_type_id=operation_type_id,
-
-                        display_order=order,
-
-                        description=description,
-
-                    )
-
-
-                # =================================================
-                # MESURES DE SÉCURITÉ
-                # =================================================
-
-                # On supprime les anciennes associations.
-
-                processing.processing_security_measures.all().delete()
-
-
-                security_measure_ids = request.POST.getlist(
-                    "security_measures"
-                )
-
-
-                for security_measure_id in security_measure_ids:
-
-                    status = request.POST.get(
-                        f"security_status_{security_measure_id}",
-                        ProcessingSecurityMeasure.Status.PLANNED
-                    )
-
-
-                    comment = request.POST.get(
-                        f"security_comment_{security_measure_id}",
-                        ""
-                    ).strip()
-
-
-                    ProcessingSecurityMeasure.objects.create(
-
-                        processing=processing,
-
-                        security_measure_id=security_measure_id,
-
-                        status=status,
-
-                        comment=comment,
-
-                    )
-
-
-                # =================================================
-                # MESSAGE DE SUCCÈS
-                # =================================================
-
-                messages.success(
-                    request,
-                    "Le traitement a été modifié avec succès."
-                )
-
-
-                return redirect(
-                    "personal_data_processing:processing_detail",
-                    id=processing.id
-                )
-
-
-        except Exception as e:
-
-            messages.error(
+        # -----------------------------------------------------
+        # Nom du traitement
+        # -----------------------------------------------------
+        name = request.POST.get("name", "").strip()
+
+        if not name:
+            messages.error(request, "Le nom du traitement est obligatoire.")
+            return render(
                 request,
-                f"Une erreur est survenue lors de la modification du traitement : {e}"
+                "personal_data_processing/processing_update.html",
+                {
+                    "processing": processing,
+                    "legal_bases": LegalBasis.objects.all(),
+                    "data_categories": DataCategory.objects.all(),
+                    "data_subject_categories": (DataSubjectCategory.objects.all()),
+                    "recipients": Recipient.objects.all(),
+                    "subprocessors": Subprocessor.objects.all(),
+                    "operation_types": OperationType.objects.all(),
+                    "security_measures": SecurityMeasure.objects.all(),
+                }
             )
 
+        # =====================================================
+        # TRANSACTION
+        # =====================================================
+
+        with transaction.atomic():
+            # -------------------------------------------------
+            # INFORMATIONS GÉNÉRALES
+            # -------------------------------------------------
+            processing.name = name
+            processing.description = request.POST.get("description", "").strip()
+            processing.status = request.POST.get("status", DataProcessing.Status.DRAFT)
+            processing.purpose = request.POST.get("purpose", "").strip()
+            processing.subpurpose = request.POST.get("subpurpose", "").strip()
+            processing.description_purpose = request.POST.get("description_purpose", "").strip()
+            processing.retention_period = request.POST.get("retention_period", "").strip()
+            processing.international_transfer = (request.POST.get("international_transfer") == "on")
+            processing.aipd_required = (request.POST.get("aipd_required") == "on")
+
+            # L'entité ne doit jamais venir du formulaire.
+            processing.entity = request.user.entity
+            processing.save()
+
+            # =================================================
+            # BASE LÉGALE
+            # =================================================
+
+            ProcessingLegalBasis.objects.filter(processing=processing).delete()
+            legal_basis_id = request.POST.get("legal_basis")
+            legal_basis_justification = request.POST.get("legal_basis_justification", "").strip()
+
+            if legal_basis_id:
+                ProcessingLegalBasis.objects.create(
+                    processing=processing,
+                    legal_basis_id=legal_basis_id,
+                    justification=legal_basis_justification
+                )
+
+            # =================================================
+            # CATÉGORIES DE DONNÉES
+            # =================================================
+
+            ProcessingDataCategory.objects.filter(processing=processing).delete()
+            data_category_ids = request.POST.getlist("data_category")
+            data_enumerations = request.POST.getlist("data_enumeration")
+
+            for index, category_id in enumerate(data_category_ids):
+                if not category_id:
+                    continue
+
+                enumeration = ""
+
+                if index < len(data_enumerations):
+                    enumeration = data_enumerations[
+                        index
+                    ].strip()
+
+                ProcessingDataCategory.objects.create(
+                    processing=processing,
+                    data_category_id=category_id,
+                    data_enumeration=enumeration
+                )
+
+            # =================================================
+            # PERSONNES CONCERNÉES
+            # =================================================
+
+            processing.data_subject_categories.set(request.POST.getlist("data_subject_categories"))
+
+            # =================================================
+            # DESTINATAIRES
+            # =================================================
+
+            processing.recipients.set(request.POST.getlist("recipients"))
+
+            # =================================================
+            # SOUS-TRAITANTS
+            # =================================================
+
+            processing.subprocessors.set(request.POST.getlist("subprocessors"))
+
+            # =================================================
+            # OPÉRATIONS
+            # =================================================
+
+            ProcessingOperation.objects.filter(processing=processing).delete()
+            operation_type_ids = request.POST.getlist("operation_type")
+            operation_descriptions = request.POST.getlist("operation_description")
+
+            for index, operation_type_id in enumerate(operation_type_ids):
+                if not operation_type_id:
+                    continue
+
+                description = ""
+
+                if index < len(operation_descriptions):
+                    description = operation_descriptions[index].strip()
+
+                ProcessingOperation.objects.create(
+                    processing=processing,
+                    operation_type_id=operation_type_id,
+                    display_order=index + 1,
+                    description=description
+                )
+
+            # =================================================
+            # MESURES DE SÉCURITÉ
+            # =================================================
+
+            ProcessingSecurityMeasure.objects.filter(processing=processing).delete()
+            security_measure_ids = request.POST.getlist("security_measure")
+            security_statuses = request.POST.getlist("security_status")
+            security_comments = request.POST.getlist("security_comment")
+
+            for index, security_measure_id in enumerate(security_measure_ids):
+                if not security_measure_id:
+                    continue
+
+                status = (
+                    security_statuses[index]
+                    if index < len(security_statuses)
+                    else ProcessingSecurityMeasure.Status.PLANNED
+                )
+
+                comment = (
+                    security_comments[index].strip()
+                    if index < len(security_comments)
+                    else ""
+                )
+
+                ProcessingSecurityMeasure.objects.create(
+                    processing=processing,
+                    security_measure_id=security_measure_id,
+                    status=status,
+                    comment=comment
+                )
+
+        # =====================================================
+        # SUCCÈS
+        # =====================================================
+
+        messages.success(request, f"Le traitement « {processing.name} » " "a été modifié avec succès.")
+        return redirect("personal_data_processing:processing_detail", id=processing.id)
 
     # =========================================================
-    # GET
+    # GET : FORMULAIRE
     # =========================================================
 
     context = {
-
         "processing": processing,
-
-        "users": User.objects.all(),
-
-        "entities": Entity.objects.all(),
-
         "legal_bases": LegalBasis.objects.all(),
-
         "data_categories": DataCategory.objects.all(),
-
-        "data_subject_categories": DataSubjectCategory.objects.all(),
-
+        "data_subject_categories": (DataSubjectCategory.objects.all()),
         "recipients": Recipient.objects.all(),
-
         "subprocessors": Subprocessor.objects.all(),
-
         "operation_types": OperationType.objects.all(),
-
-        "security_measures": SecurityMeasure.objects.all(),
-
+        "security_measures": (SecurityMeasure.objects.all()),
     }
 
+    return render(request, "personal_data_processing/processing_update.html", context)
 
-    return render(
-        request,
-        "personal_data_processing/processing_create.html",
-        context
+
+@login_required
+def processings_list_by_user(request):
+    """
+    Affiche la liste des traitements créés par l'utilisateur connecté.
+    """
+
+    processings = (
+        DataProcessing.objects
+        .filter(
+            user=request.user,
+            entity=request.user.entity
+        )
+        .select_related("user")
+        .order_by("-updated_at")
     )
+
+    return render(request, "personal_data_processing/processings_list_by_user.html", {"processings": processings,})
+
+
+@login_required
+def processing_delete(request, id):
+    """
+    Supprime un traitement.
+
+    La suppression est autorisée uniquement au créateur du traitement
+    ou au DPO de l'entité à laquelle appartient le traitement.
+    """
+    processing = get_object_or_404(DataProcessing, id=id, entity=request.user.entity)
+
+    # Vérification des droits
+    is_creator = processing.user_id == request.user.id
+    is_dpo = request.user.role == User.Role.DPO
+
+    if not is_creator and not is_dpo:
+        messages.error(request, "Vous n'êtes pas autorisé à supprimer ce traitement.")
+        return redirect("personal_data_processing:processing_detail", id=processing.id)
+
+    # Suppression uniquement en POST
+    if request.method == "POST":
+        processing.delete()
+        messages.success(request, "Le traitement a été supprimé avec succès.")
+        return redirect("personal_data_processing:processings_list")
+
+    # Si la requête est en GET, on affiche une confirmation
+    return render(request, "personal_data_processing/processing_delete.html", {"processing": processing,})

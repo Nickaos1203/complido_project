@@ -31,7 +31,7 @@
 
         {% if user.is_authenticated %}
 
-            <!-- ================================= -->
+            {% comment %} <!-- ================================= -->
             <!-- RECHERCHE                          -->
             <!-- ================================= -->
 
@@ -70,13 +70,12 @@
                     3
                 </span>
 
-            </button>
+            </button> {% endcomment %}
 
 
             <!-- ================================= -->
             <!-- UTILISATEUR                        -->
             <!-- ================================= -->
-
             <div class="dropdown">
 
                 <button
@@ -123,6 +122,16 @@
                 <!-- MENU UTILISATEUR -->
 
                 <ul class="dropdown-menu dropdown-menu-end">
+
+                    <li>
+                        <a
+                            class="dropdown-item"
+                            href="{% url 'personal_data_processing:processings_list' %}"
+                        >
+                            <i class="bi bi-person me-2"></i>
+                            Accéder à mon espace
+                        </a>
+                    </li>
 
                     <li>
                         <a
