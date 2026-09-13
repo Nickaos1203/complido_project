@@ -1,0 +1,166 @@
+name: CI - Complido
+
+on:
+  push:
+    branches:
+      - main
+
+  pull_request:
+    branches:
+      - main
+
+
+jobs:
+
+  # ==========================================================
+  # 2.1. PRÉPARATION DE L'ENVIRONNEMENT
+  # 2.2. BASE DE DONNÉES DE TEST
+  # 2.3. TESTS AUTOMATISÉS
+  # ==========================================================
+
+  tests:
+
+    name: Tests Django
+
+    runs-on: ubuntu-latest
+
+    env:
+      SECRET_KEY: test-secret-key-for-ci
+
+      DB_NAME: complido_test
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_HOST: 127.0.0.1
+      DB_PORT: 5432
+
+    services:
+
+      postgres:
+        image: postgres:16
+
+        env:
+          POSTGRES_DB: complido_test
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+
+        ports:
+          - 5432:5432
+
+        options: >-
+          --health-cmd "pg_isready -U postgres -d complido_test"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+
+      # ======================================================
+      # 2.1. PRÉPARATION DE L'ENVIRONNEMENT
+      # ======================================================
+
+      - name: Récupération du projet
+        uses: actions/checkout@v4
+
+
+      - name: Installation de Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+
+      - name: Installation des dépendances
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+
+      # ======================================================
+      # 2.2. MISE EN PLACE DE LA BASE DE DONNÉES
+      # ======================================================
+
+      - name: Vérification de Django
+        working-directory: Complido
+        run: |
+          python manage.py check
+
+
+      - name: Vérification des migrations
+        working-directory: Complido
+        run: |
+          python manage.py makemigrations --check --dry-run
+
+
+      - name: Application des migrations
+        working-directory: Complido
+        run: |
+          python manage.py migrate
+
+
+      # ======================================================
+      # 2.3. EXÉCUTION DES TESTS AUTOMATISÉS
+      # ======================================================
+
+      - name: Exécution des tests Pytest
+        working-directory: Complido
+        run: |
+          pytest -v --cov=. --cov-report=term-missing
+
+
+  # ==========================================================
+  # 2.4. CONTENEURISATION
+  # ==========================================================
+
+  docker:
+
+    name: Conteneurisation
+
+    needs: tests
+
+    runs-on: ubuntu-latest
+
+    # La conteneurisation est réalisée uniquement après
+    # validation des tests et lors d'un push sur main.
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+
+    steps:
+
+      - name: Récupération du projet
+        uses: actions/checkout@v4
+
+
+      - name: Vérification de Docker Compose
+        run: |
+          docker compose version
+
+
+      - name: Vérification de la configuration Docker
+        run: |
+          docker compose config
+
+
+      - name: Construction des conteneurs
+        run: |
+          docker compose build
+
+
+      - name: Démarrage des conteneurs
+        run: |
+          docker compose up -d
+
+
+      - name: Vérification des conteneurs
+        run: |
+          docker compose ps
+
+
+      - name: Affichage des logs
+        if: always()
+        run: |
+          docker compose logs
+
+
+      - name: Arrêt des conteneurs
+        if: always()
+        run: |
+          docker compose down

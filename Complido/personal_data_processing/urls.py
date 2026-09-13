@@ -1,6 +1,7 @@
 from django.urls import path
 from .views import (
     processings_list,
+    processings_list_by_user,
     processing_detail,
     processing_create,
     processing_update,
@@ -15,4 +16,5 @@ urlpatterns = [
     path("create", processing_create, name="processing_create"),
     path("<int:id>/update/", processing_update, name="processing_update"),
     path("<int:id>/delete/", processing_delete, name="processing_delete"),
+    path("by_user", processings_list_by_user, name="processings_list_by_user"),
 ]

@@ -1,461 +1,47 @@
-{% extends 'base.html'%}
+{% extends "base.html" %}
 
-{% block title %}détail d'un traitement{% endblock %}
+{% block title %}
+    {{ processing.name }} - Complido
+{% endblock %}
+
 
 {% block content %}
 
-<div class="container-fluid px-4 py-4">
+<div class="container-fluid">
 
     <!-- ===================================================== -->
-    <!-- FIL D'ARIANE                                          -->
+    <!-- EN-TÊTE DE LA PAGE -->
     <!-- ===================================================== -->
 
-
-
-
-    <!-- ===================================================== -->
-    <!-- EN-TÊTE DU TRAITEMENT                                 -->
-    <!-- ===================================================== -->
-
-    <div class="d-flex justify-content-between align-items-start mb-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
 
         <div>
 
-            <div class="d-flex align-items-center gap-3 mb-2">
+            <h1 class="h3 fw-bold mb-1">
+                {{ processing.name }}
+            </h1>
 
-                <h1 class="fw-bold mb-0">
-                    {{ processing.name }}
-                </h1>
-
-                {% if processing.status == "ACTIVE" %}
-
-                    <span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-2">
-                        Actif
-                    </span>
-
-                {% elif processing.status == "DRAFT" %}
-
-                    <span class="badge bg-warning-subtle text-warning border border-warning-subtle px-3 py-2">
-                        Brouillon
-                    </span>
-
-                {% elif processing.status == "ARCHIVED" %}
-
-                    <span class="badge bg-secondary-subtle text-secondary border border-secondary-subtle px-3 py-2">
-                        Archivé
-                    </span>
-
-                {% endif %}
-
-            </div>
-
-
-            {% if processing.description %}
-
-                <p class="text-muted mb-2">
-                    {{ processing.description }}
-                </p>
-
-            {% endif %}
-
-
-            <div class="small text-muted">
-
-                Créé le
-                {{ processing.created_at|date:"d/m/Y" }}
-
-                {% if processing.updated_at %}
-
-                    <span class="mx-2">•</span>
-
-                    Mis à jour le
-                    {{ processing.updated_at|date:"d/m/Y" }}
-
-                {% endif %}
-
-            </div>
+            <p class="text-secondary mb-0">
+                Détails du traitement de données personnelles
+            </p>
 
         </div>
-
-
-        <!-- ACTIONS -->
 
         <div class="d-flex gap-2">
 
-            <a href="{% url 'personal_data_processing:processing_update' processing.id %}" class="btn btn-outline-secondary">
-                <i class="bi bi-pencil me-2"></i> Modifier</a>
-
-            {% if processing.status != "ARCHIVED" %}
-
-                <button
-                    type="button"
-                    class="btn btn-outline-danger"
-                    data-bs-toggle="modal"
-                    data-bs-target="#deleteProcessingModal">
-                    <i class="bi bi-archive me-2"></i> Archiver
-                </button>
-
-            {% endif %}
-
-        </div>
-
-    </div>
-
-    <!-- ===================================================== -->
-    <!-- INFORMATIONS GÉNÉRALES                               -->
-    <!-- ===================================================== -->
-
-    <div class="row g-4 mb-4">
-
-        <div class="col-lg-6">
-
-            <div class="card border-0 shadow-sm h-100">
-
-                <div class="card-body p-4">
-
-                    <h5 class="fw-semibold mb-4">
-
-                        <i class="bi bi-info-circle me-2"></i>
-                        Informations générales
-
-                    </h5>
-
-
-                    <div class="row mb-3">
-
-                        <div class="col-md-5 text-muted">
-                            Responsable du traitement
-                        </div>
-
-                        <div class="col-md-7 fw-semibold">
-
-                            {% if processing.user %}
-                                {{ processing.user }}
-                            {% else %}
-                                <span class="text-muted">
-                                    Non renseigné
-                                </span>
-                            {% endif %}
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="row mb-3">
-
-                        <div class="col-md-5 text-muted">
-                            Organisation
-                        </div>
-
-                        <div class="col-md-7">
-                            {{ processing.entity }}
-                        </div>
-
-                    </div>
-
-
-                    <div class="row mb-3">
-
-                        <div class="col-md-5 text-muted">
-                            Finalité
-                        </div>
-
-                        <div class="col-md-7">
-                            {{ processing.purpose|default:"Non renseignée" }}
-                        </div>
-
-                    </div>
-
-
-                    <div class="row mb-3">
-
-                        <div class="col-md-5 text-muted">
-                            Sous-finalité
-                        </div>
-
-                        <div class="col-md-7">
-                            {{ processing.subpurpose|default:"Non renseignée" }}
-                        </div>
-
-                    </div>
-
-
-                    <div class="row mb-3">
-
-                        <div class="col-md-5 text-muted">
-                            Description de la finalité
-                        </div>
-
-                        <div class="col-md-7">
-                            {{ processing.description_purpose|default:"Non renseignée" }}
-                        </div>
-
-                    </div>
-
-
-                    <div class="row mb-3">
-
-                        <div class="col-md-5 text-muted">
-                            Base légale
-                        </div>
-
-                        <div class="col-md-7">
-
-                            {% if processing.legal_basis %}
-
-                                <span class="fw-semibold">
-                                    {{ processing.legal_basis.name }}
-                                </span>
-
-                                {% if processing.legal_basis.description %}
-
-                                    <div class="small text-muted mt-1">
-                                        {{ processing.legal_basis.description }}
-                                    </div>
-
-                                {% endif %}
-
-                            {% else %}
-
-                                <span class="text-muted">
-                                    Non renseignée
-                                </span>
-
-                            {% endif %}
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="row mb-3">
-
-                        <div class="col-md-5 text-muted">
-                            Durée de conservation
-                        </div>
-
-                        <div class="col-md-7">
-                            {{ processing.retention_period|default:"Non renseignée" }}
-                        </div>
-
-                    </div>
-
-
-                    <div class="row">
-
-                        <div class="col-md-5 text-muted">
-                            Transfert international
-                        </div>
-
-                        <div class="col-md-7">
-
-                            {% if processing.international_transfer %}
-
-                                <span class="badge bg-warning-subtle text-warning border border-warning-subtle px-3 py-2">
-                                    Oui
-                                </span>
-
-                            {% else %}
-
-                                <span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-2">
-                                    Non
-                                </span>
-
-                            {% endif %}
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <!-- ================================================= -->
-        <!-- INDICATEURS                                       -->
-        <!-- ================================================= -->
-
-        <div class="col-lg-6">
-
-            <div class="card border-0 shadow-sm h-100">
-
-                <div class="card-body p-4">
-
-                    <h5 class="fw-semibold mb-4">
-
-                        <i class="bi bi-bar-chart me-2"></i>
-                        Indicateurs du traitement
-
-                    </h5>
-
-
-                    <div class="row g-3">
-
-
-                        <!-- CATÉGORIES DE DONNÉES -->
-
-                        <div class="col-md-6">
-
-                            <div class="border rounded-3 p-3 h-100">
-
-                                <div class="text-muted small mb-2">
-                                    Catégories de données
-                                </div>
-
-                                <div class="fs-3 fw-bold">
-                                    {{ processing.data_categories.count }}
-                                </div>
-
-                            </div>
-
-                        </div>
-
-
-                        <!-- PERSONNES CONCERNÉES -->
-
-                        <div class="col-md-6">
-
-                            <div class="border rounded-3 p-3 h-100">
-
-                                <div class="text-muted small mb-2">
-                                    Personnes concernées
-                                </div>
-
-                                <div class="fs-3 fw-bold">
-                                    {{ processing.data_subject_categories.count }}
-                                </div>
-
-                                <div class="small text-muted">
-                                    catégories
-                                </div>
-
-                            </div>
-
-                        </div>
-
-
-                        <!-- DESTINATAIRES -->
-
-                        <div class="col-md-6">
-
-                            <div class="border rounded-3 p-3 h-100">
-
-                                <div class="text-muted small mb-2">
-                                    Destinataires
-                                </div>
-
-                                <div class="fs-3 fw-bold">
-                                    {{ processing.recipients.count }}
-                                </div>
-
-                            </div>
-
-                        </div>
-
-
-                        <!-- SOUS-TRAITANTS -->
-
-                        <div class="col-md-6">
-
-                            <div class="border rounded-3 p-3 h-100">
-
-                                <div class="text-muted small mb-2">
-                                    Sous-traitants
-                                </div>
-
-                                <div class="fs-3 fw-bold">
-                                    {{ processing.subprocessors.count }}
-                                </div>
-
-                            </div>
-
-                        </div>
-
-
-                        <!-- OPÉRATIONS -->
-
-                        <div class="col-md-6">
-
-                            <div class="border rounded-3 p-3 h-100">
-
-                                <div class="text-muted small mb-2">
-                                    Opérations
-                                </div>
-
-                                <div class="fs-3 fw-bold">
-                                    {{ processing.processing_operations.count }}
-                                </div>
-
-                            </div>
-
-                        </div>
-
-
-                        <!-- MESURES DE SÉCURITÉ -->
-
-                        <div class="col-md-6">
-
-                            <div class="border rounded-3 p-3 h-100">
-
-                                <div class="text-muted small mb-2">
-                                    Mesures de sécurité
-                                </div>
-
-                                <div class="fs-3 fw-bold">
-                                    {{ processing.processing_security_measures.count }}
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-
-                    <!-- AIPD -->
-
-                    <div class="border rounded-3 p-3 mt-3">
-
-                        <div class="d-flex justify-content-between align-items-center">
-
-                            <div>
-
-                                <div class="fw-semibold">
-                                    Analyse d'impact (AIPD)
-                                </div>
-
-                                <div class="small text-muted">
-                                    Analyse d'impact relative à la protection des données
-                                </div>
-
-                            </div>
-
-
-                            {% if processing.aipd_required %}
-
-                                <span class="badge bg-warning-subtle text-warning border border-warning-subtle px-3 py-2">
-                                    Requise
-                                </span>
-
-                            {% else %}
-
-                                <span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-2">
-                                    Non requise
-                                </span>
-
-                            {% endif %}
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
+            <a
+                href="{% url 'personal_data_processing:processings_list' %}"
+                class="btn btn-outline-secondary"
+            >
+                Retour
+            </a>
+
+            <a
+                href="{% url 'personal_data_processing:processing_update' processing.id %}"
+                class="btn btn-primary"
+            >
+                Modifier
+            </a>
 
         </div>
 
@@ -463,317 +49,81 @@
 
 
     <!-- ===================================================== -->
-    <!-- CATÉGORIES DE DONNÉES                                -->
+    <!-- INFORMATIONS GÉNÉRALES -->
     <!-- ===================================================== -->
 
-    <div class="row g-4 mb-4" id="donnees">
+    <div class="card shadow-sm mb-4">
 
-        <div class="col-lg-6">
+        <div class="card-header bg-white">
 
-            <div class="card border-0 shadow-sm h-100">
+            <h2 class="h5 mb-0 fw-bold">
+                Informations générales
+            </h2>
 
-                <div class="card-body p-4">
+        </div>
 
-                    <div class="d-flex justify-content-between align-items-center mb-3">
 
-                        <h5 class="fw-semibold mb-0">
+        <div class="card-body">
 
-                            <i class="bi bi-database me-2"></i>
-                            Catégories de données
+            <div class="row g-4">
 
-                        </h5>
+                <!-- Nom -->
 
-                        <span class="badge bg-light text-dark">
-                            {{ processing.data_categories.count }}
-                        </span>
+                <div class="col-md-6">
 
+                    <div class="text-secondary small fw-semibold">
+                        Nom du traitement
                     </div>
 
-
-                    {% for category in processing.data_categories.all %}
-
-                        <div class="border-bottom py-3">
-
-                            <div class="fw-semibold">
-                                {{ category.name }}
-                            </div>
-
-                            {% if category.description %}
-
-                                <div class="small text-muted mt-1">
-                                    {{ category.description }}
-                                </div>
-
-                            {% endif %}
-
-                        </div>
-
-                    {% empty %}
-
-                        <p class="text-muted mb-0">
-                            Aucune catégorie de données renseignée.
-                        </p>
-
-                    {% endfor %}
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <!-- ================================================= -->
-        <!-- PERSONNES CONCERNÉES                              -->
-        <!-- ================================================= -->
-
-        <div class="col-lg-6" id="personnes">
-
-            <div class="card border-0 shadow-sm h-100">
-
-                <div class="card-body p-4">
-
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-
-                        <h5 class="fw-semibold mb-0">
-
-                            <i class="bi bi-people me-2"></i>
-                            Personnes concernées
-
-                        </h5>
-
-                        <span class="badge bg-light text-dark">
-                            {{ processing.data_subject_categories.count }}
-                        </span>
-
+                    <div class="mt-1">
+                        {{ processing.name }}
                     </div>
 
-
-                    {% for category in processing.data_subject_categories.all %}
-
-                        <div class="border-bottom py-3">
-
-                            <div class="fw-semibold">
-                                {{ category.name }}
-                            </div>
-
-                            {% if category.description %}
-
-                                <div class="small text-muted mt-1">
-                                    {{ category.description }}
-                                </div>
-
-                            {% endif %}
-
-                        </div>
-
-                    {% empty %}
-
-                        <p class="text-muted mb-0">
-                            Aucune catégorie de personnes renseignée.
-                        </p>
-
-                    {% endfor %}
-
                 </div>
 
-            </div>
 
-        </div>
+                <!-- Entité -->
 
-    </div>
+                <div class="col-md-6">
 
-
-    <!-- ===================================================== -->
-    <!-- DESTINATAIRES / SOUS-TRAITANTS                       -->
-    <!-- ===================================================== -->
-
-    <div class="row g-4 mb-4" id="destinataires">
-
-        <!-- DESTINATAIRES -->
-
-        <div class="col-lg-6">
-
-            <div class="card border-0 shadow-sm h-100">
-
-                <div class="card-body p-4">
-
-                    <h5 class="fw-semibold mb-4">
-
-                        <i class="bi bi-send me-2"></i>
-                        Destinataires
-
-                    </h5>
-
-
-                    {% for recipient in processing.recipients.all %}
-
-                        <div class="d-flex align-items-start gap-3 border-bottom py-3">
-
-                            <div
-                                class="rounded-circle bg-light d-flex align-items-center justify-content-center"
-                                style="width: 40px; height: 40px; flex-shrink: 0;">
-
-                                <i class="bi bi-person"></i>
-
-                            </div>
-
-                            <div class="flex-grow-1">
-
-                                <div class="d-flex justify-content-between">
-
-                                    <span class="fw-semibold">
-                                        {{ recipient.name }}
-                                    </span>
-
-                                    <span class="badge bg-primary-subtle text-primary border border-primary-subtle">
-                                        {{ recipient.get_type_display }}
-                                    </span>
-
-                                </div>
-
-                                {% if recipient.description %}
-
-                                    <div class="small text-muted mt-1">
-                                        {{ recipient.description }}
-                                    </div>
-
-                                {% endif %}
-
-                            </div>
-
-                        </div>
-
-                    {% empty %}
-
-                        <p class="text-muted">
-                            Aucun destinataire renseigné.
-                        </p>
-
-                    {% endfor %}
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <!-- SOUS-TRAITANTS -->
-
-        <div class="col-lg-6">
-
-            <div class="card border-0 shadow-sm h-100">
-
-                <div class="card-body p-4">
-
-                    <h5 class="fw-semibold mb-4">
-
-                        <i class="bi bi-buildings me-2"></i>
-                        Sous-traitants
-
-                    </h5>
-
-
-                    {% for subcontractor in processing.subprocessors.all %}
-
-                        <div class="border-bottom py-3">
-
-                            <div class="fw-semibold">
-                                {{ subcontractor.name }}
-                            </div>
-
-                            {% if subcontractor.description %}
-
-                                <div class="small text-muted mt-1">
-                                    {{ subcontractor.description }}
-                                </div>
-
-                            {% endif %}
-
-                            {% if subcontractor.contact %}
-
-                                <div class="small text-muted mt-2">
-
-                                    <i class="bi bi-envelope me-1"></i>
-
-                                    {{ subcontractor.contact }}
-
-                                </div>
-
-                            {% endif %}
-
-                        </div>
-
-                    {% empty %}
-
-                        <p class="text-muted">
-                            Aucun sous-traitant renseigné.
-                        </p>
-
-                    {% endfor %}
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- ===================================================== -->
-    <!-- OPÉRATIONS                                           -->
-    <!-- ===================================================== -->
-
-    <div class="card border-0 shadow-sm mb-4" id="operations">
-
-        <div class="card-body p-4">
-
-            <h5 class="fw-semibold mb-4">
-
-                <i class="bi bi-list-check me-2"></i>
-                Opérations réalisées
-
-            </h5>
-
-
-            {% for operation in processing.processing_operations.all %}
-
-                <div class="d-flex gap-3 mb-3">
-
-                    <div
-                        class="rounded-circle border d-flex align-items-center justify-content-center fw-semibold"
-                        style="width: 32px; height: 32px; flex-shrink: 0;">
-
-                        {{ operation.display_order }}
-
+                    <div class="text-secondary small fw-semibold">
+                        Entité responsable du traitement
                     </div>
 
+                    <div class="mt-1">
+                        {{ processing.get_entity_display }}
+                    </div>
 
-                    <div>
-
-                        <div class="fw-semibold">
-
-                            {{ operation.operation_type.name }}
-
-                        </div>
+                </div>
 
 
-                        {% if operation.operation_type.description %}
+                <!-- Statut -->
 
-                            <div class="small text-muted">
-                                {{ operation.operation_type.description }}
-                            </div>
+                <div class="col-md-6">
 
-                        {% endif %}
+                    <div class="text-secondary small fw-semibold">
+                        Statut
+                    </div>
 
+                    <div class="mt-1">
 
-                        {% if operation.description %}
+                        {% if processing.status == "DRAFT" %}
 
-                            <div class="small text-muted mt-1">
-                                {{ operation.description }}
-                            </div>
+                            <span class="badge text-bg-secondary">
+                                Brouillon
+                            </span>
+
+                        {% elif processing.status == "ACTIVE" %}
+
+                            <span class="badge text-bg-success">
+                                Actif
+                            </span>
+
+                        {% elif processing.status == "ARCHIVED" %}
+
+                            <span class="badge text-bg-dark">
+                                Archivé
+                            </span>
 
                         {% endif %}
 
@@ -781,13 +131,189 @@
 
                 </div>
 
-            {% empty %}
 
-                <p class="text-muted mb-0">
-                    Aucune opération renseignée.
-                </p>
+                <!-- Créateur -->
 
-            {% endfor %}
+                <div class="col-md-6">
+
+                    <div class="text-secondary small fw-semibold">
+                        Créé par
+                    </div>
+
+                    <div class="mt-1">
+
+                        {% if processing.user %}
+
+                            {{ processing.user.get_full_name|default:processing.user.username }}
+
+                        {% else %}
+
+                            —
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+
+                <!-- Description -->
+
+                <div class="col-12">
+
+                    <div class="text-secondary small fw-semibold">
+                        Description
+                    </div>
+
+                    <div class="mt-1">
+
+                        {% if processing.description %}
+
+                            {{ processing.description|linebreaks }}
+
+                        {% else %}
+
+                            <span class="text-secondary">
+                                Aucune description renseignée.
+                            </span>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+
+                <!-- Finalité -->
+
+                <div class="col-md-6">
+
+                    <div class="text-secondary small fw-semibold">
+                        Finalité
+                    </div>
+
+                    <div class="mt-1">
+                        {{ processing.purpose|default:"—" }}
+                    </div>
+
+                </div>
+
+
+                <!-- Sous-finalité -->
+
+                <div class="col-md-6">
+
+                    <div class="text-secondary small fw-semibold">
+                        Sous-finalité
+                    </div>
+
+                    <div class="mt-1">
+                        {{ processing.subpurpose|default:"—" }}
+                    </div>
+
+                </div>
+
+
+                <!-- Description finalité -->
+
+                <div class="col-12">
+
+                    <div class="text-secondary small fw-semibold">
+                        Description de la finalité
+                    </div>
+
+                    <div class="mt-1">
+
+                        {% if processing.description_purpose %}
+
+                            {{ processing.description_purpose|linebreaks }}
+
+                        {% else %}
+
+                            <span class="text-secondary">
+                                Aucune description renseignée.
+                            </span>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+
+                <!-- Conservation -->
+
+                <div class="col-md-4">
+
+                    <div class="text-secondary small fw-semibold">
+                        Durée de conservation
+                    </div>
+
+                    <div class="mt-1">
+                        {{ processing.retention_period|default:"—" }}
+                    </div>
+
+                </div>
+
+
+                <!-- Transfert international -->
+
+                <div class="col-md-4">
+
+                    <div class="text-secondary small fw-semibold">
+                        Transfert international
+                    </div>
+
+                    <div class="mt-1">
+
+                        {% if processing.international_transfer %}
+
+                            <span class="badge text-bg-warning">
+                                Oui
+                            </span>
+
+                        {% else %}
+
+                            <span class="badge text-bg-success">
+                                Non
+                            </span>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+
+                <!-- AIPD -->
+
+                <div class="col-md-4">
+
+                    <div class="text-secondary small fw-semibold">
+                        AIPD requise
+                    </div>
+
+                    <div class="mt-1">
+
+                        {% if processing.aipd_required %}
+
+                            <span class="badge text-bg-warning">
+                                Oui
+                            </span>
+
+                        {% else %}
+
+                            <span class="badge text-bg-success">
+                                Non
+                            </span>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+            </div>
 
         </div>
 
@@ -795,51 +321,144 @@
 
 
     <!-- ===================================================== -->
-    <!-- MESURES DE SÉCURITÉ                                  -->
+    <!-- BASE LÉGALE -->
     <!-- ===================================================== -->
 
-    <div class="card border-0 shadow-sm mb-4" id="securite">
+    <div class="card shadow-sm mb-4">
 
-        <div class="card-body p-4">
+        <div class="card-header bg-white">
 
-            <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="h5 mb-0 fw-bold">
+                Base légale
+            </h2>
 
-                <h5 class="fw-semibold mb-0">
+        </div>
 
-                    <i class="bi bi-shield-check me-2"></i>
-                    Mesures de sécurité
 
-                </h5>
+        <div class="card-body">
 
-                <span class="badge bg-light text-dark">
-                    {{ processing.processing_security_measures.count }}
-                </span>
+            {% with legal_basis_relation=processing.processing_legal_basis.first %}
 
-            </div>
+                {% if legal_basis_relation %}
 
+                    <div class="row g-4">
+
+                        <!-- Base légale -->
+
+                        <div class="col-md-6">
+
+                            <div class="text-secondary small fw-semibold">
+                                Base légale
+                            </div>
+
+                            <div class="mt-1">
+                                {{ legal_basis_relation.legal_basis.name }}
+                            </div>
+
+                        </div>
+
+
+                        <!-- Description de la base légale -->
+
+                        <div class="col-md-6">
+
+                            <div class="text-secondary small fw-semibold">
+                                Description
+                            </div>
+
+                            <div class="mt-1">
+
+                                {% if legal_basis_relation.legal_basis.description %}
+
+                                    {{ legal_basis_relation.legal_basis.description }}
+
+                                {% else %}
+
+                                    <span class="text-secondary">
+                                        Aucune description.
+                                    </span>
+
+                                {% endif %}
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- Justification -->
+
+                        <div class="col-12">
+
+                            <div class="text-secondary small fw-semibold">
+                                Justification du choix de la base légale
+                            </div>
+
+                            <div class="mt-1">
+
+                                {% if legal_basis_relation.justification %}
+
+                                    {{ legal_basis_relation.justification|linebreaks }}
+
+                                {% else %}
+
+                                    <span class="text-secondary">
+                                        Aucune justification renseignée.
+                                    </span>
+
+                                {% endif %}
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                {% else %}
+
+                    <p class="text-secondary mb-0">
+                        Aucune base légale renseignée.
+                    </p>
+
+                {% endif %}
+
+            {% endwith %}
+
+        </div>
+
+    </div>
+
+
+    <!-- ===================================================== -->
+    <!-- CATÉGORIES DE DONNÉES -->
+    <!-- ===================================================== -->
+
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-header bg-white">
+
+            <h2 class="h5 mb-0 fw-bold">
+                Catégories de données
+            </h2>
+
+        </div>
+
+
+        <div class="card-body">
 
             <div class="table-responsive">
 
-                <table class="table align-middle mb-0">
+                <table class="table table-bordered align-middle mb-0">
 
-                    <thead>
+                    <thead class="table-light">
 
                         <tr>
 
                             <th>
-                                Mesure de sécurité
+                                Catégorie de données
                             </th>
 
                             <th>
-                                Catégorie
-                            </th>
-
-                            <th>
-                                Statut
-                            </th>
-
-                            <th>
-                                Commentaire
+                                Énumération des données
                             </th>
 
                         </tr>
@@ -849,87 +468,46 @@
 
                     <tbody>
 
-                    {% for item in processing.processing_security_measures.all %}
+                        {% for relation in processing.processing_data_categories.all %}
 
-                        <tr>
+                            <tr>
 
-                            <td>
+                                <td class="fw-semibold">
+                                    {{ relation.data_category.name }}
+                                </td>
 
-                                <div class="fw-semibold">
-                                    {{ item.security_measure.name }}
-                                </div>
+                                <td>
 
-                                {% if item.security_measure.description %}
+                                    {% if relation.data_enumeration %}
 
-                                    <div class="small text-muted">
-                                        {{ item.security_measure.description }}
-                                    </div>
+                                        {{ relation.data_enumeration }}
 
-                                {% endif %}
+                                    {% else %}
 
-                            </td>
+                                        <span class="text-secondary">
+                                            Non renseignée
+                                        </span>
 
+                                    {% endif %}
 
-                            <td>
+                                </td>
 
-                                {{ item.security_measure.get_category_display }}
+                            </tr>
 
-                            </td>
+                        {% empty %}
 
+                            <tr>
 
-                            <td>
+                                <td
+                                    colspan="2"
+                                    class="text-center text-secondary py-4"
+                                >
+                                    Aucune catégorie de données renseignée.
+                                </td>
 
-                                {% if item.status == "IMPLEMENTED" %}
+                            </tr>
 
-                                    <span class="badge bg-success-subtle text-success border border-success-subtle">
-                                        Mise en œuvre
-                                    </span>
-
-                                {% elif item.status == "PARTIAL" %}
-
-                                    <span class="badge bg-warning-subtle text-warning border border-warning-subtle">
-                                        Partiellement mise en œuvre
-                                    </span>
-
-                                {% elif item.status == "PLANNED" %}
-
-                                    <span class="badge bg-primary-subtle text-primary border border-primary-subtle">
-                                        Prévue
-                                    </span>
-
-                                {% elif item.status == "NOT_APPLICABLE" %}
-
-                                    <span class="badge bg-secondary-subtle text-secondary border border-secondary-subtle">
-                                        Non applicable
-                                    </span>
-
-                                {% endif %}
-
-                            </td>
-
-
-                            <td class="text-muted">
-
-                                {{ item.comment|default:"—" }}
-
-                            </td>
-
-                        </tr>
-
-                    {% empty %}
-
-                        <tr>
-
-                            <td colspan="4"
-                                class="text-center text-muted py-4">
-
-                                Aucune mesure de sécurité renseignée.
-
-                            </td>
-
-                        </tr>
-
-                    {% endfor %}
+                        {% endfor %}
 
                     </tbody>
 
@@ -943,112 +521,492 @@
 
 
     <!-- ===================================================== -->
-    <!-- MODAL CONFIRMATION SUPPRESSION                       -->
+    <!-- PERSONNES CONCERNÉES -->
     <!-- ===================================================== -->
 
-    <div
-        class="modal fade"
-        id="deleteProcessingModal"
-        tabindex="-1"
-        aria-labelledby="deleteProcessingModalLabel"
-        aria-hidden="true"
-    >
+    <div class="card shadow-sm mb-4">
 
-        <div class="modal-dialog modal-dialog-centered">
+        <div class="card-header bg-white">
 
-            <div class="modal-content">
+            <h2 class="h5 mb-0 fw-bold">
+                Personnes concernées
+            </h2>
 
-                <!-- HEADER -->
-
-                <div class="modal-header">
-
-                    <h5
-                        class="modal-title fw-semibold"
-                        id="deleteProcessingModalLabel"
-                    >
-
-                        <i class="bi bi-exclamation-triangle text-danger me-2"></i>
-
-                        Supprimer le traitement
-
-                    </h5>
-
-                    <button
-                        type="button"
-                        class="btn-close"
-                        data-bs-dismiss="modal"
-                        aria-label="Fermer"
-                    ></button>
-
-                </div>
+        </div>
 
 
-                <!-- BODY -->
+        <div class="card-body">
 
-                <div class="modal-body">
+            <div class="row g-3">
 
-                    <p class="mb-3">
+                {% for category in processing.data_subject_categories.all %}
 
-                        Êtes-vous sûr de vouloir supprimer le traitement :
+                    <div class="col-md-4">
 
-                    </p>
+                        <div class="border rounded p-3">
 
+                            <div class="fw-semibold">
+                                {{ category.name }}
+                            </div>
 
-                    <div class="alert alert-light border">
+                            {% if category.description %}
 
-                        <div class="fw-semibold">
-                            {{ processing.name }}
+                                <div class="small text-secondary mt-1">
+                                    {{ category.description }}
+                                </div>
+
+                            {% endif %}
+
                         </div>
 
                     </div>
 
+                {% empty %}
 
-                    <p class="text-muted small mb-0">
+                    <div class="col-12">
 
-                        Cette action est irréversible.
-                        Le traitement ainsi que les informations qui lui sont
-                        associées seront supprimés.
+                        <span class="text-secondary">
+                            Aucune catégorie de personnes concernées renseignée.
+                        </span>
 
-                    </p>
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ===================================================== -->
+    <!-- DESTINATAIRES -->
+    <!-- ===================================================== -->
+
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-header bg-white">
+
+            <h2 class="h5 mb-0 fw-bold">
+                Destinataires
+            </h2>
+
+        </div>
+
+
+        <div class="card-body">
+
+            <div class="table-responsive">
+
+                <table class="table table-bordered align-middle mb-0">
+
+                    <thead class="table-light">
+
+                        <tr>
+
+                            <th>
+                                Destinataire
+                            </th>
+
+                            <th>
+                                Type
+                            </th>
+
+                            <th>
+                                Description
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        {% for recipient in processing.recipients.all %}
+
+                            <tr>
+
+                                <td class="fw-semibold">
+                                    {{ recipient.name }}
+                                </td>
+
+                                <td>
+                                    {{ recipient.get_type_display }}
+                                </td>
+
+                                <td>
+
+                                    {% if recipient.description %}
+                                        {{ recipient.description }}
+                                    {% else %}
+                                        <span class="text-secondary">
+                                            —
+                                        </span>
+                                    {% endif %}
+
+                                </td>
+
+                            </tr>
+
+                        {% empty %}
+
+                            <tr>
+
+                                <td
+                                    colspan="3"
+                                    class="text-center text-secondary py-4"
+                                >
+                                    Aucun destinataire renseigné.
+                                </td>
+
+                            </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ===================================================== -->
+    <!-- SOUS-TRAITANTS -->
+    <!-- ===================================================== -->
+
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-header bg-white">
+
+            <h2 class="h5 mb-0 fw-bold">
+                Sous-traitants
+            </h2>
+
+        </div>
+
+
+        <div class="card-body">
+
+            <div class="row g-3">
+
+                {% for subprocessor in processing.subprocessors.all %}
+
+                    <div class="col-md-4">
+
+                        <div class="border rounded p-3">
+
+                            <div class="fw-semibold">
+                                {{ subprocessor.name }}
+                            </div>
+
+                            {% if subprocessor.contact %}
+
+                                <div class="small text-secondary mt-1">
+                                    {{ subprocessor.contact }}
+                                </div>
+
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+                {% empty %}
+
+                    <div class="col-12">
+
+                        <span class="text-secondary">
+                            Aucun sous-traitant renseigné.
+                        </span>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ===================================================== -->
+    <!-- TYPES D'OPÉRATIONS -->
+    <!-- ===================================================== -->
+
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-header bg-white">
+
+            <h2 class="h5 mb-0 fw-bold">
+                Types d'opérations
+            </h2>
+
+        </div>
+
+
+        <div class="card-body">
+
+            <div class="table-responsive">
+
+                <table class="table table-bordered align-middle mb-0">
+
+                    <thead class="table-light">
+
+                        <tr>
+
+                            <th style="width: 60px;">
+                                #
+                            </th>
+
+                            <th>
+                                Type d'opération
+                            </th>
+
+                            <th>
+                                Description
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        {% for operation in processing.processing_operations.all %}
+
+                            <tr>
+
+                                <td>
+                                    {{ operation.display_order }}
+                                </td>
+
+                                <td class="fw-semibold">
+                                    {{ operation.operation_type.name }}
+                                </td>
+
+                                <td>
+
+                                    {% if operation.description %}
+
+                                        {{ operation.description }}
+
+                                    {% else %}
+
+                                        <span class="text-secondary">
+                                            —
+                                        </span>
+
+                                    {% endif %}
+
+                                </td>
+
+                            </tr>
+
+                        {% empty %}
+
+                            <tr>
+
+                                <td
+                                    colspan="3"
+                                    class="text-center text-secondary py-4"
+                                >
+                                    Aucune opération renseignée.
+                                </td>
+
+                            </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ===================================================== -->
+    <!-- MESURES DE SÉCURITÉ -->
+    <!-- ===================================================== -->
+
+    <div class="card shadow-sm mb-5">
+
+        <div class="card-header bg-white">
+
+            <h2 class="h5 mb-0 fw-bold">
+                Mesures de sécurité
+            </h2>
+
+        </div>
+
+
+        <div class="card-body">
+
+            <div class="table-responsive">
+
+                <table class="table table-bordered align-middle mb-0">
+
+                    <thead class="table-light">
+
+                        <tr>
+
+                            <th>
+                                Mesure de sécurité
+                            </th>
+
+                            <th>
+                                Catégorie
+                            </th>
+
+                            <th>
+                                État de mise en œuvre
+                            </th>
+
+                            <th>
+                                Commentaire
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        {% for relation in processing.processing_security_measures.all %}
+
+                            <tr>
+
+                                <td class="fw-semibold">
+                                    {{ relation.security_measure.name }}
+                                </td>
+
+
+                                <td>
+
+                                    {{ relation.security_measure.get_category_display }}
+
+                                </td>
+
+
+                                <td>
+
+                                    {% if relation.status == "IMPLEMENTED" %}
+
+                                        <span class="badge text-bg-success">
+                                            Mise en œuvre
+                                        </span>
+
+                                    {% elif relation.status == "PARTIAL" %}
+
+                                        <span class="badge text-bg-warning">
+                                            Partiellement mise en œuvre
+                                        </span>
+
+                                    {% elif relation.status == "PLANNED" %}
+
+                                        <span class="badge text-bg-secondary">
+                                            Prévue
+                                        </span>
+
+                                    {% elif relation.status == "NOT_APPLICABLE" %}
+
+                                        <span class="badge text-bg-light border text-dark">
+                                            Non applicable
+                                        </span>
+
+                                    {% endif %}
+
+                                </td>
+
+
+                                <td>
+
+                                    {% if relation.comment %}
+
+                                        {{ relation.comment }}
+
+                                    {% else %}
+
+                                        <span class="text-secondary">
+                                            —
+                                        </span>
+
+                                    {% endif %}
+
+                                </td>
+
+                            </tr>
+
+                        {% empty %}
+
+                            <tr>
+
+                                <td
+                                    colspan="4"
+                                    class="text-center text-secondary py-4"
+                                >
+                                    Aucune mesure de sécurité renseignée.
+                                </td>
+
+                            </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ===================================================== -->
+    <!-- INFORMATIONS DE SUIVI -->
+    <!-- ===================================================== -->
+
+    <div class="card shadow-sm mb-5">
+
+        <div class="card-body">
+
+            <div class="row">
+
+                <div class="col-md-6">
+
+                    <small class="text-secondary">
+                        Créé le
+                    </small>
+
+                    <div class="fw-semibold">
+                        {{ processing.created_at|date:"d/m/Y à H:i" }}
+                    </div>
 
                 </div>
 
 
-                <!-- FOOTER -->
+                <div class="col-md-6">
 
-                <div class="modal-footer">
+                    <small class="text-secondary">
+                        Dernière modification
+                    </small>
 
-                    <button
-                        type="button"
-                        class="btn btn-outline-secondary"
-                        data-bs-dismiss="modal"
-                    >
-
-                        Annuler
-
-                    </button>
-
-
-                    <form
-                        method="post"
-                        action="{% url 'personal_data_processing:processing_delete' processing.id %}"
-                        class="d-inline"
-                    >
-
-                        {% csrf_token %}
-
-                        <button
-                            type="submit"
-                            class="btn btn-danger"
-                        >
-
-                            <i class="bi bi-trash me-2"></i>
-
-                            Supprimer définitivement
-
-                        </button>
-
-                    </form>
+                    <div class="fw-semibold">
+                        {{ processing.updated_at|date:"d/m/Y à H:i" }}
+                    </div>
 
                 </div>
 
@@ -1060,120 +1018,24 @@
 
 
     <!-- ===================================================== -->
-    <!-- INFORMATIONS COMPLÉMENTAIRES                         -->
+    <!-- ACTIONS -->
     <!-- ===================================================== -->
 
-    <div class="card border-0 shadow-sm mb-4">
+    <div class="d-flex justify-content-end gap-2 mb-5">
 
-        <div class="card-body p-4">
+        <a
+            href="{% url 'personal_data_processing:processings_list' %}"
+            class="btn btn-outline-secondary"
+        >
+            Retour à la liste
+        </a>
 
-            <h5 class="fw-semibold mb-4">
-
-                <i class="bi bi-info-circle me-2"></i>
-                Informations complémentaires
-
-            </h5>
-
-
-            <div class="row">
-
-                <div class="col-md-6">
-
-
-                    <div class="row mb-3">
-
-                        <div class="col-sm-5 text-muted">
-                            Organisation
-                        </div>
-
-                        <div class="col-sm-7 fw-semibold">
-                            {{ processing.entity }}
-                        </div>
-
-                    </div>
-
-
-                    <div class="row mb-3">
-
-                        <div class="col-sm-5 text-muted">
-                            Créé par
-                        </div>
-
-                        <div class="col-sm-7">
-
-                            {% if processing.user %}
-                                {{ processing.user }}
-                            {% else %}
-                                —
-                            {% endif %}
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="row">
-
-                        <div class="col-sm-5 text-muted">
-                            Date de création
-                        </div>
-
-                        <div class="col-sm-7">
-                            {{ processing.created_at|date:"d/m/Y H:i" }}
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <div class="col-md-6">
-
-
-                    <div class="row mb-3">
-
-                        <div class="col-sm-5 text-muted">
-                            Dernière mise à jour
-                        </div>
-
-                        <div class="col-sm-7">
-                            {{ processing.updated_at|date:"d/m/Y H:i" }}
-                        </div>
-
-                    </div>
-
-
-                    <div class="row">
-
-                        <div class="col-sm-5 text-muted">
-                            Transfert international
-                        </div>
-
-                        <div class="col-sm-7">
-
-                            {% if processing.international_transfer %}
-
-                                <span class="badge bg-warning-subtle text-warning border border-warning-subtle">
-                                    Oui
-                                </span>
-
-                            {% else %}
-
-                                <span class="badge bg-success-subtle text-success border border-success-subtle">
-                                    Non
-                                </span>
-
-                            {% endif %}
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
+        <a
+            href="{% url 'personal_data_processing:processing_update' processing.id %}"
+            class="btn btn-primary"
+        >
+            Modifier le traitement
+        </a>
 
     </div>
 

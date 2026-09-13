@@ -1,0 +1,88 @@
+services:
+
+  # ==========================================================
+  # POSTGRESQL
+  # ==========================================================
+
+  db:
+
+    image: postgres:16
+
+    container_name: complido_db
+
+    restart: unless-stopped
+
+    environment:
+      POSTGRES_DB: complido
+      POSTGRES_USER: complido
+      POSTGRES_PASSWORD: complido_password
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+    ports:
+      - "5432:5432"
+
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready -U complido -d complido"
+        ]
+
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+
+  # ==========================================================
+  # DJANGO
+  # ==========================================================
+
+  web:
+
+    build: .
+
+    container_name: complido_web
+
+    restart: unless-stopped
+
+    command: >
+      sh -c "
+      python Complido/manage.py migrate &&
+      python Complido/manage.py runserver 0.0.0.0:8000
+      "
+
+    volumes:
+      - .:/app
+
+    ports:
+      - "8000:8000"
+
+    environment:
+
+      SECRET_KEY: django-insecure-docker-dev-key
+
+      DJANGO_DEBUG: "True"
+
+      ALLOWED_HOSTS: localhost,127.0.0.1
+
+      DB_NAME: complido
+      DB_USER: complido
+      DB_PASSWORD: complido_password
+      DB_HOST: db
+      DB_PORT: 5432
+
+    depends_on:
+
+      db:
+        condition: service_healthy
+
+
+# ============================================================
+# VOLUMES
+# ============================================================
+
+volumes:
+
+  postgres_data:

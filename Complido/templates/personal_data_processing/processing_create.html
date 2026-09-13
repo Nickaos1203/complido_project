@@ -1,231 +1,235 @@
-```html
 {% extends "base.html" %}
+
+{% block title %}Nouveau traitement - Complido{% endblock %}
+
 
 {% block content %}
 
-<div class="container-fluid px-4 py-4">
+<div class="container-fluid">
 
-    <!-- ===================================================== -->
-    <!-- EN-TÊTE                                               -->
-    <!-- ===================================================== -->
+    <!-- ========================================================= -->
+    <!-- TITRE -->
+    <!-- ========================================================= -->
 
     <div class="d-flex justify-content-between align-items-center mb-4">
 
         <div>
-
-            <div class="d-flex align-items-center gap-2 mb-2">
-
-                <a href="{% url 'personal_data_processing:processings_list' %}"
-                   class="text-decoration-none text-muted small">
-
-                    <i class="bi bi-arrow-left me-1"></i>
-                    Traitements
-
-                </a>
-
-                <i class="bi bi-chevron-right text-muted small"></i>
-
-                <span class="small text-muted">
-
-                    {% if processing %}
-                        Modification
-                    {% else %}
-                        Nouveau traitement
-                    {% endif %}
-
-                </span>
-
-            </div>
-
-
-            <h1 class="h2 fw-bold mb-1">
-
-                {% if processing %}
-                    Modifier le traitement
-                {% else %}
-                    Nouveau traitement
-                {% endif %}
-
+            <h1 class="h3 fw-bold mb-1">
+                Nouveau traitement de données
             </h1>
 
-
-            <p class="text-muted mb-0">
-
-                {% if processing %}
-                    Modifiez les informations de ce traitement.
-                {% else %}
-                    Ajoutez un nouveau traitement au registre des traitements.
-                {% endif %}
-
+            <p class="text-secondary mb-0">
+                Renseignez les informations relatives au traitement
+                de données personnelles.
             </p>
-
-        </div>
-
-
-        <div class="d-flex gap-2">
-
-            <a
-                href="{% url 'personal_data_processing:processings_list' %}"
-                class="btn btn-outline-secondary"
-            >
-                Annuler
-            </a>
-
-
-            <button
-                type="submit"
-                form="processing-form"
-                class="btn btn-dark px-4"
-            >
-
-                <i class="bi bi-check-lg me-2"></i>
-
-                {% if processing %}
-                    Enregistrer les modifications
-                {% else %}
-                    Enregistrer
-                {% endif %}
-
-            </button>
-
         </div>
 
     </div>
 
 
-    <!-- ===================================================== -->
-    <!-- FORMULAIRE                                            -->
-    <!-- ===================================================== -->
-
-    <form
-        id="processing-form"
-        method="post"
-    >
+    <form method="post">
 
         {% csrf_token %}
 
 
-        <!-- ================================================= -->
-        <!-- 1. IDENTIFICATION                                 -->
-        <!-- ================================================= -->
+        <!-- ===================================================== -->
+        <!-- 1. INFORMATIONS GÉNÉRALES -->
+        <!-- ===================================================== -->
 
-        <div class="card shadow-sm border-0 mb-4">
+        <div class="card shadow-sm mb-4">
 
-            <div class="card-body p-4">
+            <div class="card-header bg-white py-3">
 
-                <div class="d-flex align-items-center mb-4">
+                <div class="d-flex align-items-center gap-3">
 
-                    <div
-                        class="bg-dark text-white rounded-circle
-                               d-flex align-items-center justify-content-center
-                               flex-shrink-0"
-                        style="width: 38px; height: 38px;"
-                    >
+                    <span class="badge rounded-circle bg-primary p-2">
+                        1
+                    </span>
 
-                        <strong>1</strong>
+                    <div>
+                        <h2 class="h5 fw-bold mb-0">
+                            Informations générales
+                        </h2>
 
-                    </div>
-
-
-                    <div class="ms-3">
-
-                        <h5 class="fw-semibold mb-1">
-                            Identification du traitement
-                        </h5>
-
-                        <p class="text-muted small mb-0">
-                            Identifiez le traitement et son responsable.
-                        </p>
-
+                        <small class="text-secondary">
+                            Identifiez le traitement et précisez son contexte.
+                        </small>
                     </div>
 
                 </div>
 
+            </div>
 
-                <div class="row g-4">
 
+            <div class="card-body">
 
-                    <!-- NOM -->
+                <div class="row g-3">
 
-                    <div class="col-lg-6">
+                    <!-- Nom du traitement -->
+
+                    <div class="col-md-6">
 
                         <label
-                            for="id_name"
+                            for="name"
                             class="form-label fw-semibold"
                         >
-
                             Nom du traitement
                             <span class="text-danger">*</span>
-
                         </label>
-
 
                         <input
                             type="text"
-                            name="name"
-                            id="id_name"
                             class="form-control"
-                            value="{{ processing.name|default:'' }}"
-                            placeholder="Ex. : Gestion des clients"
+                            id="name"
+                            name="name"
+                            placeholder="Ex. Gestion des candidatures"
                             required
                         >
 
+                    </div>
+
+
+                    <!-- Finalité -->
+
+                    <div class="col-md-6">
+
+                        <label
+                            for="purpose"
+                            class="form-label fw-semibold"
+                        >
+                            Finalité
+                        </label>
+
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="purpose"
+                            name="purpose"
+                            placeholder="Ex. Gérer les candidatures"
+                        >
+
+                    </div>
+
+
+                    <!-- Description -->
+
+                    <div class="col-md-6">
+
+                        <label
+                            for="description"
+                            class="form-label fw-semibold"
+                        >
+                            Description
+                        </label>
+
+                        <textarea
+                            class="form-control"
+                            id="description"
+                            name="description"
+                            rows="3"
+                            placeholder="Décrivez le traitement et son contexte..."
+                        ></textarea>
+
+                    </div>
+
+
+                    <!-- Sous-finalité -->
+
+                    <div class="col-md-6">
+
+                        <label
+                            for="subpurpose"
+                            class="form-label fw-semibold"
+                        >
+                            Sous-finalité
+                        </label>
+
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="subpurpose"
+                            name="subpurpose"
+                            placeholder="Ex. Suivi des candidats"
+                        >
+
+                    </div>
+
+
+                    <!-- Description de la finalité -->
+
+                    <div class="col-md-6">
+
+                        <label
+                            for="description_purpose"
+                            class="form-label fw-semibold"
+                        >
+                            Description de la finalité
+                        </label>
+
+                        <textarea
+                            class="form-control"
+                            id="description_purpose"
+                            name="description_purpose"
+                            rows="3"
+                            placeholder="Précisez les objectifs poursuivis..."
+                        ></textarea>
+
+                    </div>
+
+
+                    <!-- Entité responsable -->
+
+                    <div class="col-md-6">
+
+                        <label
+                            for="entity"
+                            class="form-label fw-semibold"
+                        >
+                            Entité responsable du traitement
+                        </label>
+
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="entity"
+                            value="{{ entity.name }}"
+                            disabled
+                        >
 
                         <div class="form-text">
-                            Donnez un nom court et facilement identifiable.
+                            L'entité est automatiquement déterminée
+                            à partir de votre compte utilisateur.
                         </div>
 
                     </div>
 
 
-                    <!-- STATUT -->
+                    <!-- Statut -->
 
-                    <div class="col-lg-3">
+                    <div class="col-md-6">
 
                         <label
-                            for="id_status"
+                            for="status"
                             class="form-label fw-semibold"
                         >
-
                             Statut
-                            <span class="text-danger">*</span>
-
                         </label>
 
-
                         <select
-                            name="status"
-                            id="id_status"
                             class="form-select"
-                            required
+                            id="status"
+                            name="status"
                         >
 
-                            <option
-                                value="DRAFT"
-                                {% if not processing or processing.status == "DRAFT" %}
-                                    selected
-                                {% endif %}
-                            >
+                            <option value="DRAFT" selected>
                                 Brouillon
                             </option>
 
-
-                            <option
-                                value="ACTIVE"
-                                {% if processing.status == "ACTIVE" %}
-                                    selected
-                                {% endif %}
-                            >
+                            <option value="ACTIVE">
                                 Actif
                             </option>
 
-
-                            <option
-                                value="ARCHIVED"
-                                {% if processing.status == "ARCHIVED" %}
-                                    selected
-                                {% endif %}
-                            >
+                            <option value="ARCHIVED">
                                 Archivé
                             </option>
 
@@ -234,117 +238,52 @@
                     </div>
 
 
-                    <!-- RESPONSABLE -->
+                    <!-- AIPD -->
 
-                    <div class="col-lg-3">
+                    <div class="col-md-6 d-flex align-items-end">
 
-                        <label
-                            for="id_user"
-                            class="form-label fw-semibold"
-                        >
+                        <div class="form-check mb-2">
 
-                            Responsable
-                            <span class="text-danger">*</span>
+                            <input
+                                class="form-check-input"
+                                type="checkbox"
+                                id="aipd_required"
+                                name="aipd_required"
+                            >
 
-                        </label>
+                            <label
+                                class="form-check-label"
+                                for="aipd_required"
+                            >
+                                Analyse d'impact (AIPD) requise
+                            </label>
 
-
-                        <select
-                            name="user"
-                            id="id_user"
-                            class="form-select"
-                            required
-                        >
-
-                            <option value="">
-                                Sélectionner
-                            </option>
-
-
-                            {% for user in users %}
-
-                                <option
-                                    value="{{ user.id }}"
-                                    {% if processing and processing.user_id == user.id %}
-                                        selected
-                                    {% endif %}
-                                >
-                                    {{ user.get_full_name|default:user.username }}
-                                </option>
-
-                            {% endfor %}
-
-                        </select>
+                        </div>
 
                     </div>
 
 
-                    <!-- ORGANISATION -->
+                    <!-- Transfert international -->
 
-                    <div class="col-lg-4">
+                    <div class="col-md-6">
 
-                        <label
-                            for="id_entity"
-                            class="form-label fw-semibold"
-                        >
+                        <div class="form-check">
 
-                            Organisation
-                            <span class="text-danger">*</span>
+                            <input
+                                class="form-check-input"
+                                type="checkbox"
+                                id="international_transfer"
+                                name="international_transfer"
+                            >
 
-                        </label>
+                            <label
+                                class="form-check-label"
+                                for="international_transfer"
+                            >
+                                Transferts internationaux de données
+                            </label>
 
-
-                        <select
-                            name="entity"
-                            id="id_entity"
-                            class="form-select"
-                            required
-                        >
-
-                            <option value="">
-                                Sélectionner une organisation
-                            </option>
-
-
-                            {% for entity in entities %}
-
-                                <option
-                                    value="{{ entity.id }}"
-                                    {% if processing and processing.entity_id == entity.id %}
-                                        selected
-                                    {% endif %}
-                                >
-                                    {{ entity.name }}
-                                </option>
-
-                            {% endfor %}
-
-                        </select>
-
-                    </div>
-
-
-                    <!-- DESCRIPTION -->
-
-                    <div class="col-lg-8">
-
-                        <label
-                            for="id_description"
-                            class="form-label fw-semibold"
-                        >
-
-                            Description du traitement
-
-                        </label>
-
-
-                        <textarea
-                            name="description"
-                            id="id_description"
-                            class="form-control"
-                            rows="3"
-                            placeholder="Décrivez brièvement le traitement et son contexte..."
-                        >{{ processing.description|default:'' }}</textarea>
+                        </div>
 
                     </div>
 
@@ -355,160 +294,65 @@
         </div>
 
 
-        <!-- ================================================= -->
-        <!-- 2. FINALITÉS & BASE LÉGALE                         -->
-        <!-- ================================================= -->
+        <!-- ===================================================== -->
+        <!-- 2. CADRE JURIDIQUE -->
+        <!-- ===================================================== -->
 
-        <div class="card shadow-sm border-0 mb-4">
+        <div class="card shadow-sm mb-4">
 
-            <div class="card-body p-4">
+            <div class="card-header bg-white py-3">
 
-                <div class="d-flex align-items-center mb-4">
+                <div class="d-flex align-items-center gap-3">
 
-                    <div
-                        class="bg-dark text-white rounded-circle
-                               d-flex align-items-center justify-content-center
-                               flex-shrink-0"
-                        style="width: 38px; height: 38px;"
-                    >
+                    <span class="badge rounded-circle bg-success p-2">
+                        2
+                    </span>
 
-                        <strong>2</strong>
+                    <div>
 
-                    </div>
+                        <h2 class="h5 fw-bold mb-0">
+                            Cadre juridique et conservation
+                        </h2>
 
-
-                    <div class="ms-3">
-
-                        <h5 class="fw-semibold mb-1">
-                            Finalités & base légale
-                        </h5>
-
-                        <p class="text-muted small mb-0">
-                            Expliquez pourquoi les données sont traitées.
-                        </p>
+                        <small class="text-secondary">
+                            Précisez la base légale et la durée de conservation.
+                        </small>
 
                     </div>
 
                 </div>
 
-
-                <div class="row g-4">
-
-
-                    <!-- FINALITÉ -->
-
-                    <div class="col-lg-8">
-
-                        <label
-                            for="id_purpose"
-                            class="form-label fw-semibold"
-                        >
-
-                            Finalité principale
-                            <span class="text-danger">*</span>
-
-                        </label>
+            </div>
 
 
-                        <input
-                            type="text"
-                            name="purpose"
-                            id="id_purpose"
-                            class="form-control"
-                            value="{{ processing.purpose|default:'' }}"
-                            placeholder="Ex. : Gérer la relation contractuelle avec les clients"
-                            required
-                        >
+            <div class="card-body">
 
-                    </div>
+                <div class="row g-3">
 
+                    <!-- Base légale -->
 
-                    <!-- SOUS-FINALITÉ -->
-
-                    <div class="col-lg-4">
+                    <div class="col-md-6">
 
                         <label
-                            for="id_subpurpose"
+                            for="legal_basis"
                             class="form-label fw-semibold"
                         >
-
-                            Sous-finalité
-
-                        </label>
-
-
-                        <input
-                            type="text"
-                            name="subpurpose"
-                            id="id_subpurpose"
-                            class="form-control"
-                            value="{{ processing.subpurpose|default:'' }}"
-                            placeholder="Ex. : Suivi des contrats"
-                        >
-
-                    </div>
-
-
-                    <!-- DESCRIPTION FINALITÉ -->
-
-                    <div class="col-lg-7">
-
-                        <label
-                            for="id_description_purpose"
-                            class="form-label fw-semibold"
-                        >
-
-                            Description de la finalité
-
-                        </label>
-
-
-                        <textarea
-                            name="description_purpose"
-                            id="id_description_purpose"
-                            class="form-control"
-                            rows="4"
-                            placeholder="Précisez les objectifs poursuivis par le traitement..."
-                        >{{ processing.description_purpose|default:'' }}</textarea>
-
-                    </div>
-
-
-                    <!-- BASE LÉGALE -->
-
-                    <div class="col-lg-5">
-
-                        <label
-                            for="id_legal_basis"
-                            class="form-label fw-semibold"
-                        >
-
                             Base légale
-                            <span class="text-danger">*</span>
-
                         </label>
-
 
                         <select
-                            name="legal_basis"
-                            id="id_legal_basis"
                             class="form-select"
-                            required
+                            id="legal_basis"
+                            name="legal_basis"
                         >
 
                             <option value="">
                                 Sélectionner une base légale
                             </option>
 
-
                             {% for basis in legal_bases %}
 
-                                <option
-                                    value="{{ basis.id }}"
-                                    {% if processing and processing.legal_basis_id == basis.id %}
-                                        selected
-                                    {% endif %}
-                                >
+                                <option value="{{ basis.id }}">
                                     {{ basis.name }}
                                 </option>
 
@@ -516,9 +360,57 @@
 
                         </select>
 
+                        <div class="form-text">
+                            Facultatif.
+                        </div>
+
+                    </div>
+
+
+                    <!-- Durée de conservation -->
+
+                    <div class="col-md-6">
+
+                        <label
+                            for="retention_period"
+                            class="form-label fw-semibold"
+                        >
+                            Durée de conservation
+                        </label>
+
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="retention_period"
+                            name="retention_period"
+                            placeholder="Ex. 2 ans après la fin de la relation contractuelle"
+                        >
+
+                    </div>
+
+
+                    <!-- Justification -->
+
+                    <div class="col-md-6">
+
+                        <label
+                            for="legal_basis_justification"
+                            class="form-label fw-semibold"
+                        >
+                            Justification du choix de la base légale
+                        </label>
+
+                        <textarea
+                            class="form-control"
+                            id="legal_basis_justification"
+                            name="legal_basis_justification"
+                            rows="4"
+                            placeholder="Expliquez pourquoi cette base légale a été retenue..."
+                        ></textarea>
 
                         <div class="form-text">
-                            Sélectionnez la base légale justifiant le traitement.
+                            Facultatif. Cette justification permet de
+                            documenter le choix effectué.
                         </div>
 
                     </div>
@@ -530,496 +422,251 @@
         </div>
 
 
-        <!-- ================================================= -->
-        <!-- 3. DONNÉES & PERSONNES CONCERNÉES                 -->
-        <!-- ================================================= -->
+        <!-- ===================================================== -->
+        <!-- 3. DONNÉES ET PERSONNES CONCERNÉES -->
+        <!-- ===================================================== -->
 
-        <div class="card shadow-sm border-0 mb-4">
+        <div class="card shadow-sm mb-4">
 
-            <div class="card-body p-4">
+            <div class="card-header bg-white py-3">
 
-                <div class="d-flex align-items-center mb-4">
+                <div class="d-flex align-items-center gap-3">
 
-                    <div
-                        class="bg-dark text-white rounded-circle
-                               d-flex align-items-center justify-content-center
-                               flex-shrink-0"
-                        style="width: 38px; height: 38px;"
-                    >
+                    <span class="badge rounded-circle bg-primary p-2">
+                        3
+                    </span>
 
-                        <strong>3</strong>
+                    <div>
+
+                        <h2 class="h5 fw-bold mb-0">
+                            Données et personnes concernées
+                        </h2>
+
+                        <small class="text-secondary">
+                            Sélectionnez les catégories de données,
+                            les personnes concernées et les destinataires.
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="card-body">
+
+                <!-- Catégories de données -->
+
+                <div class="mb-4">
+
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+
+                        <label class="form-label fw-semibold mb-0">
+                            Catégories de données
+                        </label>
+
+                        <button
+                            type="button"
+                            class="btn btn-outline-primary btn-sm"
+                            onclick="addDataCategory()"
+                        >
+                            + Ajouter une catégorie
+                        </button>
 
                     </div>
 
 
-                    <div class="ms-3">
+                    <div class="table-responsive">
 
-                        <h5 class="fw-semibold mb-1">
-                            Données & personnes concernées
-                        </h5>
+                        <table class="table table-bordered align-middle">
 
-                        <p class="text-muted small mb-0">
-                            Déterminez quelles données sont traitées et qui est concerné.
-                        </p>
+                            <thead class="table-light">
+
+                                <tr>
+
+                                    <th>
+                                        Catégorie de données
+                                    </th>
+
+                                    <th>
+                                        Énumération des données
+                                        <span class="text-secondary fw-normal">
+                                            (facultatif)
+                                        </span>
+                                    </th>
+
+                                    <th class="text-center">
+                                        Actions
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody id="data-categories-container">
+
+                                <tr>
+
+                                    <td>
+
+                                        <select
+                                            name="data_category"
+                                            class="form-select"
+                                        >
+
+                                            <option value="">
+                                                Sélectionner une catégorie
+                                            </option>
+
+                                            {% for category in data_categories %}
+
+                                                <option value="{{ category.id }}">
+                                                    {{ category.name }}
+                                                </option>
+
+                                            {% endfor %}
+
+                                        </select>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <input
+                                            type="text"
+                                            name="data_enumeration"
+                                            class="form-control"
+                                            placeholder="Ex. nom, prénom, adresse e-mail..."
+                                        >
+
+                                    </td>
+
+
+                                    <td class="text-center">
+
+                                        <button
+                                            type="button"
+                                            class="btn btn-outline-danger btn-sm"
+                                            onclick="removeRow(this)"
+                                        >
+                                            Supprimer
+                                        </button>
+
+                                    </td>
+
+                                </tr>
+
+                            </tbody>
+
+                        </table>
 
                     </div>
 
                 </div>
 
 
-                <div class="row g-4">
+                <div class="row g-3">
 
+                    <!-- Personnes concernées -->
 
-                    <!-- ===================================== -->
-                    <!-- CATÉGORIES DE DONNÉES                 -->
-                    <!-- ===================================== -->
+                    <div class="col-md-4">
 
-                    <div class="col-lg-6">
-
-                        <label class="form-label fw-semibold">
-
-                            Catégories de données
-
+                        <label
+                            for="data_subject_categories"
+                            class="form-label fw-semibold"
+                        >
+                            Catégories de personnes concernées
                         </label>
 
-
-                        <div class="dropdown">
-
-                            <button
-                                type="button"
-                                class="form-select text-start dropdown-toggle"
-                                data-bs-toggle="dropdown"
-                                data-bs-auto-close="outside"
-                            >
-
-                                Sélectionner les catégories
-
-                            </button>
-
-
-                            <div
-                                class="dropdown-menu w-100 p-2"
-                                style="max-height: 320px; overflow-y: auto;"
-                            >
-
-                                {% for category in data_categories %}
-
-                                    <label
-                                        class="dropdown-item rounded d-flex align-items-start gap-2"
-                                    >
-
-                                        <input
-                                            type="checkbox"
-                                            class="form-check-input mt-1"
-                                            name="data_categories"
-                                            value="{{ category.id }}"
-
-                                            {% if processing and category in processing.data_categories.all %}
-                                                checked
-                                            {% endif %}
-                                        >
-
-                                        <span>
-
-                                            <strong class="d-block">
-                                                {{ category.name }}
-                                            </strong>
-
-
-                                            {% if category.description %}
-
-                                                <small class="text-muted">
-                                                    {{ category.description }}
-                                                </small>
-
-                                            {% endif %}
-
-                                        </span>
-
-                                    </label>
-
-                                {% empty %}
-
-                                    <span class="dropdown-item text-muted">
-                                        Aucune catégorie disponible.
-                                    </span>
-
-                                {% endfor %}
-
-                            </div>
-
-                        </div>
-
-
-                        <div class="form-text">
-                            Plusieurs catégories peuvent être sélectionnées.
-                        </div>
-
-
-                        <div class="d-flex flex-wrap gap-2 mt-2">
-
-                            {% for category in data_categories %}
-
-                                {% if processing and category in processing.data_categories.all %}
-
-                                    <span class="badge bg-dark">
-
-                                        {{ category.name }}
-
-                                    </span>
-
-                                {% endif %}
-
-                            {% endfor %}
-
-                        </div>
-
-                    </div>
-
-
-                    <!-- ===================================== -->
-                    <!-- PERSONNES CONCERNÉES                  -->
-                    <!-- ===================================== -->
-
-                    <div class="col-lg-6">
-
-                        <label class="form-label fw-semibold">
-
-                            Personnes concernées
-
-                        </label>
-
-
-                        <div class="dropdown">
-
-                            <button
-                                type="button"
-                                class="form-select text-start dropdown-toggle"
-                                data-bs-toggle="dropdown"
-                                data-bs-auto-close="outside"
-                            >
-
-                                Sélectionner les catégories
-
-                            </button>
-
-
-                            <div
-                                class="dropdown-menu w-100 p-2"
-                                style="max-height: 320px; overflow-y: auto;"
-                            >
-
-                                {% for category in data_subject_categories %}
-
-                                    <label
-                                        class="dropdown-item rounded d-flex align-items-start gap-2"
-                                    >
-
-                                        <input
-                                            type="checkbox"
-                                            class="form-check-input mt-1"
-                                            name="data_subject_categories"
-                                            value="{{ category.id }}"
-
-                                            {% if processing and category in processing.data_subject_categories.all %}
-                                                checked
-                                            {% endif %}
-                                        >
-
-                                        <span>
-
-                                            <strong class="d-block">
-                                                {{ category.name }}
-                                            </strong>
-
-
-                                            {% if category.description %}
-
-                                                <small class="text-muted">
-                                                    {{ category.description }}
-                                                </small>
-
-                                            {% endif %}
-
-                                        </span>
-
-                                    </label>
-
-                                {% empty %}
-
-                                    <span class="dropdown-item text-muted">
-                                        Aucune catégorie disponible.
-                                    </span>
-
-                                {% endfor %}
-
-                            </div>
-
-                        </div>
-
-
-                        <div class="form-text">
-                            Plusieurs catégories peuvent être sélectionnées.
-                        </div>
-
-
-                        <div class="d-flex flex-wrap gap-2 mt-2">
+                        <select
+                            id="data_subject_categories"
+                            name="data_subject_categories"
+                            class="form-select"
+                            multiple
+                            size="5"
+                        >
 
                             {% for category in data_subject_categories %}
 
-                                {% if processing and category in processing.data_subject_categories.all %}
-
-                                    <span class="badge bg-dark">
-
-                                        {{ category.name }}
-
-                                    </span>
-
-                                {% endif %}
+                                <option value="{{ category.id }}">
+                                    {{ category.name }}
+                                </option>
 
                             {% endfor %}
 
+                        </select>
+
+                        <div class="form-text">
+                            Maintenez Ctrl (Windows) ou Cmd (Mac)
+                            pour sélectionner plusieurs éléments.
                         </div>
 
                     </div>
 
-                </div>
 
-            </div>
+                    <!-- Destinataires -->
 
-        </div>
+                    <div class="col-md-4">
 
-
-        <!-- ================================================= -->
-        <!-- 4. DESTINATAIRES & SOUS-TRAITANTS                 -->
-        <!-- ================================================= -->
-
-        <div class="card shadow-sm border-0 mb-4">
-
-            <div class="card-body p-4">
-
-                <div class="d-flex align-items-center mb-4">
-
-                    <div
-                        class="bg-dark text-white rounded-circle
-                               d-flex align-items-center justify-content-center
-                               flex-shrink-0"
-                        style="width: 38px; height: 38px;"
-                    >
-
-                        <strong>4</strong>
-
-                    </div>
-
-
-                    <div class="ms-3">
-
-                        <h5 class="fw-semibold mb-1">
-                            Destinataires & sous-traitants
-                        </h5>
-
-                        <p class="text-muted small mb-0">
-                            Identifiez les personnes ou organisations ayant accès aux données.
-                        </p>
-
-                    </div>
-
-                </div>
-
-
-                <div class="row g-4">
-
-
-                    <!-- DESTINATAIRES -->
-
-                    <div class="col-lg-6">
-
-                        <label class="form-label fw-semibold">
+                        <label
+                            for="recipients"
+                            class="form-label fw-semibold"
+                        >
                             Destinataires
                         </label>
 
-
-                        <div class="dropdown">
-
-                            <button
-                                type="button"
-                                class="form-select text-start dropdown-toggle"
-                                data-bs-toggle="dropdown"
-                                data-bs-auto-close="outside"
-                            >
-
-                                Sélectionner les destinataires
-
-                            </button>
-
-
-                            <div
-                                class="dropdown-menu w-100 p-2"
-                                style="max-height: 320px; overflow-y: auto;"
-                            >
-
-                                {% for recipient in recipients %}
-
-                                    <label
-                                        class="dropdown-item rounded d-flex align-items-start gap-2"
-                                    >
-
-                                        <input
-                                            type="checkbox"
-                                            class="form-check-input mt-1"
-                                            name="recipients"
-                                            value="{{ recipient.id }}"
-
-                                            {% if processing and recipient in processing.recipients.all %}
-                                                checked
-                                            {% endif %}
-                                        >
-
-                                        <span>
-
-                                            <strong class="d-block">
-                                                {{ recipient.name }}
-                                            </strong>
-
-
-                                            <small class="text-muted">
-
-                                                {{ recipient.get_type_display }}
-
-                                                {% if recipient.description %}
-                                                    — {{ recipient.description }}
-                                                {% endif %}
-
-                                            </small>
-
-                                        </span>
-
-                                    </label>
-
-                                {% empty %}
-
-                                    <span class="dropdown-item text-muted">
-                                        Aucun destinataire disponible.
-                                    </span>
-
-                                {% endfor %}
-
-                            </div>
-
-                        </div>
-
-
-                        <div class="d-flex flex-wrap gap-2 mt-2">
+                        <select
+                            id="recipients"
+                            name="recipients"
+                            class="form-select"
+                            multiple
+                            size="5"
+                        >
 
                             {% for recipient in recipients %}
 
-                                {% if processing and recipient in processing.recipients.all %}
-
-                                    <span class="badge bg-dark">
-                                        {{ recipient.name }}
-                                    </span>
-
-                                {% endif %}
+                                <option value="{{ recipient.id }}">
+                                    {{ recipient.name }}
+                                </option>
 
                             {% endfor %}
 
-                        </div>
+                        </select>
 
                     </div>
 
 
-                    <!-- SOUS-TRAITANTS -->
+                    <!-- Sous-traitants -->
 
-                    <div class="col-lg-6">
+                    <div class="col-md-4">
 
-                        <label class="form-label fw-semibold">
+                        <label
+                            for="subprocessors"
+                            class="form-label fw-semibold"
+                        >
                             Sous-traitants
                         </label>
 
+                        <select
+                            id="subprocessors"
+                            name="subprocessors"
+                            class="form-select"
+                            multiple
+                            size="5"
+                        >
 
-                        <div class="dropdown">
+                            {% for subprocessor in subprocessors %}
 
-                            <button
-                                type="button"
-                                class="form-select text-start dropdown-toggle"
-                                data-bs-toggle="dropdown"
-                                data-bs-auto-close="outside"
-                            >
-
-                                Sélectionner les sous-traitants
-
-                            </button>
-
-
-                            <div
-                                class="dropdown-menu w-100 p-2"
-                                style="max-height: 320px; overflow-y: auto;"
-                            >
-
-                                {% for subcontractor in subprocessors %}
-
-                                    <label
-                                        class="dropdown-item rounded d-flex align-items-start gap-2"
-                                    >
-
-                                        <input
-                                            type="checkbox"
-                                            class="form-check-input mt-1"
-                                            name="subprocessors"
-                                            value="{{ subcontractor.id }}"
-
-                                            {% if processing and subcontractor in processing.subprocessors.all %}
-                                                checked
-                                            {% endif %}
-                                        >
-
-                                        <span>
-
-                                            <strong class="d-block">
-                                                {{ subcontractor.name }}
-                                            </strong>
-
-
-                                            {% if subcontractor.contact %}
-
-                                                <small class="text-muted">
-                                                    {{ subcontractor.contact }}
-                                                </small>
-
-                                            {% endif %}
-
-                                        </span>
-
-                                    </label>
-
-                                {% empty %}
-
-                                    <span class="dropdown-item text-muted">
-                                        Aucun sous-traitant disponible.
-                                    </span>
-
-                                {% endfor %}
-
-                            </div>
-
-                        </div>
-
-
-                        <div class="d-flex flex-wrap gap-2 mt-2">
-
-                            {% for subcontractor in subprocessors %}
-
-                                {% if processing and subcontractor in processing.subprocessors.all %}
-
-                                    <span class="badge bg-dark">
-                                        {{ subcontractor.name }}
-                                    </span>
-
-                                {% endif %}
+                                <option value="{{ subprocessor.id }}">
+                                    {{ subprocessor.name }}
+                                </option>
 
                             {% endfor %}
 
-                        </div>
+                        </select>
 
                     </div>
 
@@ -1030,80 +677,72 @@
         </div>
 
 
-        <!-- ================================================= -->
-        <!-- 5. OPÉRATIONS                                    -->
-        <!-- ================================================= -->
+        <!-- ===================================================== -->
+        <!-- 4. TYPES D'OPÉRATIONS -->
+        <!-- ===================================================== -->
 
-        <div class="card shadow-sm border-0 mb-4">
+        <div class="card shadow-sm mb-4">
 
-            <div class="card-body p-4">
+            <div class="card-header bg-white py-3">
 
-                <div class="d-flex justify-content-between align-items-center mb-4">
+                <div class="d-flex align-items-center gap-3">
 
-                    <div class="d-flex align-items-center">
+                    <span class="badge rounded-circle bg-warning text-dark p-2">
+                        4
+                    </span>
 
-                        <div
-                            class="bg-dark text-white rounded-circle
-                                   d-flex align-items-center justify-content-center
-                                   flex-shrink-0"
-                            style="width: 38px; height: 38px;"
-                        >
+                    <div class="flex-grow-1">
 
-                            <strong>5</strong>
+                        <h2 class="h5 fw-bold mb-0">
+                            Types d'opérations
+                        </h2>
 
-                        </div>
-
-
-                        <div class="ms-3">
-
-                            <h5 class="fw-semibold mb-1">
-                                Opérations
-                            </h5>
-
-                            <p class="text-muted small mb-0">
-                                Décrivez les opérations réalisées sur les données.
-                            </p>
-
-                        </div>
+                        <small class="text-secondary">
+                            Indiquez les opérations réalisées sur les données.
+                        </small>
 
                     </div>
 
-
                     <button
                         type="button"
-                        id="add-operation"
-                        class="btn btn-outline-dark btn-sm"
+                        class="btn btn-outline-primary btn-sm"
+                        onclick="addOperation()"
                     >
-
-                        <i class="bi bi-plus-lg me-1"></i>
-                        Ajouter
-
+                        + Ajouter une opération
                     </button>
 
                 </div>
 
+            </div>
+
+
+            <div class="card-body">
 
                 <div class="table-responsive">
 
-                    <table class="table align-middle mb-0">
+                    <table class="table table-bordered align-middle">
 
                         <thead class="table-light">
 
                             <tr>
 
-                                <th style="width: 90px;">
-                                    Ordre
+                                <th style="width: 50px;">
+                                    #
                                 </th>
 
                                 <th>
-                                    Opération
+                                    Type d'opération
                                 </th>
 
                                 <th>
                                     Description
+                                    <span class="text-secondary fw-normal">
+                                        (facultatif)
+                                    </span>
                                 </th>
 
-                                <th style="width: 60px;">
+                                <th class="text-center">
+                                    Actions
                                 </th>
 
                             </tr>
@@ -1113,151 +752,61 @@
 
                         <tbody id="operations-container">
 
-                            {% for processing_operation in processing.processing_operations.all %}
+                            <tr>
 
-                                <tr class="operation-row">
+                                <td>
+                                    1
+                                </td>
 
-                                    <td>
+                                <td>
 
-                                        <input
-                                            type="number"
-                                            name="operation_order"
-                                            value="{{ processing_operation.display_order }}"
-                                            min="1"
-                                            class="form-control"
-                                        >
+                                    <select
+                                        name="operation_type"
+                                        class="form-select"
+                                    >
 
-                                    </td>
+                                        <option value="">
+                                            Sélectionner un type d'opération
+                                        </option>
 
+                                        {% for operation in operation_types %}
 
-                                    <td>
-
-                                        <select
-                                            name="operation_type"
-                                            class="form-select"
-                                        >
-
-                                            <option value="">
-                                                Sélectionner
+                                            <option value="{{ operation.id }}">
+                                                {{ operation.name }}
                                             </option>
 
+                                        {% endfor %}
 
-                                            {% for operation in operation_types %}
+                                    </select>
 
-                                                <option
-                                                    value="{{ operation.id }}"
-                                                    {% if processing_operation.operation_type_id == operation.id %}
-                                                        selected
-                                                    {% endif %}
-                                                >
-                                                    {{ operation.name }}
-                                                </option>
-
-                                            {% endfor %}
-
-                                        </select>
-
-                                    </td>
+                                </td>
 
 
-                                    <td>
+                                <td>
 
-                                        <input
-                                            type="text"
-                                            name="operation_description"
-                                            value="{{ processing_operation.description }}"
-                                            class="form-control"
-                                            placeholder="Description..."
-                                        >
+                                    <input
+                                        type="text"
+                                        name="operation_description"
+                                        class="form-control"
+                                        placeholder="Précisez le contexte, les outils ou moyens utilisés..."
+                                    >
 
-                                    </td>
-
-
-                                    <td>
-
-                                        <button
-                                            type="button"
-                                            class="btn btn-outline-danger btn-sm remove-operation"
-                                        >
-
-                                            <i class="bi bi-trash"></i>
-
-                                        </button>
-
-                                    </td>
-
-                                </tr>
-
-                            {% empty %}
-
-                                <tr class="operation-row">
-
-                                    <td>
-
-                                        <input
-                                            type="number"
-                                            name="operation_order"
-                                            value="1"
-                                            min="1"
-                                            class="form-control"
-                                        >
-
-                                    </td>
+                                </td>
 
 
-                                    <td>
+                                <td class="text-center">
 
-                                        <select
-                                            name="operation_type"
-                                            class="form-select"
-                                        >
+                                    <button
+                                        type="button"
+                                        class="btn btn-outline-danger btn-sm"
+                                        onclick="removeRow(this)"
+                                    >
+                                        Supprimer
+                                    </button>
 
-                                            <option value="">
-                                                Sélectionner
-                                            </option>
+                                </td>
 
-
-                                            {% for operation in operation_types %}
-
-                                                <option value="{{ operation.id }}">
-                                                    {{ operation.name }}
-                                                </option>
-
-                                            {% endfor %}
-
-                                        </select>
-
-                                    </td>
-
-
-                                    <td>
-
-                                        <input
-                                            type="text"
-                                            name="operation_description"
-                                            class="form-control"
-                                            placeholder="Description..."
-                                        >
-
-                                    </td>
-
-
-                                    <td>
-
-                                        <button
-                                            type="button"
-                                            class="btn btn-outline-danger btn-sm remove-operation"
-                                        >
-
-                                            <i class="bi bi-trash"></i>
-
-                                        </button>
-
-                                    </td>
-
-                                </tr>
-
-                            {% endfor %}
+                            </tr>
 
                         </tbody>
 
@@ -1270,244 +819,77 @@
         </div>
 
 
-        <!-- ================================================= -->
-        <!-- 6. CONSERVATION & CONFORMITÉ                     -->
-        <!-- ================================================= -->
+        <!-- ===================================================== -->
+        <!-- 5. MESURES DE SÉCURITÉ -->
+        <!-- ===================================================== -->
 
-        <div class="card shadow-sm border-0 mb-4">
+        <div class="card shadow-sm mb-4">
 
-            <div class="card-body p-4">
+            <div class="card-header bg-white py-3">
 
-                <div class="d-flex align-items-center mb-4">
+                <div class="d-flex align-items-center gap-3">
 
-                    <div
-                        class="bg-dark text-white rounded-circle
-                               d-flex align-items-center justify-content-center
-                               flex-shrink-0"
-                        style="width: 38px; height: 38px;"
+                    <span class="badge rounded-circle bg-danger p-2">
+                        5
+                    </span>
+
+                    <div class="flex-grow-1">
+
+                        <h2 class="h5 fw-bold mb-0">
+                            Mesures de sécurité
+                        </h2>
+
+                        <small class="text-secondary">
+                            Sélectionnez les mesures applicables et
+                            précisez leur état de mise en œuvre.
+                        </small>
+
+                    </div>
+
+                    <button
+                        type="button"
+                        class="btn btn-outline-primary btn-sm"
+                        onclick="addSecurityMeasure()"
                     >
-
-                        <strong>6</strong>
-
-                    </div>
-
-
-                    <div class="ms-3">
-
-                        <h5 class="fw-semibold mb-1">
-                            Conservation & conformité
-                        </h5>
-
-                        <p class="text-muted small mb-0">
-                            Complétez les paramètres de conformité du traitement.
-                        </p>
-
-                    </div>
-
-                </div>
-
-
-                <div class="row g-4">
-
-
-                    <!-- CONSERVATION -->
-
-                    <div class="col-lg-6">
-
-                        <label
-                            for="id_retention_period"
-                            class="form-label fw-semibold"
-                        >
-
-                            Durée de conservation
-                            <span class="text-danger">*</span>
-
-                        </label>
-
-
-                        <input
-                            type="text"
-                            name="retention_period"
-                            id="id_retention_period"
-                            class="form-control"
-                            value="{{ processing.retention_period|default:'' }}"
-                            placeholder="Ex. : 5 ans après la fin du contrat"
-                            required
-                        >
-
-                    </div>
-
-
-                    <!-- TRANSFERT -->
-
-                    <div class="col-lg-3">
-
-                        <div class="border rounded-3 p-3 h-100">
-
-                            <div class="form-check form-switch">
-
-                                <input
-                                    class="form-check-input"
-                                    type="checkbox"
-                                    name="international_transfer"
-                                    id="id_international_transfer"
-
-                                    {% if processing and processing.international_transfer %}
-                                        checked
-                                    {% endif %}
-                                >
-
-
-                                <label
-                                    class="form-check-label fw-semibold"
-                                    for="id_international_transfer"
-                                >
-
-                                    Transfert international
-
-                                </label>
-
-                            </div>
-
-
-                            <div class="small text-muted mt-2">
-                                Les données sont-elles transférées hors UE ?
-                            </div>
-
-                        </div>
-
-                    </div>
-
-
-                    <!-- AIPD -->
-
-                    <div class="col-lg-3">
-
-                        <div class="border rounded-3 p-3 h-100">
-
-                            <div class="form-check form-switch">
-
-                                <input
-                                    class="form-check-input"
-                                    type="checkbox"
-                                    name="aipd_required"
-                                    id="id_aipd_required"
-
-                                    {% if processing and processing.aipd_required %}
-                                        checked
-                                    {% endif %}
-                                >
-
-
-                                <label
-                                    class="form-check-label fw-semibold"
-                                    for="id_aipd_required"
-                                >
-
-                                    AIPD requise
-
-                                </label>
-
-                            </div>
-
-
-                            <div class="small text-muted mt-2">
-                                Une analyse d'impact est-elle requise ?
-                            </div>
-
-                        </div>
-
-                    </div>
+                        + Ajouter une mesure
+                    </button>
 
                 </div>
 
             </div>
 
-        </div>
 
-
-        <!-- ================================================= -->
-        <!-- 7. SÉCURITÉ                                      -->
-        <!-- ================================================= -->
-
-        <div class="card shadow-sm border-0 mb-4">
-
-            <div class="card-body p-4">
-
-                <div class="d-flex align-items-center mb-4">
-
-                    <div
-                        class="bg-dark text-white rounded-circle
-                               d-flex align-items-center justify-content-center
-                               flex-shrink-0"
-                        style="width: 38px; height: 38px;"
-                    >
-
-                        <strong>7</strong>
-
-                    </div>
-
-
-                    <div class="ms-3">
-
-                        <h5 class="fw-semibold mb-1">
-                            Mesures de sécurité
-                        </h5>
-
-                        <p class="text-muted small mb-0">
-                            Sélectionnez les mesures applicables au traitement.
-                        </p>
-
-                    </div>
-
-                </div>
-
-
-                <!-- RECHERCHE -->
-
-                <div class="input-group mb-3">
-
-                    <span class="input-group-text bg-white">
-
-                        <i class="bi bi-search"></i>
-
-                    </span>
-
-
-                    <input
-                        type="search"
-                        class="form-control"
-                        id="security-search"
-                        placeholder="Rechercher une mesure de sécurité..."
-                    >
-
-                </div>
-
+            <div class="card-body">
 
                 <div class="table-responsive">
 
-                    <table class="table align-middle">
+                    <table class="table table-bordered align-middle">
 
                         <thead class="table-light">
 
                             <tr>
 
-                                <th style="width: 50px;"></th>
-
                                 <th>
-                                    Mesure
+                                    Mesure de sécurité
                                 </th>
 
                                 <th>
                                     Catégorie
                                 </th>
 
-                                <th style="width: 230px;">
-                                    État
+                                <th>
+                                    Statut
                                 </th>
 
                                 <th>
                                     Commentaire
+                                    <span class="text-secondary fw-normal">
+                                        (facultatif)
+                                    </span>
+                                </th>
+
+                                <th class="text-center">
+                                    Actions
                                 </th>
 
                             </tr>
@@ -1517,70 +899,46 @@
 
                         <tbody id="security-container">
 
-                        {% for measure in security_measures %}
-
-                            <tr class="security-row">
+                            <tr>
 
                                 <td>
 
-                                    <input
-                                        type="checkbox"
-                                        class="form-check-input security-checkbox"
-                                        name="security_measures"
-                                        value="{{ measure.id }}"
-                                        id="security_{{ measure.id }}"
+                                    <select
+                                        name="security_measure"
+                                        class="form-select"
+                                        onchange="updateSecurityCategory(this)"
+                                    >
 
-                                        {% for processing_measure in processing.processing_security_measures.all %}
+                                        <option value="">
+                                            Sélectionner une mesure
+                                        </option>
 
-                                            {% if processing_measure.security_measure_id == measure.id %}
-                                                checked
-                                            {% endif %}
+                                        {% for measure in security_measures %}
+
+                                            <option
+                                                value="{{ measure.id }}"
+                                                data-category="{{ measure.get_category_display }}"
+                                            >
+                                                {{ measure.name }}
+                                            </option>
 
                                         {% endfor %}
-                                    >
+
+                                    </select>
 
                                 </td>
 
 
-                                <td>
-
-                                    <label
-                                        for="security_{{ measure.id }}"
-                                        class="fw-semibold mb-0"
-                                    >
-
-                                        {{ measure.name }}
-
-                                    </label>
-
-
-                                    {% if measure.description %}
-
-                                        <div class="small text-muted">
-                                            {{ measure.description }}
-                                        </div>
-
-                                    {% endif %}
-
-                                </td>
-
-
-                                <td>
-
-                                    <span class="badge bg-light text-dark">
-
-                                        {{ measure.get_category_display }}
-
-                                    </span>
-
+                                <td class="security-category-label">
+                                    —
                                 </td>
 
 
                                 <td>
 
                                     <select
-                                        name="security_status_{{ measure.id }}"
-                                        class="form-select form-select-sm"
+                                        name="security_status"
+                                        class="form-select"
                                     >
 
                                         <option value="PLANNED">
@@ -1608,41 +966,27 @@
 
                                     <input
                                         type="text"
-                                        name="security_comment_{{ measure.id }}"
-                                        class="form-control form-control-sm"
-                                        placeholder="Commentaire..."
-
-                                        {% for processing_measure in processing.processing_security_measures.all %}
-
-                                            {% if processing_measure.security_measure_id == measure.id %}
-
-                                                value="{{ processing_measure.comment }}"
-
-                                            {% endif %}
-
-                                        {% endfor %}
+                                        name="security_comment"
+                                        class="form-control"
+                                        placeholder="Ajoutez un commentaire..."
                                     >
 
                                 </td>
 
-                            </tr>
 
-                        {% empty %}
+                                <td class="text-center">
 
-                            <tr>
-
-                                <td
-                                    colspan="5"
-                                    class="text-center text-muted py-4"
-                                >
-
-                                    Aucune mesure de sécurité disponible.
+                                    <button
+                                        type="button"
+                                        class="btn btn-outline-danger btn-sm"
+                                        onclick="removeRow(this)"
+                                    >
+                                        Supprimer
+                                    </button>
 
                                 </td>
 
                             </tr>
-
-                        {% endfor %}
 
                         </tbody>
 
@@ -1655,51 +999,82 @@
         </div>
 
 
-        <!-- ================================================= -->
-        <!-- ACTIONS FINALES                                  -->
-        <!-- ================================================= -->
+        <!-- ===================================================== -->
+        <!-- 6. INFORMATIONS COMPLÉMENTAIRES -->
+        <!-- ===================================================== -->
 
-        <div class="card border-0 shadow-sm mb-4">
+        <div class="card shadow-sm mb-4">
 
-            <div class="card-body p-3">
+            <div class="card-header bg-white py-3">
 
-                <div class="d-flex justify-content-between align-items-center">
+                <div class="d-flex align-items-center gap-3">
 
-                    <div class="small text-muted">
+                    <span class="badge rounded-circle bg-secondary p-2">
+                        6
+                    </span>
 
-                        <span class="text-danger">*</span>
-                        Champs obligatoires
+                    <div>
+
+                        <h2 class="h5 fw-bold mb-0">
+                            Informations complémentaires
+                        </h2>
+
+                        <small class="text-secondary">
+                            Ajoutez des informations complémentaires au traitement.
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="card-body">
+
+                <div class="row g-3">
+
+                    <div class="col-md-6">
+
+                        <label
+                            for="comments"
+                            class="form-label fw-semibold"
+                        >
+                            Commentaires
+                        </label>
+
+                        <textarea
+                            id="comments"
+                            name="comments"
+                            class="form-control"
+                            rows="5"
+                            placeholder="Ajoutez toute information utile sur ce traitement..."
+                        ></textarea>
 
                     </div>
 
 
-                    <div class="d-flex gap-2">
+                    <div class="col-md-6">
 
-                        <a
-                            href="{% url 'personal_data_processing:processings_list' %}"
-                            class="btn btn-outline-secondary"
+                        <label
+                            for="documents"
+                            class="form-label fw-semibold"
+                        >
+                            Documents associés
+                        </label>
+
+                        <input
+                            type="file"
+                            class="form-control"
+                            id="documents"
+                            name="documents"
+                            multiple
                         >
 
-                            Annuler
-
-                        </a>
-
-
-                        <button
-                            type="submit"
-                            class="btn btn-dark px-4"
-                        >
-
-                            <i class="bi bi-check-lg me-2"></i>
-
-
-                            {% if processing %}
-                                Enregistrer les modifications
-                            {% else %}
-                                Enregistrer le traitement
-                            {% endif %}
-
-                        </button>
+                        <div class="form-text">
+                            Vous pourrez associer les documents nécessaires
+                            à la documentation du traitement.
+                        </div>
 
                     </div>
 
@@ -1709,303 +1084,191 @@
 
         </div>
 
+
+        <!-- ===================================================== -->
+        <!-- ACTIONS -->
+        <!-- ===================================================== -->
+
+        <div class="d-flex justify-content-end gap-2 mb-5">
+
+            <a
+                href="{% url 'personal_data_processing:processings_list' %}"
+                class="btn btn-outline-secondary"
+            >
+                Annuler
+            </a>
+
+            <button
+                type="submit"
+                class="btn btn-primary px-4"
+            >
+                Enregistrer
+            </button>
+
+        </div>
+
     </form>
 
 </div>
 
 
-<!-- ========================================================= -->
-<!-- JAVASCRIPT                                                -->
-<!-- ========================================================= -->
+<!-- ============================================================= -->
+<!-- JAVASCRIPT -->
+<!-- ============================================================= -->
 
 <script>
 
-document.addEventListener("DOMContentLoaded", function () {
+    /*
+     * Supprime une ligne d'un tableau.
+     */
+    function removeRow(button) {
 
+        const row = button.closest("tr");
 
-    /* =========================================================
-       OPÉRATIONS
-       ========================================================= */
+        const tbody = row.parentElement;
 
-    const operationsContainer =
-        document.getElementById("operations-container");
-
-    const addOperationButton =
-        document.getElementById("add-operation");
-
-
-    if (operationsContainer && addOperationButton) {
-
-        addOperationButton.addEventListener(
-            "click",
-            function () {
-
-                const rows =
-                    operationsContainer.querySelectorAll(
-                        ".operation-row"
-                    );
-
-                const order = rows.length + 1;
-
-
-                const row =
-                    document.createElement("tr");
-
-                row.classList.add("operation-row");
-
-
-                row.innerHTML = `
-
-                    <td>
-
-                        <input
-                            type="number"
-                            name="operation_order"
-                            value="${order}"
-                            min="1"
-                            class="form-control"
-                        >
-
-                    </td>
-
-
-                    <td>
-
-                        <select
-                            name="operation_type"
-                            class="form-select"
-                        >
-
-                            <option value="">
-                                Sélectionner
-                            </option>
-
-                            {% for operation in operation_types %}
-
-                                <option value="{{ operation.id }}">
-                                    {{ operation.name }}
-                                </option>
-
-                            {% endfor %}
-
-                        </select>
-
-                    </td>
-
-
-                    <td>
-
-                        <input
-                            type="text"
-                            name="operation_description"
-                            class="form-control"
-                            placeholder="Description..."
-                        >
-
-                    </td>
-
-
-                    <td>
-
-                        <button
-                            type="button"
-                            class="btn btn-outline-danger btn-sm remove-operation"
-                        >
-
-                            <i class="bi bi-trash"></i>
-
-                        </button>
-
-                    </td>
-
-                `;
-
-
-                operationsContainer.appendChild(row);
-
-            }
-        );
-
-
-        operationsContainer.addEventListener(
-            "click",
-            function (event) {
-
-                const button =
-                    event.target.closest(
-                        ".remove-operation"
-                    );
-
-
-                if (!button) {
-                    return;
-                }
-
-
-                const rows =
-                    operationsContainer.querySelectorAll(
-                        ".operation-row"
-                    );
-
-
-                if (rows.length <= 1) {
-                    return;
-                }
-
-
-                button
-                    .closest(".operation-row")
-                    .remove();
-
-
-                operationsContainer
-                    .querySelectorAll(".operation-row")
-                    .forEach(
-                        function (row, index) {
-
-                            const input =
-                                row.querySelector(
-                                    'input[name="operation_order"]'
-                                );
-
-
-                            if (input) {
-                                input.value = index + 1;
-                            }
-
-                        }
-                    );
-
-            }
-        );
-
+        /*
+         * On conserve toujours au moins une ligne.
+         */
+        if (tbody.children.length > 1) {
+            row.remove();
+        }
     }
 
 
-    /* =========================================================
-       RECHERCHE DES MESURES DE SÉCURITÉ
-       ========================================================= */
+    /*
+     * Ajoute une catégorie de données.
+     */
+    function addDataCategory() {
 
-    const securitySearch =
-        document.getElementById("security-search");
+        const container =
+            document.getElementById(
+                "data-categories-container"
+            );
 
+        const firstRow =
+            container.querySelector("tr");
 
-    if (securitySearch) {
+        const newRow =
+            firstRow.cloneNode(true);
 
-        securitySearch.addEventListener(
-            "input",
-            function () {
-
-                const value =
-                    this.value.toLowerCase().trim();
-
-
-                document
-                    .querySelectorAll(".security-row")
-                    .forEach(
-                        function (row) {
-
-                            const text =
-                                row.textContent.toLowerCase();
-
-
-                            row.style.display =
-                                text.includes(value)
-                                    ? ""
-                                    : "none";
-
-                        }
-                    );
-
-            }
+        /*
+         * Réinitialisation des champs.
+         */
+        newRow.querySelectorAll("input").forEach(
+            input => input.value = ""
         );
 
+        newRow.querySelectorAll("select").forEach(
+            select => select.selectedIndex = 0
+        );
+
+        container.appendChild(newRow);
     }
 
 
-    /* =========================================================
-       AFFICHAGE DES SÉLECTIONS DES MULTI-SELECTS
-       ========================================================= */
+    /*
+     * Ajoute une opération.
+     */
+    function addOperation() {
 
-    document
-        .querySelectorAll(".dropdown")
-        .forEach(
-            function (dropdown) {
+        const container =
+            document.getElementById(
+                "operations-container"
+            );
 
-                const button =
-                    dropdown.querySelector(
-                        "button"
-                    );
+        const firstRow =
+            container.querySelector("tr");
 
+        const newRow =
+            firstRow.cloneNode(true);
 
-                const checkboxes =
-                    dropdown.querySelectorAll(
-                        'input[type="checkbox"]'
-                    );
-
-
-                if (!button || !checkboxes.length) {
-                    return;
-                }
-
-
-                function updateButton() {
-
-                    const selected =
-                        Array.from(checkboxes)
-                            .filter(
-                                function (checkbox) {
-                                    return checkbox.checked;
-                                }
-                            );
-
-
-                    if (selected.length === 0) {
-
-                        button.innerHTML = `
-                            Sélectionner
-                            <span class="float-end">
-                                <i class="bi bi-chevron-down"></i>
-                            </span>
-                        `;
-
-                        return;
-
-                    }
-
-
-                    button.innerHTML = `
-                        ${selected.length}
-                        élément${selected.length > 1 ? "s" : ""}
-                        sélectionné${selected.length > 1 ? "s" : ""}
-                        <span class="float-end">
-                            <i class="bi bi-chevron-down"></i>
-                        </span>
-                    `;
-
-                }
-
-
-                checkboxes.forEach(
-                    function (checkbox) {
-
-                        checkbox.addEventListener(
-                            "change",
-                            updateButton
-                        );
-
-                    }
-                );
-
-
-                updateButton();
-
-            }
+        newRow.querySelectorAll("input").forEach(
+            input => input.value = ""
         );
 
-});
+        newRow.querySelectorAll("select").forEach(
+            select => select.selectedIndex = 0
+        );
+
+        container.appendChild(newRow);
+
+        updateOperationNumbers();
+    }
+
+
+    /*
+     * Met à jour la numérotation des opérations.
+     */
+    function updateOperationNumbers() {
+
+        const rows =
+            document.querySelectorAll(
+                "#operations-container tr"
+            );
+
+        rows.forEach((row, index) => {
+
+            row.children[0].textContent =
+                index + 1;
+
+        });
+    }
+
+
+    /*
+     * Ajoute une mesure de sécurité.
+     */
+    function addSecurityMeasure() {
+
+        const container =
+            document.getElementById(
+                "security-container"
+            );
+
+        const firstRow =
+            container.querySelector("tr");
+
+        const newRow =
+            firstRow.cloneNode(true);
+
+        newRow.querySelectorAll("input").forEach(
+            input => input.value = ""
+        );
+
+        newRow.querySelectorAll("select").forEach(
+            select => select.selectedIndex = 0
+        );
+
+        newRow.querySelector(
+            ".security-category-label"
+        ).textContent = "—";
+
+        container.appendChild(newRow);
+    }
+
+
+    /*
+     * Affiche la catégorie de la mesure sélectionnée.
+     */
+    function updateSecurityCategory(select) {
+
+        const row =
+            select.closest("tr");
+
+        const option =
+            select.options[
+                select.selectedIndex
+            ];
+
+        const category =
+            option.dataset.category || "—";
+
+        row.querySelector(
+            ".security-category-label"
+        ).textContent = category;
+    }
 
 </script>
 
 {% endblock %}
-```

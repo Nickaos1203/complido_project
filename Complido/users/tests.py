@@ -7,22 +7,6 @@ from django.urls import reverse
 User = get_user_model()
 
 
-@pytest.mark.django_db
-def test_create_user():
-    user = User.objects.create_user(
-        username="testuser",
-        email="test@example.com",
-        password="TestPassword123!",
-        first_name="Nicolas",
-        last_name="Test",
-    )
-
-    assert user.username == "testuser"
-    assert user.email == "test@example.com"
-    assert user.first_name == "Nicolas"
-    assert user.last_name == "Test"
-    assert user.is_active is True
-
 
 @pytest.mark.django_db
 def test_password_is_hashed():

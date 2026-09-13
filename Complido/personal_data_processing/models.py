@@ -154,34 +154,17 @@ class DataProcessing(models.Model):
         ACTIVE = "ACTIVE", "Actif"
         ARCHIVED = "ARCHIVED", "Archivé"
 
-    # nom du traitement
+
     name = models.CharField(max_length=255)
-
-    # précision sur le traitement et le contexte
     description = models.TextField(blank=True)
-
-    # Organisation propriétaire du traitement
-    entity = models.ForeignKey(Entity, on_delete=models.CASCADE, related_name="data_processings")
-
-    # status du traitement
+    entity = models.CharField(max_length=100, choices=User.Entity.choices, default=User.Entity.COMPLIDO)
     status = models.CharField(max_length=30, choices=Status.choices, default=Status.DRAFT)
-
-    # utilisateur
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, related_name="data_processings", null=True, blank=True)
-
-    # une finalité pour un traitement
     purpose = models.CharField(max_length=255, blank=True)
-
-    # Sous-finalité facultative
     subpurpose = models.CharField(max_length=255, blank=True)
-
-    # Description de la finalité
     description_purpose = models.TextField(blank=True)
-
-    # Une seule base légale par traitement
-    legal_basis = models.ForeignKey(LegalBasis, on_delete=models.PROTECT, related_name="data_processings")
+    legal_basis = models.ManyToManyField(LegalBasis, through="ProcessingLegalBasis", related_name="data_processings", blank=True)
     
-
     # durée de conservation
     retention_period = models.CharField(max_length=255, blank=True)
 
@@ -192,7 +175,7 @@ class DataProcessing(models.Model):
     aipd_required = models.BooleanField(default=False)
 
     # Relations N,N simples
-    data_categories = models.ManyToManyField(DataCategory, related_name="data_processings", blank=True)
+    data_categories = models.ManyToManyField(DataCategory, through="ProcessingDataCategory", related_name="data_processings", blank=True)
     data_subject_categories = models.ManyToManyField(DataSubjectCategory, related_name="data_processings", blank=True)
     recipients = models.ManyToManyField(Recipient, related_name="data_processings", blank=True)
     subprocessors = models.ManyToManyField(Subprocessor, related_name="data_processings", blank=True)
@@ -216,9 +199,6 @@ class DataProcessing(models.Model):
 class ProcessingOperation(models.Model):
     """
     Association entre un traitement et un type d'opération.
-
-    Cette table permet notamment de conserver l'ordre
-    des opérations et une description spécifique.
     """
 
     processing = models.ForeignKey(DataProcessing, on_delete=models.CASCADE, related_name="processing_operations")
@@ -245,10 +225,6 @@ class ProcessingOperation(models.Model):
 class ProcessingSecurityMeasure(models.Model):
     """
     Association entre un traitement et une mesure de sécurité.
-
-    La relation possède des informations supplémentaires :
-    - état de mise en œuvre
-    - commentaire
     """
 
     class Status(models.TextChoices):
@@ -275,3 +251,53 @@ class ProcessingSecurityMeasure(models.Model):
 
     def __str__(self):
         return f"{self.processing} - {self.security_measure}"
+
+
+class ProcessingDataCategory(models.Model):
+    """
+    Association entre un traitement et une catégorie de données.
+
+    Permet de préciser les données effectivement traitées
+    au sein de chaque catégorie.
+    """
+
+    processing = models.ForeignKey(DataProcessing, on_delete=models.CASCADE, related_name="processing_data_categories")
+    data_category = models.ForeignKey(DataCategory, on_delete=models.PROTECT, related_name="processing_data_categories")
+    data_enumeration = models.TextField(verbose_name="Énumération des données", blank=True)
+
+    class Meta:
+        verbose_name = "Description de la catégorie de données"
+        verbose_name_plural = "Descriptions de la catégories de données"
+
+        constraints = [
+            models.UniqueConstraint(
+                fields=["processing", "data_category"],
+                name="unique_processing_data_category"
+            )
+        ]
+
+    def __str__(self):
+        return f"{self.processing} - {self.data_category}"
+
+
+class ProcessingLegalBasis(models.Model):
+    """
+    Association entre un traitement et sa base légale.
+    """
+    processing = models.ForeignKey(DataProcessing, on_delete=models.CASCADE, related_name="processing_legal_basis")
+    legal_basis = models.ForeignKey(LegalBasis, on_delete=models.PROTECT, related_name="processing_legal_basis")
+    justification = models.TextField(verbose_name="Justification", blank=True)
+
+    class Meta:
+        verbose_name = "Base légale du traitement"
+        verbose_name_plural = "Bases légales des traitements"
+
+        constraints = [
+            models.UniqueConstraint(
+                fields=["processing"],
+                name="unique_processing_legal_basis"
+            )
+        ]
+
+    def __str__(self):
+        return f"{self.processing} - {self.legal_basis}"

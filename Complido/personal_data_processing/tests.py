@@ -3,17 +3,14 @@ import pytest
 from django.contrib.auth import get_user_model
 from django.urls import reverse
 
-from entities.models import Entity
-
 from personal_data_processing.models import (
     DataProcessing,
     LegalBasis,
+    ProcessingLegalBasis,
 )
 
 
 User = get_user_model()
-
-
 
 
 # ============================================================
@@ -25,20 +22,41 @@ def user(db):
     """
     Création d'un utilisateur de test.
     """
+
     return User.objects.create_user(
         username="testuser",
         email="test@example.com",
         password="TestPassword123!",
+        entity="COMPLIDO",
     )
 
 
 @pytest.fixture
-def entity(db):
+def dpo_user(db):
     """
-    Création d'une entité de test.
+    Création d'un utilisateur DPO de test.
     """
-    return Entity.objects.create(
-        name="Entreprise de test",
+
+    return User.objects.create_user(
+        username="dpo",
+        email="dpo@example.com",
+        password="TestPassword123!",
+        entity="COMPLIDO",
+        role=User.Role.DPO,
+    )
+
+
+@pytest.fixture
+def another_user(db):
+    """
+    Création d'un autre utilisateur de la même entité.
+    """
+
+    return User.objects.create_user(
+        username="anotheruser",
+        email="another@example.com",
+        password="TestPassword123!",
+        entity="COMPLIDO",
     )
 
 
@@ -47,6 +65,7 @@ def legal_basis(db):
     """
     Création d'une base légale de test.
     """
+
     return LegalBasis.objects.create(
         name="Consentement",
         description="Consentement de la personne concernée",
@@ -54,21 +73,28 @@ def legal_basis(db):
 
 
 @pytest.fixture
-def processing(db, user, entity, legal_basis):
+def processing(db, user, legal_basis):
     """
     Création d'un traitement de données de test.
     """
-    return DataProcessing.objects.create(
+
+    processing = DataProcessing.objects.create(
         name="Gestion des candidatures",
         description="Traitement des candidatures",
-        entity=entity,
+        entity=user.entity,
         user=user,
         status="DRAFT",
         purpose="Gérer les candidatures",
         description_purpose="Gestion du recrutement",
-        legal_basis=legal_basis,
         retention_period="2 ans",
     )
+
+    ProcessingLegalBasis.objects.create(
+        processing=processing,
+        legal_basis=legal_basis,
+    )
+
+    return processing
 
 
 # ============================================================
@@ -92,6 +118,33 @@ def test_processing_list_requires_login(client):
 
 
 # ============================================================
+# 1.1. LISTE DES TRAITEMENTS DE L'ENTITÉ
+# ============================================================
+
+@pytest.mark.django_db
+def test_processing_list(
+    client,
+    user,
+    processing,
+):
+    """
+    Vérifie qu'un utilisateur authentifié peut consulter
+    les traitements de son entité.
+    """
+
+    client.force_login(user)
+
+    response = client.get(
+        reverse(
+            "personal_data_processing:processings_list"
+        )
+    )
+
+    assert response.status_code == 200
+    assert processing in response.context["processings"]
+
+
+# ============================================================
 # 2. CRÉATION D'UN TRAITEMENT
 # ============================================================
 
@@ -99,7 +152,6 @@ def test_processing_list_requires_login(client):
 def test_processing_create(
     client,
     user,
-    entity,
     legal_basis,
 ):
     """
@@ -116,8 +168,6 @@ def test_processing_create(
         {
             "name": "Gestion des candidatures",
             "description": "Traitement des candidatures",
-            "entity": entity.id,
-            "user": user.id,
             "status": "DRAFT",
             "purpose": "Gérer les candidatures",
             "description_purpose": "Gestion du recrutement",
@@ -129,7 +179,9 @@ def test_processing_create(
     assert response.status_code == 302
 
     assert DataProcessing.objects.filter(
-        name="Gestion des candidatures"
+        name="Gestion des candidatures",
+        user=user,
+        entity=user.entity,
     ).exists()
 
 
@@ -144,8 +196,8 @@ def test_processing_detail(
     processing,
 ):
     """
-    Vérifie qu'un utilisateur authentifié
-    peut consulter un traitement.
+    Vérifie qu'un utilisateur authentifié peut consulter
+    un traitement de son entité.
     """
 
     client.force_login(user)
@@ -160,7 +212,6 @@ def test_processing_detail(
     )
 
     assert response.status_code == 200
-
     assert response.context["processing"] == processing
 
 
@@ -173,12 +224,10 @@ def test_processing_update(
     client,
     user,
     processing,
-    entity,
     legal_basis,
 ):
     """
-    Vérifie qu'un utilisateur authentifié
-    peut modifier un traitement.
+    Vérifie que le créateur d'un traitement peut le modifier.
     """
 
     client.force_login(user)
@@ -193,8 +242,6 @@ def test_processing_update(
         {
             "name": "Traitement modifié",
             "description": "Nouvelle description",
-            "entity": entity.id,
-            "user": user.id,
             "status": "DRAFT",
             "purpose": "Nouvelle finalité",
             "description_purpose": "Nouvelle description",
@@ -208,16 +255,142 @@ def test_processing_update(
     processing.refresh_from_db()
 
     assert processing.name == "Traitement modifié"
-
     assert processing.description == (
         "Nouvelle description"
     )
-
     assert processing.purpose == (
         "Nouvelle finalité"
     )
-
     assert processing.retention_period == "3 ans"
+
+    assert processing.user == user
+    assert processing.entity == user.entity
+
+
+# ============================================================
+# 4.1. MODIFICATION PAR UN DPO
+# ============================================================
+
+@pytest.mark.django_db
+def test_processing_update_by_dpo(
+    client,
+    dpo_user,
+    processing,
+    legal_basis,
+):
+    """
+    Vérifie qu'un DPO peut modifier un traitement
+    appartenant à son entité.
+    """
+
+    client.force_login(dpo_user)
+
+    response = client.post(
+        reverse(
+            "personal_data_processing:processing_update",
+            kwargs={
+                "id": processing.id
+            },
+        ),
+        {
+            "name": "Traitement modifié par le DPO",
+            "description": "Description modifiée par le DPO",
+            "status": "DRAFT",
+            "purpose": "Nouvelle finalité",
+            "description_purpose": "Nouvelle description",
+            "legal_basis": legal_basis.id,
+            "retention_period": "3 ans",
+        }
+    )
+
+    assert response.status_code == 302
+
+    processing.refresh_from_db()
+
+    assert processing.name == (
+        "Traitement modifié par le DPO"
+    )
+
+    assert processing.entity == dpo_user.entity
+
+
+# ============================================================
+# 4.2. MODIFICATION PAR UN AUTRE UTILISATEUR
+# ============================================================
+
+@pytest.mark.django_db
+def test_processing_update_forbidden(
+    client,
+    another_user,
+    processing,
+):
+    """
+    Vérifie qu'un utilisateur qui n'est ni le créateur
+    ni le DPO de l'entité ne peut pas modifier le traitement.
+    """
+
+    client.force_login(another_user)
+
+    response = client.post(
+        reverse(
+            "personal_data_processing:processing_update",
+            kwargs={
+                "id": processing.id
+            },
+        ),
+        {
+            "name": "Modification interdite",
+        }
+    )
+
+    assert response.status_code == 302
+
+    processing.refresh_from_db()
+
+    assert processing.name != "Modification interdite"
+
+
+# ============================================================
+# 4.3. MODIFICATION PAR UN DPO D'UNE AUTRE ENTITÉ
+# ============================================================
+
+@pytest.mark.django_db
+def test_processing_update_by_dpo_other_entity(
+    client,
+    processing,
+):
+    """
+    Vérifie qu'un DPO d'une autre entité ne peut pas
+    modifier le traitement.
+    """
+
+    other_dpo = User.objects.create_user(
+        username="otherdpo",
+        email="otherdpo@example.com",
+        password="TestPassword123!",
+        entity="TROPICO",
+        role=User.Role.DPO,
+    )
+
+    client.force_login(other_dpo)
+
+    response = client.post(
+        reverse(
+            "personal_data_processing:processing_update",
+            kwargs={
+                "id": processing.id
+            },
+        ),
+        {
+            "name": "Modification interdite",
+        }
+    )
+
+    assert response.status_code == 404
+
+    processing.refresh_from_db()
+
+    assert processing.name != "Modification interdite"
 
 
 # ============================================================
@@ -231,8 +404,7 @@ def test_processing_delete(
     processing,
 ):
     """
-    Vérifie qu'un utilisateur authentifié
-    peut supprimer un traitement.
+    Vérifie que le créateur d'un traitement peut le supprimer.
     """
 
     client.force_login(user)
@@ -251,5 +423,117 @@ def test_processing_delete(
     assert response.status_code == 302
 
     assert not DataProcessing.objects.filter(
+        id=processing_id
+    ).exists()
+
+
+# ============================================================
+# 5.1. SUPPRESSION PAR UN DPO
+# ============================================================
+
+@pytest.mark.django_db
+def test_processing_delete_by_dpo(
+    client,
+    dpo_user,
+    processing,
+):
+    """
+    Vérifie qu'un DPO peut supprimer un traitement
+    appartenant à son entité.
+    """
+
+    client.force_login(dpo_user)
+
+    processing_id = processing.id
+
+    response = client.post(
+        reverse(
+            "personal_data_processing:processing_delete",
+            kwargs={
+                "id": processing_id
+            },
+        )
+    )
+
+    assert response.status_code == 302
+
+    assert not DataProcessing.objects.filter(
+        id=processing_id
+    ).exists()
+
+
+# ============================================================
+# 5.2. SUPPRESSION PAR UN AUTRE UTILISATEUR
+# ============================================================
+
+@pytest.mark.django_db
+def test_processing_delete_forbidden(
+    client,
+    another_user,
+    processing,
+):
+    """
+    Vérifie qu'un utilisateur qui n'est ni le créateur
+    ni le DPO de l'entité ne peut pas supprimer le traitement.
+    """
+
+    client.force_login(another_user)
+
+    processing_id = processing.id
+
+    response = client.post(
+        reverse(
+            "personal_data_processing:processing_delete",
+            kwargs={
+                "id": processing_id
+            },
+        )
+    )
+
+    assert response.status_code == 302
+
+    assert DataProcessing.objects.filter(
+        id=processing_id
+    ).exists()
+
+
+# ============================================================
+# 5.3. SUPPRESSION PAR UN DPO D'UNE AUTRE ENTITÉ
+# ============================================================
+
+@pytest.mark.django_db
+def test_processing_delete_by_dpo_other_entity(
+    client,
+    processing,
+):
+    """
+    Vérifie qu'un DPO d'une autre entité ne peut pas
+    supprimer le traitement.
+    """
+
+    other_dpo = User.objects.create_user(
+        username="otherdpo",
+        email="otherdpo@example.com",
+        password="TestPassword123!",
+        entity="TROPICO",
+        role=User.Role.DPO,
+    )
+
+    client.force_login(other_dpo)
+
+    processing_id = processing.id
+
+    response = client.post(
+        reverse(
+            "personal_data_processing:processing_delete",
+            kwargs={
+                "id": processing_id
+            },
+        )
+    )
+
+    assert response.status_code == 404
+
+    assert DataProcessing.objects.filter(
         id=processing_id
     ).exists()

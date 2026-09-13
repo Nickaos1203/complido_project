@@ -26,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv('SECRET_KEY')
+SECRET_KEY = os.getenv('SECRET_KEY', "django-insecure-dev-key")
 
 # paramètrage modèle Mistral pour le chatbot
 MISTRAL_API_KEY = os.getenv("MISTRAL_API_KEY")  # ne jamais committer la clé
@@ -34,9 +34,20 @@ MISTRAL_MODEL = "mistral-small-latest"
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get(
+    "DJANGO_DEBUG",
+    "True"
+).lower() == "true"
 
-ALLOWED_HOSTS = []
+
+ALLOWED_HOSTS = [
+    host.strip()
+    for host in os.environ.get(
+        "ALLOWED_HOSTS",
+        "localhost,127.0.0.1"
+    ).split(",")
+    if host.strip()
+]
 
 
 # Application definition
@@ -93,11 +104,11 @@ WSGI_APPLICATION = 'Complido.wsgi.application'
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.getenv("DB_NAME"),
-        "USER": os.getenv("DB_USER"),
-        "PASSWORD": os.getenv("DB_PASSWORD"),
-        "HOST": os.getenv("DB_HOST"),
-        "PORT": os.getenv("DB_PORT"),
+        "NAME": os.getenv("DB_NAME", "complido"),
+        "USER": os.getenv("DB_USER", "complido"),
+        "PASSWORD": os.getenv("DB_PASSWORD", "complido_password"),
+        "HOST": os.getenv("DB_HOST", "localhost"),
+        "PORT": os.getenv("DB_PORT", "5432"),
     }
 }
 

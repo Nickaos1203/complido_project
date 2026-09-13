@@ -1,0 +1,1455 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+    Modifier le traitement - {{ processing.name }}
+{% endblock %}
+
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <!-- ===================================================== -->
+    <!-- TITRE -->
+    <!-- ===================================================== -->
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h1 class="h3 fw-bold mb-1">
+                Modifier le traitement
+            </h1>
+
+            <p class="text-secondary mb-0">
+                {{ processing.name }}
+            </p>
+
+        </div>
+
+        <div class="d-flex gap-2">
+
+            <a
+                href="{% url 'personal_data_processing:processing_detail' processing.id %}"
+                class="btn btn-outline-secondary"
+            >
+                Annuler
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <form method="post">
+
+        {% csrf_token %}
+
+
+        <!-- ================================================= -->
+        <!-- 1. INFORMATIONS GÉNÉRALES -->
+        <!-- ================================================= -->
+
+        <div class="card shadow-sm mb-4">
+
+            <div class="card-header bg-white py-3">
+
+                <h2 class="h5 fw-bold mb-0">
+                    1. Informations générales
+                </h2>
+
+            </div>
+
+
+            <div class="card-body">
+
+                <div class="row g-3">
+
+                    <!-- Nom -->
+
+                    <div class="col-md-6">
+
+                        <label
+                            for="name"
+                            class="form-label fw-semibold"
+                        >
+                            Nom du traitement
+                            <span class="text-danger">*</span>
+                        </label>
+
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="name"
+                            name="name"
+                            value="{{ processing.name }}"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- Entité -->
+
+                    <div class="col-md-6">
+
+                        <label
+                            for="entity"
+                            class="form-label fw-semibold"
+                        >
+                            Entité responsable du traitement
+                        </label>
+
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="entity"
+                            value="{{ processing.get_entity_display }}"
+                            disabled
+                        >
+
+                        <div class="form-text">
+                            L'entité est déterminée automatiquement
+                            à partir de votre compte utilisateur.
+                        </div>
+
+                    </div>
+
+
+                    <!-- Statut -->
+
+                    <div class="col-md-6">
+
+                        <label
+                            for="status"
+                            class="form-label fw-semibold"
+                        >
+                            Statut
+                        </label>
+
+                        <select
+                            class="form-select"
+                            id="status"
+                            name="status"
+                        >
+
+                            <option
+                                value="DRAFT"
+                                {% if processing.status == "DRAFT" %}selected{% endif %}
+                            >
+                                Brouillon
+                            </option>
+
+                            <option
+                                value="ACTIVE"
+                                {% if processing.status == "ACTIVE" %}selected{% endif %}
+                            >
+                                Actif
+                            </option>
+
+                            <option
+                                value="ARCHIVED"
+                                {% if processing.status == "ARCHIVED" %}selected{% endif %}
+                            >
+                                Archivé
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- Finalité -->
+
+                    <div class="col-md-6">
+
+                        <label
+                            for="purpose"
+                            class="form-label fw-semibold"
+                        >
+                            Finalité
+                        </label>
+
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="purpose"
+                            name="purpose"
+                            value="{{ processing.purpose }}"
+                        >
+
+                    </div>
+
+
+                    <!-- Description -->
+
+                    <div class="col-md-6">
+
+                        <label
+                            for="description"
+                            class="form-label fw-semibold"
+                        >
+                            Description
+                        </label>
+
+                        <textarea
+                            class="form-control"
+                            id="description"
+                            name="description"
+                            rows="4"
+                        >{{ processing.description }}</textarea>
+
+                    </div>
+
+
+                    <!-- Sous-finalité -->
+
+                    <div class="col-md-6">
+
+                        <label
+                            for="subpurpose"
+                            class="form-label fw-semibold"
+                        >
+                            Sous-finalité
+                        </label>
+
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="subpurpose"
+                            name="subpurpose"
+                            value="{{ processing.subpurpose }}"
+                        >
+
+                    </div>
+
+
+                    <!-- Description de la finalité -->
+
+                    <div class="col-12">
+
+                        <label
+                            for="description_purpose"
+                            class="form-label fw-semibold"
+                        >
+                            Description de la finalité
+                        </label>
+
+                        <textarea
+                            class="form-control"
+                            id="description_purpose"
+                            name="description_purpose"
+                            rows="4"
+                        >{{ processing.description_purpose }}</textarea>
+
+                    </div>
+
+
+                    <!-- Durée de conservation -->
+
+                    <div class="col-md-6">
+
+                        <label
+                            for="retention_period"
+                            class="form-label fw-semibold"
+                        >
+                            Durée de conservation
+                        </label>
+
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="retention_period"
+                            name="retention_period"
+                            value="{{ processing.retention_period }}"
+                        >
+
+                    </div>
+
+
+                    <!-- AIPD -->
+
+                    <div class="col-md-3">
+
+                        <div class="form-check mt-4">
+
+                            <input
+                                class="form-check-input"
+                                type="checkbox"
+                                id="aipd_required"
+                                name="aipd_required"
+                                {% if processing.aipd_required %}checked{% endif %}
+                            >
+
+                            <label
+                                class="form-check-label"
+                                for="aipd_required"
+                            >
+                                AIPD requise
+                            </label>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Transfert international -->
+
+                    <div class="col-md-3">
+
+                        <div class="form-check mt-4">
+
+                            <input
+                                class="form-check-input"
+                                type="checkbox"
+                                id="international_transfer"
+                                name="international_transfer"
+                                {% if processing.international_transfer %}checked{% endif %}
+                            >
+
+                            <label
+                                class="form-check-label"
+                                for="international_transfer"
+                            >
+                                Transfert international
+                            </label>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================================================= -->
+        <!-- 2. BASE LÉGALE -->
+        <!-- ================================================= -->
+
+        <div class="card shadow-sm mb-4">
+
+            <div class="card-header bg-white py-3">
+
+                <h2 class="h5 fw-bold mb-0">
+                    2. Cadre juridique et conservation
+                </h2>
+
+            </div>
+
+
+            <div class="card-body">
+
+                {% with legal_basis_relation=processing.processing_legal_basis.first %}
+
+                    <div class="row g-3">
+
+                        <!-- Base légale -->
+
+                        <div class="col-md-6">
+
+                            <label
+                                for="legal_basis"
+                                class="form-label fw-semibold"
+                            >
+                                Base légale
+                            </label>
+
+                            <select
+                                class="form-select"
+                                id="legal_basis"
+                                name="legal_basis"
+                            >
+
+                                <option value="">
+                                    Sélectionner une base légale
+                                </option>
+
+                                {% for basis in legal_bases %}
+
+                                    <option
+                                        value="{{ basis.id }}"
+                                        {% if legal_basis_relation and legal_basis_relation.legal_basis.id == basis.id %}
+                                            selected
+                                        {% endif %}
+                                    >
+                                        {{ basis.name }}
+                                    </option>
+
+                                {% endfor %}
+
+                            </select>
+
+                            <div class="form-text">
+                                Facultatif.
+                            </div>
+
+                        </div>
+
+
+                        <!-- Justification -->
+
+                        <div class="col-md-6">
+
+                            <label
+                                for="legal_basis_justification"
+                                class="form-label fw-semibold"
+                            >
+                                Justification du choix de la base légale
+                            </label>
+
+                            <textarea
+                                class="form-control"
+                                id="legal_basis_justification"
+                                name="legal_basis_justification"
+                                rows="4"
+                            >{% if legal_basis_relation %}{{ legal_basis_relation.justification }}{% endif %}</textarea>
+
+                            <div class="form-text">
+                                Facultatif.
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                {% endwith %}
+
+            </div>
+
+        </div>
+
+
+        <!-- ================================================= -->
+        <!-- 3. CATÉGORIES DE DONNÉES -->
+        <!-- ================================================= -->
+
+        <div class="card shadow-sm mb-4">
+
+            <div class="card-header bg-white py-3">
+
+                <div class="d-flex justify-content-between align-items-center">
+
+                    <div>
+
+                        <h2 class="h5 fw-bold mb-0">
+                            3. Catégories de données
+                        </h2>
+
+                        <small class="text-secondary">
+                            L'énumération des données est facultative.
+                        </small>
+
+                    </div>
+
+                    <button
+                        type="button"
+                        class="btn btn-outline-primary btn-sm"
+                        onclick="addDataCategory()"
+                    >
+                        Ajouter une catégorie
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div class="card-body">
+
+                <div class="table-responsive">
+
+                    <table class="table table-bordered align-middle">
+
+                        <thead class="table-light">
+
+                            <tr>
+
+                                <th>
+                                    Catégorie
+                                </th>
+
+                                <th>
+                                    Énumération des données
+                                </th>
+
+                                <th class="text-center">
+                                    Action
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody id="data-categories-container">
+
+                            {% for relation in processing.processing_data_categories.all %}
+
+                                <tr>
+
+                                    <td>
+
+                                        <select
+                                            name="data_category"
+                                            class="form-select"
+                                        >
+
+                                            <option value="">
+                                                Sélectionner une catégorie
+                                            </option>
+
+                                            {% for category in data_categories %}
+
+                                                <option
+                                                    value="{{ category.id }}"
+                                                    {% if relation.data_category.id == category.id %}
+                                                        selected
+                                                    {% endif %}
+                                                >
+                                                    {{ category.name }}
+                                                </option>
+
+                                            {% endfor %}
+
+                                        </select>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <input
+                                            type="text"
+                                            name="data_enumeration"
+                                            class="form-control"
+                                            value="{{ relation.data_enumeration }}"
+                                            placeholder="Ex. nom, prénom, adresse e-mail..."
+                                        >
+
+                                    </td>
+
+
+                                    <td class="text-center">
+
+                                        <button
+                                            type="button"
+                                            class="btn btn-outline-danger btn-sm"
+                                            onclick="removeRow(this)"
+                                        >
+                                            Supprimer
+                                        </button>
+
+                                    </td>
+
+                                </tr>
+
+                            {% empty %}
+
+                                <tr>
+
+                                    <td>
+
+                                        <select
+                                            name="data_category"
+                                            class="form-select"
+                                        >
+
+                                            <option value="">
+                                                Sélectionner une catégorie
+                                            </option>
+
+                                            {% for category in data_categories %}
+
+                                                <option value="{{ category.id }}">
+                                                    {{ category.name }}
+                                                </option>
+
+                                            {% endfor %}
+
+                                        </select>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <input
+                                            type="text"
+                                            name="data_enumeration"
+                                            class="form-control"
+                                            placeholder="Ex. nom, prénom, adresse e-mail..."
+                                        >
+
+                                    </td>
+
+
+                                    <td class="text-center">
+
+                                        <button
+                                            type="button"
+                                            class="btn btn-outline-danger btn-sm"
+                                            onclick="removeRow(this)"
+                                        >
+                                            Supprimer
+                                        </button>
+
+                                    </td>
+
+                                </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================================================= -->
+        <!-- 4. PERSONNES CONCERNÉES -->
+        <!-- ================================================= -->
+
+        <div class="card shadow-sm mb-4">
+
+            <div class="card-header bg-white py-3">
+
+                <h2 class="h5 fw-bold mb-0">
+                    4. Personnes concernées
+                </h2>
+
+            </div>
+
+
+            <div class="card-body">
+
+                <label
+                    for="data_subject_categories"
+                    class="form-label fw-semibold"
+                >
+                    Catégories de personnes concernées
+                </label>
+
+                <select
+                    id="data_subject_categories"
+                    name="data_subject_categories"
+                    class="form-select"
+                    multiple
+                    size="6"
+                >
+
+                    {% for category in data_subject_categories %}
+
+                        <option
+                            value="{{ category.id }}"
+                            {% if category in processing.data_subject_categories.all %}
+                                selected
+                            {% endif %}
+                        >
+                            {{ category.name }}
+                        </option>
+
+                    {% endfor %}
+
+                </select>
+
+                <div class="form-text">
+                    Maintenez Ctrl (Windows) ou Cmd (Mac) pour
+                    sélectionner plusieurs éléments.
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================================================= -->
+        <!-- 5. DESTINATAIRES -->
+        <!-- ================================================= -->
+
+        <div class="card shadow-sm mb-4">
+
+            <div class="card-header bg-white py-3">
+
+                <h2 class="h5 fw-bold mb-0">
+                    5. Destinataires
+                </h2>
+
+            </div>
+
+
+            <div class="card-body">
+
+                <select
+                    id="recipients"
+                    name="recipients"
+                    class="form-select"
+                    multiple
+                    size="6"
+                >
+
+                    {% for recipient in recipients %}
+
+                        <option
+                            value="{{ recipient.id }}"
+                            {% if recipient in processing.recipients.all %}
+                                selected
+                            {% endif %}
+                        >
+                            {{ recipient.name }}
+                        </option>
+
+                    {% endfor %}
+
+                </select>
+
+                <div class="form-text">
+                    Sélectionnez les destinataires concernés.
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================================================= -->
+        <!-- 6. SOUS-TRAITANTS -->
+        <!-- ================================================= -->
+
+        <div class="card shadow-sm mb-4">
+
+            <div class="card-header bg-white py-3">
+
+                <h2 class="h5 fw-bold mb-0">
+                    6. Sous-traitants
+                </h2>
+
+            </div>
+
+
+            <div class="card-body">
+
+                <select
+                    id="subprocessors"
+                    name="subprocessors"
+                    class="form-select"
+                    multiple
+                    size="6"
+                >
+
+                    {% for subprocessor in subprocessors %}
+
+                        <option
+                            value="{{ subprocessor.id }}"
+                            {% if subprocessor in processing.subprocessors.all %}
+                                selected
+                            {% endif %}
+                        >
+                            {{ subprocessor.name }}
+                        </option>
+
+                    {% endfor %}
+
+                </select>
+
+                <div class="form-text">
+                    Sélectionnez les sous-traitants intervenant
+                    dans le traitement.
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================================================= -->
+        <!-- 7. TYPES D'OPÉRATIONS -->
+        <!-- ================================================= -->
+
+        <div class="card shadow-sm mb-4">
+
+            <div class="card-header bg-white py-3">
+
+                <div class="d-flex justify-content-between align-items-center">
+
+                    <h2 class="h5 fw-bold mb-0">
+                        7. Types d'opérations
+                    </h2>
+
+                    <button
+                        type="button"
+                        class="btn btn-outline-primary btn-sm"
+                        onclick="addOperation()"
+                    >
+                        Ajouter une opération
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div class="card-body">
+
+                <div class="table-responsive">
+
+                    <table class="table table-bordered align-middle">
+
+                        <thead class="table-light">
+
+                            <tr>
+
+                                <th style="width: 60px;">
+                                    #
+                                </th>
+
+                                <th>
+                                    Type d'opération
+                                </th>
+
+                                <th>
+                                    Description
+                                </th>
+
+                                <th class="text-center">
+                                    Action
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody id="operations-container">
+
+                            {% for operation in processing.processing_operations.all %}
+
+                                <tr>
+
+                                    <td class="operation-number">
+                                        {{ operation.display_order }}
+                                    </td>
+
+
+                                    <td>
+
+                                        <select
+                                            name="operation_type"
+                                            class="form-select"
+                                        >
+
+                                            <option value="">
+                                                Sélectionner une opération
+                                            </option>
+
+                                            {% for operation_type in operation_types %}
+
+                                                <option
+                                                    value="{{ operation_type.id }}"
+                                                    {% if operation.operation_type.id == operation_type.id %}
+                                                        selected
+                                                    {% endif %}
+                                                >
+                                                    {{ operation_type.name }}
+                                                </option>
+
+                                            {% endfor %}
+
+                                        </select>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <input
+                                            type="text"
+                                            name="operation_description"
+                                            class="form-control"
+                                            value="{{ operation.description }}"
+                                            placeholder="Description de l'opération..."
+                                        >
+
+                                    </td>
+
+
+                                    <td class="text-center">
+
+                                        <button
+                                            type="button"
+                                            class="btn btn-outline-danger btn-sm"
+                                            onclick="removeRow(this); updateOperationNumbers();"
+                                        >
+                                            Supprimer
+                                        </button>
+
+                                    </td>
+
+                                </tr>
+
+                            {% empty %}
+
+                                <tr>
+
+                                    <td class="operation-number">
+                                        1
+                                    </td>
+
+                                    <td>
+
+                                        <select
+                                            name="operation_type"
+                                            class="form-select"
+                                        >
+
+                                            <option value="">
+                                                Sélectionner une opération
+                                            </option>
+
+                                            {% for operation_type in operation_types %}
+
+                                                <option value="{{ operation_type.id }}">
+                                                    {{ operation_type.name }}
+                                                </option>
+
+                                            {% endfor %}
+
+                                        </select>
+
+                                    </td>
+
+                                    <td>
+
+                                        <input
+                                            type="text"
+                                            name="operation_description"
+                                            class="form-control"
+                                            placeholder="Description de l'opération..."
+                                        >
+
+                                    </td>
+
+                                    <td class="text-center">
+
+                                        <button
+                                            type="button"
+                                            class="btn btn-outline-danger btn-sm"
+                                            onclick="removeRow(this); updateOperationNumbers();"
+                                        >
+                                            Supprimer
+                                        </button>
+
+                                    </td>
+
+                                </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================================================= -->
+        <!-- 8. MESURES DE SÉCURITÉ -->
+        <!-- ================================================= -->
+
+        <div class="card shadow-sm mb-4">
+
+            <div class="card-header bg-white py-3">
+
+                <div class="d-flex justify-content-between align-items-center">
+
+                    <div>
+
+                        <h2 class="h5 fw-bold mb-0">
+                            8. Mesures de sécurité
+                        </h2>
+
+                        <small class="text-secondary">
+                            Les mesures sont classées selon leur catégorie.
+                        </small>
+
+                    </div>
+
+                    <button
+                        type="button"
+                        class="btn btn-outline-primary btn-sm"
+                        onclick="addSecurityMeasure()"
+                    >
+                        Ajouter une mesure
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div class="card-body">
+
+                <div class="table-responsive">
+
+                    <table class="table table-bordered align-middle">
+
+                        <thead class="table-light">
+
+                            <tr>
+
+                                <th>
+                                    Mesure de sécurité
+                                </th>
+
+                                <th>
+                                    Catégorie
+                                </th>
+
+                                <th>
+                                    État
+                                </th>
+
+                                <th>
+                                    Commentaire
+                                </th>
+
+                                <th class="text-center">
+                                    Action
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody id="security-container">
+
+                            {% for relation in processing.processing_security_measures.all %}
+
+                                <tr>
+
+                                    <td>
+
+                                        <select
+                                            name="security_measure"
+                                            class="form-select"
+                                            onchange="updateSecurityCategory(this)"
+                                        >
+
+                                            <option value="">
+                                                Sélectionner une mesure
+                                            </option>
+
+                                            {% for measure in security_measures %}
+
+                                                <option
+                                                    value="{{ measure.id }}"
+                                                    data-category="{{ measure.get_category_display }}"
+                                                    {% if relation.security_measure.id == measure.id %}
+                                                        selected
+                                                    {% endif %}
+                                                >
+                                                    {{ measure.name }}
+                                                </option>
+
+                                            {% endfor %}
+
+                                        </select>
+
+                                    </td>
+
+
+                                    <td class="security-category">
+                                        {{ relation.security_measure.get_category_display }}
+                                    </td>
+
+
+                                    <td>
+
+                                        <select
+                                            name="security_status"
+                                            class="form-select"
+                                        >
+
+                                            <option
+                                                value="PLANNED"
+                                                {% if relation.status == "PLANNED" %}selected{% endif %}
+                                            >
+                                                Prévue
+                                            </option>
+
+                                            <option
+                                                value="PARTIAL"
+                                                {% if relation.status == "PARTIAL" %}selected{% endif %}
+                                            >
+                                                Partiellement mise en œuvre
+                                            </option>
+
+                                            <option
+                                                value="IMPLEMENTED"
+                                                {% if relation.status == "IMPLEMENTED" %}selected{% endif %}
+                                            >
+                                                Mise en œuvre
+                                            </option>
+
+                                            <option
+                                                value="NOT_APPLICABLE"
+                                                {% if relation.status == "NOT_APPLICABLE" %}selected{% endif %}
+                                            >
+                                                Non applicable
+                                            </option>
+
+                                        </select>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <input
+                                            type="text"
+                                            name="security_comment"
+                                            class="form-control"
+                                            value="{{ relation.comment }}"
+                                            placeholder="Commentaire..."
+                                        >
+
+                                    </td>
+
+
+                                    <td class="text-center">
+
+                                        <button
+                                            type="button"
+                                            class="btn btn-outline-danger btn-sm"
+                                            onclick="removeRow(this)"
+                                        >
+                                            Supprimer
+                                        </button>
+
+                                    </td>
+
+                                </tr>
+
+                            {% empty %}
+
+                                <tr>
+
+                                    <td>
+
+                                        <select
+                                            name="security_measure"
+                                            class="form-select"
+                                            onchange="updateSecurityCategory(this)"
+                                        >
+
+                                            <option value="">
+                                                Sélectionner une mesure
+                                            </option>
+
+                                            {% for measure in security_measures %}
+
+                                                <option
+                                                    value="{{ measure.id }}"
+                                                    data-category="{{ measure.get_category_display }}"
+                                                >
+                                                    {{ measure.name }}
+                                                </option>
+
+                                            {% endfor %}
+
+                                        </select>
+
+                                    </td>
+
+
+                                    <td class="security-category">
+                                        —
+                                    </td>
+
+
+                                    <td>
+
+                                        <select
+                                            name="security_status"
+                                            class="form-select"
+                                        >
+
+                                            <option value="PLANNED">
+                                                Prévue
+                                            </option>
+
+                                            <option value="PARTIAL">
+                                                Partiellement mise en œuvre
+                                            </option>
+
+                                            <option value="IMPLEMENTED">
+                                                Mise en œuvre
+                                            </option>
+
+                                            <option value="NOT_APPLICABLE">
+                                                Non applicable
+                                            </option>
+
+                                        </select>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <input
+                                            type="text"
+                                            name="security_comment"
+                                            class="form-control"
+                                            placeholder="Commentaire..."
+                                        >
+
+                                    </td>
+
+
+                                    <td class="text-center">
+
+                                        <button
+                                            type="button"
+                                            class="btn btn-outline-danger btn-sm"
+                                            onclick="removeRow(this)"
+                                        >
+                                            Supprimer
+                                        </button>
+
+                                    </td>
+
+                                </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================================================= -->
+        <!-- ACTIONS -->
+        <!-- ================================================= -->
+
+        <div class="d-flex justify-content-end gap-2 mb-5">
+
+            <a
+                href="{% url 'personal_data_processing:processing_detail' processing.id %}"
+                class="btn btn-outline-secondary"
+            >
+                Annuler
+            </a>
+
+            <button
+                type="submit"
+                class="btn btn-primary px-4"
+            >
+                Enregistrer les modifications
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
+
+
+<!-- ========================================================= -->
+<!-- JAVASCRIPT -->
+<!-- ========================================================= -->
+
+<script>
+
+    /*
+     * Supprime une ligne.
+     */
+    function removeRow(button) {
+
+        const row = button.closest("tr");
+
+        if (row) {
+            row.remove();
+        }
+    }
+
+
+    /*
+     * Ajoute une catégorie de données.
+     */
+    function addDataCategory() {
+
+        const container =
+            document.getElementById(
+                "data-categories-container"
+            );
+
+        const firstRow =
+            container.querySelector("tr");
+
+        if (!firstRow) {
+            return;
+        }
+
+        const newRow =
+            firstRow.cloneNode(true);
+
+        newRow.querySelectorAll("input").forEach(
+            input => input.value = ""
+        );
+
+        newRow.querySelectorAll("select").forEach(
+            select => select.selectedIndex = 0
+        );
+
+        container.appendChild(newRow);
+    }
+
+
+    /*
+     * Ajoute une opération.
+     */
+    function addOperation() {
+
+        const container =
+            document.getElementById(
+                "operations-container"
+            );
+
+        const firstRow =
+            container.querySelector("tr");
+
+        if (!firstRow) {
+            return;
+        }
+
+        const newRow =
+            firstRow.cloneNode(true);
+
+        newRow.querySelectorAll("input").forEach(
+            input => input.value = ""
+        );
+
+        newRow.querySelectorAll("select").forEach(
+            select => select.selectedIndex = 0
+        );
+
+        container.appendChild(newRow);
+
+        updateOperationNumbers();
+    }
+
+
+    /*
+     * Met à jour la numérotation des opérations.
+     */
+    function updateOperationNumbers() {
+
+        const rows =
+            document.querySelectorAll(
+                "#operations-container tr"
+            );
+
+        rows.forEach((row, index) => {
+
+            const numberCell =
+                row.querySelector(".operation-number");
+
+            if (numberCell) {
+                numberCell.textContent = index + 1;
+            }
+
+        });
+    }
+
+
+    /*
+     * Ajoute une mesure de sécurité.
+     */
+    function addSecurityMeasure() {
+
+        const container =
+            document.getElementById(
+                "security-container"
+            );
+
+        const firstRow =
+            container.querySelector("tr");
+
+        if (!firstRow) {
+            return;
+        }
+
+        const newRow =
+            firstRow.cloneNode(true);
+
+        newRow.querySelectorAll("input").forEach(
+            input => input.value = ""
+        );
+
+        newRow.querySelectorAll("select").forEach(
+            select => select.selectedIndex = 0
+        );
+
+        const category =
+            newRow.querySelector(
+                ".security-category"
+            );
+
+        if (category) {
+            category.textContent = "—";
+        }
+
+        container.appendChild(newRow);
+    }
+
+
+    /*
+     * Affiche automatiquement la catégorie
+     * de la mesure de sécurité sélectionnée.
+     */
+    function updateSecurityCategory(select) {
+
+        const row =
+            select.closest("tr");
+
+        const option =
+            select.options[
+                select.selectedIndex
+            ];
+
+        const category =
+            option.dataset.category || "—";
+
+        const categoryCell =
+            row.querySelector(
+                ".security-category"
+            );
+
+        if (categoryCell) {
+            categoryCell.textContent = category;
+        }
+    }
+
+</script>
+
+{% endblock %}

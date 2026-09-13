@@ -11,7 +11,14 @@ class User(AbstractUser):
         DPO = "DPO", "DPO"
         REFERENT = "REFERENT", "Référent"
 
+    
+    class Entity(models.TextChoices):
+        COMPLIDO = "COMPLIDO", "Complido"
+        TROPICO = "TROPICO", "Tropico Assurance"
+        BIGOBANK = "BIGOBANK", "Big Bank"
+
     department = models.CharField(max_length=30, null=True, blank=True)
+    entity = models.CharField(max_length=100, choices=Entity.choices, default=Entity.COMPLIDO)
     role = models.CharField(max_length=20, choices=Role.choices, default=Role.REFERENT)
 
     def __str__(self):

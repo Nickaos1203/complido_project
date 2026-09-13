@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block title %}Supprimer le traitement{% endblock %}
+
+{% block content %}
+
+<div class="container py-4">
+
+    <div class="row justify-content-center">
+        <div class="col-lg-7">
+
+            <div class="card shadow-sm">
+
+                <!-- En-tête -->
+                <div class="card-header bg-danger text-white">
+                    <h4 class="mb-0">
+                        <i class="bi bi-trash"></i>
+                        Supprimer le traitement
+                    </h4>
+                </div>
+
+                <!-- Contenu -->
+                <div class="card-body">
+
+                    <div class="alert alert-warning">
+                        <strong>Attention :</strong>
+                        cette action est définitive et ne peut pas être annulée.
+                    </div>
+
+                    <p class="mb-3">
+                        Vous êtes sur le point de supprimer le traitement :
+                    </p>
+
+                    <div class="border rounded p-3 mb-4 bg-light">
+                        <h5 class="mb-1">
+                            {{ processing.name }}
+                        </h5>
+
+                        {% if processing.description %}
+                            <p class="text-muted mb-0">
+                                {{ processing.description }}
+                            </p>
+                        {% endif %}
+                    </div>
+
+                    <p>
+                        La suppression entraînera également la suppression
+                        des informations associées à ce traitement.
+                    </p>
+
+                    <!-- Formulaire -->
+                    <form method="post">
+                        {% csrf_token %}
+
+                        <div class="d-flex justify-content-between mt-4">
+
+                            <a
+                                href="{% url 'personal_data_processing:processing_detail' processing.id %}"
+                                class="btn btn-secondary"
+                            >
+                                <i class="bi bi-arrow-left"></i>
+                                Annuler
+                            </a>
+
+                            <button
+                                type="submit"
+                                class="btn btn-danger"
+                            >
+                                <i class="bi bi-trash"></i>
+                                Supprimer définitivement
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,159 @@
+{% extends "base.html" %}
+
+{% block title %}Modifier mon profil{% endblock %}
+
+{% block content %}
+
+<div class="container py-4">
+
+    <!-- En-tête -->
+    <div class="mb-4">
+        <h2 class="mb-1">Modifier mon profil</h2>
+        <p class="text-muted mb-0">
+            Modifiez vos informations personnelles.
+        </p>
+    </div>
+
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-8">
+
+            <div class="card shadow-sm">
+
+                <!-- En-tête de la carte -->
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        Informations personnelles
+                    </h5>
+                </div>
+
+                <div class="card-body">
+
+                    <form method="post">
+
+                        {% csrf_token %}
+
+                        <!-- Nom -->
+                        <div class="mb-3">
+                            <label for="last_name" class="form-label">
+                                Nom
+                            </label>
+
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="last_name"
+                                name="last_name"
+                                value="{{ user.last_name }}"
+                                maxlength="150"
+                            >
+                        </div>
+
+
+                        <!-- Prénom -->
+                        <div class="mb-3">
+                            <label for="first_name" class="form-label">
+                                Prénom
+                            </label>
+
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="first_name"
+                                name="first_name"
+                                value="{{ user.first_name }}"
+                                maxlength="150"
+                            >
+                        </div>
+
+
+                        <!-- Nom d'utilisateur -->
+                        <div class="mb-3">
+                            <label for="username" class="form-label">
+                                Nom d'utilisateur
+                            </label>
+
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="username"
+                                name="username"
+                                value="{{ user.username }}"
+                                maxlength="150"
+                                required
+                            >
+                        </div>
+
+
+                        <!-- Adresse e-mail -->
+                        <div class="mb-4">
+                            <label for="email" class="form-label">
+                                Adresse e-mail
+                            </label>
+
+                            <input
+                                type="email"
+                                class="form-control"
+                                id="email"
+                                name="email"
+                                value="{{ user.email }}"
+                                required
+                            >
+                        </div>
+
+
+                        <!-- Informations non modifiables -->
+                        <div class="alert alert-info">
+                            <strong>Informations non modifiables :</strong>
+
+                            <ul class="mb-0 mt-2">
+                                <li>
+                                    Entité :
+                                    <strong>
+                                        {{ user.get_entity_display }}
+                                    </strong>
+                                </li>
+
+                                <li>
+                                    Rôle :
+                                    <strong>
+                                        {{ user.get_role_display }}
+                                    </strong>
+                                </li>
+                            </ul>
+                        </div>
+
+
+                        <!-- Boutons -->
+                        <div class="d-flex justify-content-between mt-4">
+
+                            <a
+                                href="{% url 'users:profile' %}"
+                                class="btn btn-secondary"
+                            >
+                                Annuler
+                            </a>
+
+                            <button
+                                type="submit"
+                                class="btn btn-primary"
+                            >
+                                Enregistrer les modifications
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
