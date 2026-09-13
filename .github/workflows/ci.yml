@@ -6,12 +6,12 @@ name: CI - Complido
 
 on:
 
-  # Push sur main
+  # Déclenchement lors d'un push sur main
   push:
     branches:
       - main
 
-  # Pull Request vers main
+  # Déclenchement lors d'une Pull Request vers main
   pull_request:
     branches:
       - main
@@ -21,8 +21,8 @@ jobs:
 
   # ==========================================================
   # 2.1. PRÉPARATION DE L'ENVIRONNEMENT
-  # 2.2. MISE EN PLACE DE LA BASE DE DONNÉES DE TEST
-  # 2.3. EXÉCUTION DES TESTS AUTOMATISÉS
+  # 2.2. BASE DE DONNÉES DE TEST
+  # 2.3. EXÉCUTION DES TESTS
   # ==========================================================
 
   tests:
@@ -31,13 +31,9 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    defaults:
-      run:
-        working-directory: Complido
-
-    # --------------------------------------------------------
-    # 2.2. Base de données PostgreSQL de test
-    # --------------------------------------------------------
+    # ========================================================
+    # 2.2. BASE DE DONNÉES POSTGRESQL DE TEST
+    # ========================================================
 
     services:
 
@@ -70,7 +66,6 @@ jobs:
 
       - name: Installation de Python
         uses: actions/setup-python@v5
-
         with:
           python-version: "3.12"
           cache: "pip"
@@ -82,7 +77,7 @@ jobs:
           pip install -r requirements.txt
 
 
-      - name: Configuration de l'environnement
+      - name: Configuration des variables d'environnement
         run: |
           echo "DB_NAME=complido_test" >> $GITHUB_ENV
           echo "DB_USER=postgres" >> $GITHUB_ENV
@@ -96,16 +91,19 @@ jobs:
       # ======================================================
 
       - name: Vérification de Django
+        working-directory: Complido
         run: |
           python manage.py check
 
 
       - name: Vérification des migrations
+        working-directory: Complido
         run: |
           python manage.py makemigrations --check --dry-run
 
 
       - name: Application des migrations
+        working-directory: Complido
         run: |
           python manage.py migrate
 
@@ -115,6 +113,7 @@ jobs:
       # ======================================================
 
       - name: Exécution des tests Pytest
+        working-directory: Complido
         run: |
           pytest -v --cov=. --cov-report=term-missing
 
@@ -127,13 +126,13 @@ jobs:
 
     name: Conteneurisation
 
-    # La conteneurisation n'est exécutée que si
-    # les tests sont validés.
+    # La conteneurisation est réalisée uniquement
+    # si les tests sont réussis.
     needs: tests
 
     runs-on: ubuntu-latest
 
-    # La conteneurisation est réalisée uniquement
+    # La conteneurisation est effectuée uniquement
     # après un push sur main.
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
 
@@ -157,7 +156,7 @@ jobs:
 
 
       # ------------------------------------------------------
-      # Vérification de la configuration
+      # Vérification de la configuration Docker
       # ------------------------------------------------------
 
       - name: Vérification de la configuration Docker
@@ -166,7 +165,7 @@ jobs:
 
 
       # ------------------------------------------------------
-      # Construction de l'application
+      # Construction des conteneurs
       # ------------------------------------------------------
 
       - name: Construction des conteneurs
@@ -175,7 +174,7 @@ jobs:
 
 
       # ------------------------------------------------------
-      # Démarrage de l'application
+      # Démarrage des conteneurs
       # ------------------------------------------------------
 
       - name: Démarrage des conteneurs
@@ -196,7 +195,7 @@ jobs:
       # Affichage des logs
       # ------------------------------------------------------
 
-      - name: Vérification des logs
+      - name: Affichage des logs
         if: always()
         run: |
           docker compose logs
