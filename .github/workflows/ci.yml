@@ -1,23 +1,33 @@
 name: CI - Complido
 
+# ============================================================
+# DÉCLENCHEMENT DU PIPELINE
+# ============================================================
+
 on:
+
+  # Push sur main
   push:
     branches:
       - main
 
+  # Pull Request vers main
   pull_request:
     branches:
       - main
-      
+
+
 jobs:
 
   # ==========================================================
-  # 1. PRÉPARATION DE L'ENVIRONNEMENT
-  # 2. BASE DE DONNÉES DE TEST
-  # 3. EXÉCUTION DES TESTS
+  # 2.1. PRÉPARATION DE L'ENVIRONNEMENT
+  # 2.2. MISE EN PLACE DE LA BASE DE DONNÉES DE TEST
+  # 2.3. EXÉCUTION DES TESTS AUTOMATISÉS
   # ==========================================================
 
   tests:
+
+    name: Tests Django
 
     runs-on: ubuntu-latest
 
@@ -25,8 +35,12 @@ jobs:
       run:
         working-directory: Complido
 
-    # Base de données PostgreSQL de test
+    # --------------------------------------------------------
+    # 2.2. Base de données PostgreSQL de test
+    # --------------------------------------------------------
+
     services:
+
       postgres:
         image: postgres:16
 
@@ -39,32 +53,36 @@ jobs:
           - 5432:5432
 
         options: >-
-          --health-cmd pg_isready
+          --health-cmd "pg_isready -U postgres -d complido_test"
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
 
     steps:
 
-      # ------------------------------------------------------
-      # ÉTAPE 1 : Préparation de l'environnement
-      # ------------------------------------------------------
+      # ======================================================
+      # 2.1. PRÉPARATION DE L'ENVIRONNEMENT
+      # ======================================================
 
-      - name: Checkout du projet
+      - name: Récupération du projet
         uses: actions/checkout@v4
+
 
       - name: Installation de Python
         uses: actions/setup-python@v5
+
         with:
           python-version: "3.12"
           cache: "pip"
+
 
       - name: Installation des dépendances
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Configuration des variables d'environnement
+
+      - name: Configuration de l'environnement
         run: |
           echo "DB_NAME=complido_test" >> $GITHUB_ENV
           echo "DB_USER=postgres" >> $GITHUB_ENV
@@ -72,71 +90,123 @@ jobs:
           echo "DB_HOST=127.0.0.1" >> $GITHUB_ENV
           echo "DB_PORT=5432" >> $GITHUB_ENV
 
-      # ------------------------------------------------------
-      # ÉTAPE 2 : Base de données de test
-      # ------------------------------------------------------
+
+      # ======================================================
+      # 2.2. MISE EN PLACE DE LA BASE DE DONNÉES DE TEST
+      # ======================================================
 
       - name: Vérification de Django
         run: |
           python manage.py check
 
+
       - name: Vérification des migrations
         run: |
           python manage.py makemigrations --check --dry-run
+
 
       - name: Application des migrations
         run: |
           python manage.py migrate
 
-      # ------------------------------------------------------
-      # ÉTAPE 3 : Exécution des tests
-      # ------------------------------------------------------
 
-      - name: Exécution des tests
+      # ======================================================
+      # 2.3. EXÉCUTION DES TESTS AUTOMATISÉS
+      # ======================================================
+
+      - name: Exécution des tests Pytest
         run: |
           pytest -v --cov=. --cov-report=term-missing
 
 
   # ==========================================================
-  # 4. CONTENEURISATION
+  # 2.4. CONTENEURISATION
   # ==========================================================
 
   docker:
 
+    name: Conteneurisation
+
+    # La conteneurisation n'est exécutée que si
+    # les tests sont validés.
     needs: tests
 
     runs-on: ubuntu-latest
 
-    # La conteneurisation est effectuée uniquement
-    # lorsqu'une modification arrive sur main.
+    # La conteneurisation est réalisée uniquement
+    # après un push sur main.
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
 
     steps:
 
-      - name: Checkout du projet
+      # ------------------------------------------------------
+      # Récupération du projet
+      # ------------------------------------------------------
+
+      - name: Récupération du projet
         uses: actions/checkout@v4
+
+
+      # ------------------------------------------------------
+      # Vérification de Docker Compose
+      # ------------------------------------------------------
+
+      - name: Vérification de Docker Compose
+        run: |
+          docker compose version
+
+
+      # ------------------------------------------------------
+      # Vérification de la configuration
+      # ------------------------------------------------------
+
+      - name: Vérification de la configuration Docker
+        run: |
+          docker compose config
+
+
+      # ------------------------------------------------------
+      # Construction de l'application
+      # ------------------------------------------------------
 
       - name: Construction des conteneurs
         run: |
           docker compose build
 
+
+      # ------------------------------------------------------
+      # Démarrage de l'application
+      # ------------------------------------------------------
+
       - name: Démarrage des conteneurs
         run: |
           docker compose up -d
+
+
+      # ------------------------------------------------------
+      # Vérification des conteneurs
+      # ------------------------------------------------------
 
       - name: Vérification des conteneurs
         run: |
           docker compose ps
 
+
+      # ------------------------------------------------------
+      # Affichage des logs
+      # ------------------------------------------------------
+
+      - name: Vérification des logs
+        if: always()
+        run: |
+          docker compose logs
+
+
+      # ------------------------------------------------------
+      # Arrêt des conteneurs
+      # ------------------------------------------------------
+
       - name: Arrêt des conteneurs
         if: always()
         run: |
           docker compose down
-
-
-  # ==========================================================
-  # 5. INTÉGRATION SUR MAIN
-  # ==========================================================
-
-  # L'intégration sur main est réalisée par la Pull Request.
-  # Les tests doivent être validés avant le merge.
