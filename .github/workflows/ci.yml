@@ -1,17 +1,10 @@
 name: CI - Complido
 
-# ============================================================
-# DÉCLENCHEMENT DU PIPELINE
-# ============================================================
-
 on:
-
-  # Déclenchement lors d'un push sur main
   push:
     branches:
       - main
 
-  # Déclenchement lors d'une Pull Request vers main
   pull_request:
     branches:
       - main
@@ -22,7 +15,7 @@ jobs:
   # ==========================================================
   # 2.1. PRÉPARATION DE L'ENVIRONNEMENT
   # 2.2. BASE DE DONNÉES DE TEST
-  # 2.3. EXÉCUTION DES TESTS
+  # 2.3. TESTS AUTOMATISÉS
   # ==========================================================
 
   tests:
@@ -31,9 +24,14 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    # ========================================================
-    # 2.2. BASE DE DONNÉES POSTGRESQL DE TEST
-    # ========================================================
+    env:
+      SECRET_KEY: test-secret-key-for-ci
+
+      DB_NAME: complido_test
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_HOST: 127.0.0.1
+      DB_PORT: 5432
 
     services:
 
@@ -77,17 +75,8 @@ jobs:
           pip install -r requirements.txt
 
 
-      - name: Configuration des variables d'environnement
-        run: |
-          echo "DB_NAME=complido_test" >> $GITHUB_ENV
-          echo "DB_USER=postgres" >> $GITHUB_ENV
-          echo "DB_PASSWORD=postgres" >> $GITHUB_ENV
-          echo "DB_HOST=127.0.0.1" >> $GITHUB_ENV
-          echo "DB_PORT=5432" >> $GITHUB_ENV
-
-
       # ======================================================
-      # 2.2. MISE EN PLACE DE LA BASE DE DONNÉES DE TEST
+      # 2.2. MISE EN PLACE DE LA BASE DE DONNÉES
       # ======================================================
 
       - name: Vérification de Django
@@ -126,84 +115,50 @@ jobs:
 
     name: Conteneurisation
 
-    # La conteneurisation est réalisée uniquement
-    # si les tests sont réussis.
     needs: tests
 
     runs-on: ubuntu-latest
 
-    # La conteneurisation est effectuée uniquement
-    # après un push sur main.
+    # La conteneurisation est réalisée uniquement après
+    # validation des tests et lors d'un push sur main.
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
 
     steps:
 
-      # ------------------------------------------------------
-      # Récupération du projet
-      # ------------------------------------------------------
-
       - name: Récupération du projet
         uses: actions/checkout@v4
 
-
-      # ------------------------------------------------------
-      # Vérification de Docker Compose
-      # ------------------------------------------------------
 
       - name: Vérification de Docker Compose
         run: |
           docker compose version
 
 
-      # ------------------------------------------------------
-      # Vérification de la configuration Docker
-      # ------------------------------------------------------
-
       - name: Vérification de la configuration Docker
         run: |
           docker compose config
 
-
-      # ------------------------------------------------------
-      # Construction des conteneurs
-      # ------------------------------------------------------
 
       - name: Construction des conteneurs
         run: |
           docker compose build
 
 
-      # ------------------------------------------------------
-      # Démarrage des conteneurs
-      # ------------------------------------------------------
-
       - name: Démarrage des conteneurs
         run: |
           docker compose up -d
 
-
-      # ------------------------------------------------------
-      # Vérification des conteneurs
-      # ------------------------------------------------------
 
       - name: Vérification des conteneurs
         run: |
           docker compose ps
 
 
-      # ------------------------------------------------------
-      # Affichage des logs
-      # ------------------------------------------------------
-
       - name: Affichage des logs
         if: always()
         run: |
           docker compose logs
 
-
-      # ------------------------------------------------------
-      # Arrêt des conteneurs
-      # ------------------------------------------------------
 
       - name: Arrêt des conteneurs
         if: always()
