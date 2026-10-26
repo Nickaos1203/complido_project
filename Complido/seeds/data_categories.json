@@ -1,0 +1,74 @@
+[
+    {
+        "name": "État civil, identité, données d'identification et images",
+        "description": "Données permettant d'identifier directement ou indirectement une personne, notamment nom, prénom, pseudonyme, date et lieu de naissance, sexe, nationalité, adresse, photographie, numéro de pièce d'identité, identifiant interne ou coordonnées."
+    },
+    {
+        "name": "Vie personnelle",
+        "description": "Données relatives à la vie personnelle de la personne concernée, notamment situation familiale, habitudes de vie, situation matrimoniale, loisirs ou autres informations relatives à sa vie privée, à l'exclusion des catégories de données sensibles."
+    },
+    {
+        "name": "Vie professionnelle",
+        "description": "Données relatives à la situation professionnelle, notamment profession, emploi, fonction, employeur, parcours professionnel, CV, formation, diplômes, qualifications, carrière, évaluations ou conditions de travail."
+    },
+    {
+        "name": "Informations d'ordre économique et financier",
+        "description": "Données relatives à la situation économique, financière ou fiscale d'une personne, notamment revenus, patrimoine, situation financière, aides, prestations, dettes, fiscalité ou informations relatives aux ressources."
+    },
+    {
+        "name": "Données bancaires",
+        "description": "Données relatives aux comptes et moyens de paiement d'une personne, notamment coordonnées bancaires, IBAN, BIC, numéro de compte, historique des opérations ou informations relatives aux paiements."
+    },
+    {
+        "name": "Données de connexion",
+        "description": "Données techniques permettant d'identifier ou de retracer l'utilisation d'un système ou d'un service, notamment adresse IP, identifiants de connexion, identifiants de terminal, journaux d'événements, horodatages ou logs."
+    },
+    {
+        "name": "Données de navigation et d'utilisation d'Internet",
+        "description": "Données relatives à la navigation et à l'utilisation de services en ligne, notamment cookies, traceurs, historique de navigation, pages consultées, données d'usage, préférences ou mesures d'audience."
+    },
+    {
+        "name": "Données de localisation",
+        "description": "Données permettant de déterminer la position géographique ou les déplacements d'une personne, notamment données GPS, données issues des réseaux mobiles, Wi-Fi, adresse de localisation ou historique des déplacements."
+    },
+    {
+        "name": "Numéro d'identification national",
+        "description": "Données correspondant à un numéro d'identification national permettant d'identifier une personne, notamment le numéro d'inscription au répertoire national d'identification des personnes physiques (NIR ou numéro de sécurité sociale), dont l'utilisation est particulièrement encadrée."
+    },
+    {
+        "name": "Données biométriques",
+        "description": "Données à caractère personnel résultant d'un traitement technique spécifique, relatives aux caractéristiques physiques, physiologiques ou comportementales d'une personne et permettant ou confirmant son identification unique, notamment empreintes digitales, reconnaissance faciale ou iris."
+    },
+    {
+        "name": "Données relatives à l'origine raciale ou ethnique",
+        "description": "Données révélant ou permettant de déduire l'origine raciale ou ethnique d'une personne. Ces données relèvent des catégories particulières de données au sens de l'article 9 du RGPD."
+    },
+    {
+        "name": "Données relatives aux opinions politiques",
+        "description": "Données révélant les opinions ou convictions politiques d'une personne. Ces données relèvent des catégories particulières de données au sens de l'article 9 du RGPD."
+    },
+    {
+        "name": "Données relatives aux convictions religieuses ou philosophiques",
+        "description": "Données révélant les convictions religieuses ou philosophiques d'une personne. Ces données relèvent des catégories particulières de données au sens de l'article 9 du RGPD."
+    },
+    {
+        "name": "Données relatives à l'appartenance syndicale",
+        "description": "Données révélant l'appartenance syndicale d'une personne. Ces données relèvent des catégories particulières de données au sens de l'article 9 du RGPD."
+    },
+    {
+        "name": "Données génétiques",
+        "description": "Données à caractère personnel relatives aux caractéristiques génétiques héréditaires ou acquises d'une personne physique, résultant notamment de l'analyse d'un échantillon biologique et permettant d'obtenir des informations uniques sur sa physiologie ou sa santé."
+    },
+    {
+        "name": "Données relatives à la santé",
+        "description": "Données relatives à la santé physique ou mentale d'une personne, y compris les informations concernant les soins de santé, les antécédents médicaux, les handicaps, les traitements ou les prestations de santé."
+    },
+    {
+        "name": "Données relatives à la vie sexuelle ou à l'orientation sexuelle",
+        "description": "Données concernant la vie sexuelle ou l'orientation sexuelle d'une personne. Ces données relèvent des catégories particulières de données au sens de l'article 9 du RGPD."
+    },
+    {
+        "name": "Données relatives aux condamnations pénales et aux infractions",
+        "description": "Données relatives aux condamnations pénales, aux infractions ou aux mesures de sûreté connexes. Leur traitement est soumis à des conditions spécifiques prévues notamment par l'article 10 du RGPD."
+    }
+]

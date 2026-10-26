@@ -1,0 +1,52 @@
+[
+    {
+        "name": "CloudNova Hosting",
+        "description": "Prestataire assurant l'hébergement et le stockage des données et applications utilisées par l'organisme.",
+        "contact": "contact@cloudnova-hosting.example"
+    },
+    {
+        "name": "SkyData Solutions",
+        "description": "Prestataire fournissant des infrastructures, plateformes ou logiciels cloud susceptibles de traiter ou stocker des données personnelles.",
+        "contact": "contact@skydatasolutions.example"
+    },
+    {
+        "name": "MailSecure Services",
+        "description": "Prestataire fournissant le service de messagerie utilisé pour l'envoi, la réception et le stockage de communications contenant éventuellement des données personnelles.",
+        "contact": "contact@mailsecure.example"
+    },
+    {
+        "name": "SafeBackup Technologies",
+        "description": "Prestataire assurant la sauvegarde, la réplication et éventuellement la restauration des données et systèmes contenant des données personnelles.",
+        "contact": "contact@safebackup.example"
+    },
+    {
+        "name": "CyberShield Consulting",
+        "description": "Prestataire intervenant dans la protection des systèmes d'information, la détection des incidents, la supervision de sécurité ou la réponse aux incidents.",
+        "contact": "contact@cybershield.example"
+    },
+    {
+        "name": "InfraCare Services",
+        "description": "Prestataire chargé de la maintenance, du support ou de l'administration technique des systèmes susceptibles de contenir des données personnelles.",
+        "contact": "contact@infracare.example"
+    },
+    {
+        "name": "PayFlow Systems",
+        "description": "Prestataire assurant le traitement technique des paiements et transactions financières pour le compte de l'organisme.",
+        "contact": "contact@payflow.example"
+    },
+    {
+        "name": "TrustSign Digital",
+        "description": "Prestataire permettant la création, la gestion et la conservation de signatures électroniques et des documents associés.",
+        "contact": "contact@trustsign.example"
+    },
+    {
+        "name": "DocuArchive Pro",
+        "description": "Prestataire assurant le stockage, la gestion, le classement ou l'archivage électronique de documents contenant des données personnelles.",
+        "contact": "contact@docuarchive.example"
+    },
+    {
+        "name": "ConnectCall Services",
+        "description": "Prestataire assurant des activités de support, d'assistance ou de relation avec les personnes concernées pouvant nécessiter l'accès à leurs données.",
+        "contact": "contact@connectcall.example"
+    }
+]

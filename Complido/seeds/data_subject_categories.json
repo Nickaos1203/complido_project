@@ -1,0 +1,102 @@
+[
+    {
+        "name": "Salariés et employés",
+        "description": "Personnes employées par l'organisme dans le cadre d'une relation de travail, y compris les salariés en CDI, CDD, temps partiel ou autres formes d'emploi."
+    },
+    {
+        "name": "Anciens salariés et employés",
+        "description": "Personnes ayant précédemment été employées par l'organisme et dont certaines données peuvent être conservées après la fin de la relation de travail."
+    },
+    {
+        "name": "Candidats à un recrutement",
+        "description": "Personnes ayant candidaté à un emploi, un stage, une alternance ou une autre opportunité professionnelle proposée par l'organisme."
+    },
+    {
+        "name": "Clients",
+        "description": "Personnes physiques bénéficiant ou ayant bénéficié des produits ou services proposés par l'organisme, y compris les clients potentiels lorsqu'ils sont suivis dans le cadre d'une relation commerciale."
+    },
+    {
+        "name": "Prospects",
+        "description": "Personnes physiques susceptibles d'être intéressées par les produits ou services de l'organisme et faisant l'objet d'actions de prospection ou de suivi commercial."
+    },
+    {
+        "name": "Utilisateurs de services",
+        "description": "Personnes physiques utilisant une application, une plateforme, un site web, un logiciel ou tout autre service proposé par l'organisme."
+    },
+    {
+        "name": "Usagers",
+        "description": "Personnes physiques utilisant un service public, administratif ou collectif fourni ou géré par l'organisme."
+    },
+    {
+        "name": "Fournisseurs et prestataires",
+        "description": "Personnes physiques représentant ou intervenant pour le compte de fournisseurs, prestataires, sous-traitants ou autres partenaires commerciaux."
+    },
+    {
+        "name": "Partenaires et représentants d'organisations",
+        "description": "Personnes physiques agissant au nom ou pour le compte d'organisations partenaires, clientes, fournisseurs ou autres organismes en relation avec le responsable du traitement."
+    },
+    {
+        "name": "Visiteurs",
+        "description": "Personnes physiques accédant aux locaux, bâtiments, espaces ou installations de l'organisme, notamment dans le cadre de visites, rendez-vous ou événements."
+    },
+    {
+        "name": "Membres et adhérents",
+        "description": "Personnes physiques membres, adhérentes ou affiliées à l'organisme, notamment dans le cadre d'une association, d'un réseau, d'une communauté ou d'une organisation professionnelle."
+    },
+    {
+        "name": "Élèves, étudiants et apprenants",
+        "description": "Personnes physiques participant à une formation, un enseignement, un cursus scolaire, universitaire ou professionnel, y compris les apprentis et stagiaires."
+    },
+    {
+        "name": "Mineurs",
+        "description": "Personnes physiques âgées de moins de 18 ans concernées par le traitement, notamment dans le cadre de services, activités éducatives, scolaires, sociales ou de loisirs."
+    },
+    {
+        "name": "Parents et représentants légaux",
+        "description": "Parents, tuteurs, représentants légaux ou personnes exerçant l'autorité parentale ou une responsabilité légale à l'égard d'une personne concernée."
+    },
+    {
+        "name": "Patients et personnes prises en charge",
+        "description": "Personnes physiques bénéficiant d'une prise en charge médicale, sanitaire, médico-sociale ou sociale."
+    },
+    {
+        "name": "Bénéficiaires",
+        "description": "Personnes physiques bénéficiant d'une prestation, d'une aide, d'un dispositif, d'un avantage, d'une allocation ou d'un programme proposé par l'organisme."
+    },
+    {
+        "name": "Agents publics et fonctionnaires",
+        "description": "Personnes exerçant une fonction au sein d'une administration, d'une collectivité, d'un établissement public ou d'un autre organisme public."
+    },
+    {
+        "name": "Élus et représentants publics",
+        "description": "Personnes exerçant un mandat électif ou représentant une collectivité, une institution ou une autorité publique."
+    },
+    {
+        "name": "Citoyens et administrés",
+        "description": "Personnes physiques concernées par l'exercice de missions administratives, réglementaires ou de service public."
+    },
+    {
+        "name": "Contacts et correspondants",
+        "description": "Personnes physiques dont les coordonnées sont utilisées pour communiquer avec l'organisme, notamment interlocuteurs professionnels, correspondants ou contacts généraux."
+    },
+    {
+        "name": "Participants à des événements",
+        "description": "Personnes physiques inscrites ou participant à des réunions, conférences, salons, événements, ateliers ou manifestations organisés ou gérés par l'organisme."
+    },
+    {
+        "name": "Donateurs",
+        "description": "Personnes physiques effectuant ou ayant effectué un don ou une contribution au bénéfice de l'organisme."
+    },
+    {
+        "name": "Volontaires et bénévoles",
+        "description": "Personnes physiques intervenant volontairement ou bénévolement pour l'organisme sans être nécessairement liées par un contrat de travail."
+    },
+    {
+        "name": "Membres de la famille et proches",
+        "description": "Personnes physiques liées familialement ou personnellement à une autre personne concernée, lorsque leurs données sont nécessaires à la réalisation du traitement."
+    },
+    {
+        "name": "Témoins et personnes impliquées dans une procédure",
+        "description": "Personnes physiques fournissant des informations ou étant impliquées dans une procédure, une réclamation, un litige, une enquête ou un signalement."
+    }
+]

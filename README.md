@@ -26,13 +26,11 @@ L'application permet notamment de :
 
 - Pytest
 - pytest-django
-- pytest-cov
 
 ### Conteneurisation
 
 - Docker
 - Docker Compose
-- PostgreSQL 16
 
 ### Intégration continue
 
@@ -259,12 +257,18 @@ pip install -r requirements.txt
 
 PostgreSQL doit être disponible avant de lancer Django.
 
-Les paramètres de connexion sont définis à l'aide des variables d'environnement :
+Les paramètres de connexion sont définis à l'aide des variables d'environnement. Dans le dossier Complido, créer une fichier .env et ajouter les variables suivantes avec vos propres données :
 
+```bash
+cd Complido
+touch .env
+```
+Copiez les variables suivantes dans le fichier .env et adaptez-les avec vos données
 ```text
-DB_NAME=complido
-DB_USER=complido
-DB_PASSWORD=complido_password
+MISTRAL_API_KEY={la clé API de votre modèle LLM}
+DB_NAME={le nom de votre base de données sur postgresql}
+DB_USER={le nom de l'utilisateur postgresql}
+DB_PASSWORD={le mot de passe postgresql}
 DB_HOST=localhost
 DB_PORT=5432
 ```
@@ -281,14 +285,10 @@ Complido/Complido/settings.py
 
 Depuis le répertoire contenant `manage.py` :
 
-```bash
-cd Complido
-```
-
 Vérifier les migrations :
 
 ```bash
-python manage.py makemigrations --check --dry-run
+python manage.py makemigrations
 ```
 
 Appliquer les migrations :
@@ -310,6 +310,17 @@ python manage.py createsuperuser
 Puis suivre les instructions affichées dans le terminal.
 
 ---
+
+## 10-bis. Ajouter des données fonctionnelles
+
+Des données permettant de rendre l'application fonctionnelle peuvent être insérer dans les tables de données de l'app. Elles se trouvent dans le dossiers 'seeds'. Lancez le scripts seed_all.py :
+
+```bash
+cd seeds
+python seed_all.py
+cd ..
+```
+
 
 ## 11. Lancer l'application
 
@@ -637,41 +648,7 @@ La branche principale contient ainsi uniquement du code ayant passé les contrô
 
 ---
 
-# 21. Variables d'environnement
-
-Les informations sensibles ne doivent pas être intégrées directement dans le code source.
-
-Les principales variables utilisées par l'application sont :
-
-```text
-SECRET_KEY
-DJANGO_DEBUG
-ALLOWED_HOSTS
-
-DB_NAME
-DB_USER
-DB_PASSWORD
-DB_HOST
-DB_PORT
-```
-
-Selon l'environnement, ces variables sont configurées différemment.
-
-### Environnement local
-
-Les variables peuvent être définies localement.
-
-### GitHub Actions
-
-Les variables nécessaires aux tests sont configurées dans le workflow CI.
-
-### Docker
-
-Les variables sont transmises aux conteneurs via Docker Compose.
-
----
-
-# 22. Commandes principales
+# 21. Commandes principales
 
 ## Développement local
 
@@ -714,70 +691,3 @@ docker compose down
 ```
 
 ---
-
-# 23. Architecture globale
-
-COMPLIDO repose sur une architecture Django connectée à une base de données PostgreSQL.
-
-```text
-                         GitHub
-                            │
-                            │
-                 Pull Request / Push
-                            │
-                            ▼
-                  ┌───────────────────┐
-                  │   GitHub Actions   │
-                  └─────────┬─────────┘
-                            │
-                            ▼
-                  ┌───────────────────┐
-                  │ Préparation       │
-                  │ Python + pip      │
-                  └─────────┬─────────┘
-                            │
-                            ▼
-                  ┌───────────────────┐
-                  │ PostgreSQL 16     │
-                  │ Base de test      │
-                  └─────────┬─────────┘
-                            │
-                            ▼
-                  ┌───────────────────┐
-                  │ Pytest            │
-                  │ Tests automatisés │
-                  └─────────┬─────────┘
-                            │
-                       Tests OK
-                            │
-                            ▼
-                  ┌───────────────────┐
-                  │ Docker Compose    │
-                  └─────────┬─────────┘
-                            │
-                     ┌──────┴──────┐
-                     ▼             ▼
-               ┌──────────┐  ┌────────────┐
-               │ Django   │  │ PostgreSQL │
-               │ COMPLIDO │  │     16     │
-               └──────────┘  └────────────┘
-```
-
----
-
-# 24. Objectif du projet
-
-COMPLIDO a pour objectif de fournir une application permettant de centraliser et de structurer la gestion des traitements de données personnelles.
-
-L'application intègre des mécanismes de contrôle des accès en fonction des utilisateurs, des rôles et des entités.
-
-L'utilisation de Django, PostgreSQL, Pytest, Docker et GitHub Actions permet de disposer :
-
-- d'une architecture structurée ;
-- d'une base de données relationnelle ;
-- de tests automatisés ;
-- d'un contrôle continu du code ;
-- d'un environnement conteneurisé ;
-- d'un processus d'intégration reproductible.
-
-L'ensemble permet de sécuriser le cycle de développement et de limiter l'intégration de code non validé dans la branche principale.
