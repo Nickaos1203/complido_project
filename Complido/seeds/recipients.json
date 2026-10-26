@@ -1,0 +1,152 @@
+[
+    {
+        "name": "Services internes",
+        "type": "INTERNAL",
+        "description": "Services, directions, départements ou équipes internes de l'organisme ayant besoin d'accéder aux données personnelles pour réaliser leurs missions."
+    },
+    {
+        "name": "Ressources humaines",
+        "type": "INTERNAL",
+        "description": "Service interne chargé de la gestion des collaborateurs, du recrutement, de la paie, de la formation et de l'administration du personnel."
+    },
+    {
+        "name": "Direction et encadrement",
+        "type": "INTERNAL",
+        "description": "Membres de la direction, responsables hiérarchiques ou managers autorisés à accéder aux données nécessaires à l'exercice de leurs fonctions."
+    },
+    {
+        "name": "Service informatique",
+        "type": "INTERNAL",
+        "description": "Équipe interne chargée de l'administration, de la maintenance, de la sécurité et du support des systèmes d'information."
+    },
+    {
+        "name": "Service juridique et conformité",
+        "type": "INTERNAL",
+        "description": "Fonctions internes chargées des questions juridiques, de la conformité, de la protection des données et de la gestion des risques."
+    },
+    {
+        "name": "Service comptabilité et finances",
+        "type": "INTERNAL",
+        "description": "Service interne chargé de la comptabilité, de la facturation, des paiements, du suivi financier et des obligations fiscales."
+    },
+    {
+        "name": "Service commercial et relation client",
+        "type": "INTERNAL",
+        "description": "Équipes internes chargées de la prospection, de la gestion commerciale, du suivi des clients et de la relation avec les usagers."
+    },
+    {
+        "name": "Prestataires de services",
+        "type": "EXTERNAL",
+        "description": "Entreprises ou professionnels externes auxquels l'organisme fait appel pour fournir des services nécessitant éventuellement l'accès à des données personnelles."
+    },
+    {
+        "name": "Sous-traitants",
+        "type": "EXTERNAL",
+        "description": "Personnes physiques ou morales traitant des données personnelles pour le compte du responsable du traitement, conformément à un contrat ou à un autre acte juridique."
+    },
+    {
+        "name": "Hébergeur",
+        "type": "EXTERNAL",
+        "description": "Prestataire assurant l'hébergement, le stockage ou l'exploitation technique des données et des applications traitant des données personnelles."
+    },
+    {
+        "name": "Fournisseur de services informatiques",
+        "type": "EXTERNAL",
+        "description": "Prestataire fournissant des solutions, logiciels, infrastructures, services cloud, maintenance ou support informatique pouvant nécessiter un accès aux données."
+    },
+    {
+        "name": "Prestataire de paiement",
+        "type": "EXTERNAL",
+        "description": "Organisme ou prestataire intervenant dans le traitement des paiements, transactions financières ou opérations associées."
+    },
+    {
+        "name": "Cabinet comptable",
+        "type": "EXTERNAL",
+        "description": "Cabinet ou professionnel externe chargé de missions comptables, financières ou fiscales pour le compte de l'organisme."
+    },
+    {
+        "name": "Cabinet d'audit",
+        "type": "EXTERNAL",
+        "description": "Organisme ou professionnel externe réalisant des audits financiers, organisationnels, de conformité, de sécurité ou autres contrôles autorisés."
+    },
+    {
+        "name": "Conseil juridique ou avocat",
+        "type": "EXTERNAL",
+        "description": "Professionnel ou cabinet externe fournissant des prestations de conseil juridique, de représentation ou d'assistance dans le cadre de procédures."
+    },
+    {
+        "name": "Partenaires commerciaux",
+        "type": "EXTERNAL",
+        "description": "Organisations externes partenaires avec lesquelles des données personnelles peuvent être partagées dans le cadre d'une relation commerciale ou contractuelle."
+    },
+    {
+        "name": "Organismes sociaux",
+        "type": "PUBLIC",
+        "description": "Organismes publics ou chargés d'une mission de service public intervenant notamment dans les domaines de la protection sociale, des prestations ou de la sécurité sociale."
+    },
+    {
+        "name": "Administrations publiques",
+        "type": "PUBLIC",
+        "description": "Administrations, ministères, collectivités ou établissements publics auxquels des données peuvent être transmises lorsque la loi ou une mission de service public le prévoit."
+    },
+    {
+        "name": "Autorités de contrôle",
+        "type": "PUBLIC",
+        "description": "Autorités administratives ou organismes de contrôle habilités à recevoir des données personnelles dans le cadre de leurs missions légales."
+    },
+    {
+        "name": "Autorité de protection des données",
+        "type": "PUBLIC",
+        "description": "Autorité compétente en matière de protection des données personnelles, notamment pour l'exercice de ses missions de contrôle, d'enquête et de conseil."
+    },
+    {
+        "name": "Autorités judiciaires",
+        "type": "PUBLIC",
+        "description": "Juridictions, magistrats, procureurs ou services judiciaires habilités à recevoir des données personnelles dans le cadre d'une procédure ou de leurs missions légales."
+    },
+    {
+        "name": "Forces de l'ordre",
+        "type": "PUBLIC",
+        "description": "Services de police, de gendarmerie ou autres autorités chargées de missions de sécurité et d'enquête pouvant recevoir des données dans le cadre légal applicable."
+    },
+    {
+        "name": "Organismes fiscaux",
+        "type": "PUBLIC",
+        "description": "Administrations et organismes compétents en matière fiscale auxquels des données peuvent être transmises pour satisfaire aux obligations légales ou réglementaires."
+    },
+    {
+        "name": "Organismes sociaux et de retraite",
+        "type": "PUBLIC",
+        "description": "Organismes compétents en matière de protection sociale, d'assurance maladie, de retraite, de prestations sociales ou de cotisations."
+    },
+    {
+        "name": "Collectivités territoriales",
+        "type": "PUBLIC",
+        "description": "Communes, départements, régions, collectivités territoriales ou établissements rattachés auxquels des données peuvent être communiquées dans le cadre de leurs compétences."
+    },
+    {
+        "name": "Établissements publics",
+        "type": "PUBLIC",
+        "description": "Établissements publics ou organismes investis d'une mission de service public pouvant être destinataires de données personnelles dans le cadre de leurs missions."
+    },
+    {
+        "name": "Organismes d'assurance",
+        "type": "EXTERNAL",
+        "description": "Compagnies d'assurance, mutuelles ou organismes assimilés recevant des données nécessaires à la gestion des contrats, sinistres ou prestations."
+    },
+    {
+        "name": "Organismes de formation",
+        "type": "EXTERNAL",
+        "description": "Organismes externes assurant des prestations de formation, d'accompagnement ou de développement des compétences."
+    },
+    {
+        "name": "Agences de recrutement",
+        "type": "EXTERNAL",
+        "description": "Cabinets ou agences externes intervenant dans le recrutement, la sélection ou la mise à disposition de candidats."
+    },
+    {
+        "name": "Destinataires autorisés par la loi",
+        "type": "PUBLIC",
+        "description": "Toute autorité, organisme ou personne habilitée par une disposition légale ou réglementaire à recevoir les données personnelles concernées."
+    }
+]

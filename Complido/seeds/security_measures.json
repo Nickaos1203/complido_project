@@ -1,0 +1,172 @@
+[
+    {
+        "name": "Politique de sécurité des systèmes d'information",
+        "description": "Définition, formalisation et diffusion des règles de sécurité applicables au traitement et aux systèmes d'information.",
+        "category": "ORGANIZATIONAL"
+    },
+    {
+        "name": "Gestion des habilitations",
+        "description": "Mise en place d'un processus de création, modification, revue et suppression des droits d'accès aux données personnelles.",
+        "category": "ORGANIZATIONAL"
+    },
+    {
+        "name": "Principe du moindre privilège",
+        "description": "Attribution à chaque utilisateur uniquement des droits nécessaires à l'exercice de ses fonctions.",
+        "category": "ORGANIZATIONAL"
+    },
+    {
+        "name": "Sensibilisation à la protection des données",
+        "description": "Formation et sensibilisation régulière des utilisateurs aux règles de sécurité et de protection des données personnelles.",
+        "category": "ORGANIZATIONAL"
+    },
+    {
+        "name": "Gestion des incidents de sécurité",
+        "description": "Procédure permettant de détecter, signaler, qualifier, traiter et documenter les incidents de sécurité affectant les données personnelles.",
+        "category": "ORGANIZATIONAL"
+    },
+    {
+        "name": "Gestion des violations de données",
+        "description": "Procédure de détection, d'évaluation, de documentation et de notification des violations de données personnelles conformément aux obligations applicables.",
+        "category": "ORGANIZATIONAL"
+    },
+    {
+        "name": "Plan de continuité d'activité",
+        "description": "Dispositif permettant de maintenir ou rétablir les activités essentielles en cas d'incident majeur affectant les systèmes ou les données.",
+        "category": "ORGANIZATIONAL"
+    },
+    {
+        "name": "Plan de reprise d'activité",
+        "description": "Procédure permettant de restaurer les systèmes, applications et données après un incident majeur ou une interruption de service.",
+        "category": "ORGANIZATIONAL"
+    },
+    {
+        "name": "Gestion des sous-traitants",
+        "description": "Processus de sélection, d'évaluation et de suivi des sous-traitants afin de vérifier qu'ils présentent des garanties suffisantes en matière de sécurité.",
+        "category": "ORGANIZATIONAL"
+    },
+    {
+        "name": "Revue périodique des droits d'accès",
+        "description": "Contrôle régulier des habilitations afin de vérifier que les droits accordés restent nécessaires et appropriés.",
+        "category": "ORGANIZATIONAL"
+    },
+    {
+        "name": "Chiffrement des données au repos",
+        "description": "Protection cryptographique des données personnelles stockées sur les serveurs, bases de données, postes ou supports de stockage.",
+        "category": "TECHNICAL"
+    },
+    {
+        "name": "Chiffrement des données en transit",
+        "description": "Protection cryptographique des données personnelles lors de leur transmission entre systèmes, utilisateurs ou services.",
+        "category": "TECHNICAL"
+    },
+    {
+        "name": "Authentification forte",
+        "description": "Utilisation de mécanismes d'authentification renforcée, notamment l'authentification multifacteur, pour protéger l'accès aux systèmes et données.",
+        "category": "TECHNICAL"
+    },
+    {
+        "name": "Politique de mots de passe",
+        "description": "Mise en œuvre de règles relatives à la robustesse, à la protection, au renouvellement et à la gestion des mots de passe.",
+        "category": "TECHNICAL"
+    },
+    {
+        "name": "Journalisation des accès",
+        "description": "Enregistrement des événements permettant de retracer les accès et opérations effectués sur les systèmes traitant des données personnelles.",
+        "category": "TECHNICAL"
+    },
+    {
+        "name": "Supervision et détection des anomalies",
+        "description": "Surveillance des systèmes et détection des comportements inhabituels ou événements susceptibles de révéler une atteinte à la sécurité.",
+        "category": "TECHNICAL"
+    },
+    {
+        "name": "Sauvegardes régulières",
+        "description": "Réalisation régulière de copies de sauvegarde des données et systèmes afin de permettre leur restauration en cas de perte ou d'incident.",
+        "category": "TECHNICAL"
+    },
+    {
+        "name": "Tests de restauration",
+        "description": "Vérification périodique de la capacité à restaurer correctement les données et systèmes à partir des sauvegardes disponibles.",
+        "category": "TECHNICAL"
+    },
+    {
+        "name": "Protection contre les logiciels malveillants",
+        "description": "Mise en place de solutions de détection et de prévention contre les virus, ransomwares, chevaux de Troie et autres logiciels malveillants.",
+        "category": "TECHNICAL"
+    },
+    {
+        "name": "Pare-feu et filtrage réseau",
+        "description": "Contrôle des communications réseau entrantes et sortantes afin de limiter les accès non autorisés aux systèmes traitant des données personnelles.",
+        "category": "TECHNICAL"
+    },
+    {
+        "name": "Segmentation du réseau",
+        "description": "Séparation logique ou physique des réseaux et environnements afin de limiter la propagation d'un incident de sécurité.",
+        "category": "TECHNICAL"
+    },
+    {
+        "name": "Mise à jour et gestion des correctifs",
+        "description": "Application régulière des mises à jour et correctifs de sécurité sur les systèmes, applications et équipements.",
+        "category": "TECHNICAL"
+    },
+    {
+        "name": "Tests de sécurité et audits techniques",
+        "description": "Réalisation régulière d'audits, tests d'intrusion ou contrôles techniques permettant d'identifier et de corriger les vulnérabilités.",
+        "category": "TECHNICAL"
+    },
+    {
+        "name": "Pseudonymisation",
+        "description": "Traitement des données de manière à réduire la possibilité d'attribuer les données à une personne sans utiliser des informations supplémentaires conservées séparément.",
+        "category": "TECHNICAL"
+    },
+    {
+        "name": "Minimisation des données",
+        "description": "Limitation de la collecte et du traitement aux données personnelles nécessaires au regard des finalités poursuivies.",
+        "category": "TECHNICAL"
+    },
+    {
+        "name": "Postes de travail sécurisés",
+        "description": "Protection des postes de travail par des mécanismes de verrouillage, chiffrement, antivirus, mises à jour et contrôle des accès.",
+        "category": "TECHNICAL"
+    },
+    {
+        "name": "Contrôle d'accès aux locaux",
+        "description": "Restriction de l'accès physique aux locaux, salles serveurs et zones contenant des équipements ou supports traitant des données personnelles.",
+        "category": "PHYSICAL"
+    },
+    {
+        "name": "Vidéo-surveillance des locaux",
+        "description": "Dispositif de surveillance physique destiné à sécuriser les locaux et les équipements, mis en œuvre dans le respect des règles applicables.",
+        "category": "PHYSICAL"
+    },
+    {
+        "name": "Sécurisation des salles serveurs",
+        "description": "Protection physique des infrastructures hébergeant les systèmes et données personnelles contre les accès non autorisés et les risques environnementaux.",
+        "category": "PHYSICAL"
+    },
+    {
+        "name": "Protection contre les incendies",
+        "description": "Dispositifs de prévention et de détection des incendies destinés à protéger les équipements et supports contenant des données personnelles.",
+        "category": "PHYSICAL"
+    },
+    {
+        "name": "Protection contre les dégâts des eaux",
+        "description": "Mesures physiques visant à prévenir ou limiter les dommages causés par les fuites, infiltrations ou dégâts des eaux.",
+        "category": "PHYSICAL"
+    },
+    {
+        "name": "Destruction sécurisée des supports",
+        "description": "Destruction ou effacement sécurisé des supports contenant des données personnelles lorsqu'ils ne sont plus nécessaires.",
+        "category": "PHYSICAL"
+    },
+    {
+        "name": "Sécurisation des supports amovibles",
+        "description": "Mesures visant à contrôler, chiffrer et sécuriser l'utilisation des clés USB, disques externes et autres supports amovibles.",
+        "category": "PHYSICAL"
+    },
+    {
+        "name": "Protection contre le vol des équipements",
+        "description": "Mesures physiques destinées à prévenir le vol ou la perte des ordinateurs, serveurs, supports et autres équipements contenant des données personnelles.",
+        "category": "PHYSICAL"
+    }
+]

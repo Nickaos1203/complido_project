@@ -1,0 +1,94 @@
+[
+    {
+        "name": "Collecte",
+        "description": "Opération consistant à recueillir des données à caractère personnel auprès de la personne concernée ou auprès d'une autre source autorisée."
+    },
+    {
+        "name": "Enregistrement",
+        "description": "Opération consistant à enregistrer et conserver des données à caractère personnel dans un fichier, une base de données ou un système d'information."
+    },
+    {
+        "name": "Organisation",
+        "description": "Opération consistant à structurer, classer ou organiser des données à caractère personnel afin de faciliter leur gestion ou leur utilisation."
+    },
+    {
+        "name": "Conservation",
+        "description": "Opération consistant à conserver des données à caractère personnel pendant une durée déterminée conformément aux finalités du traitement et aux règles applicables."
+    },
+    {
+        "name": "Consultation",
+        "description": "Opération consistant à accéder ou prendre connaissance de données à caractère personnel dans le cadre d'une finalité autorisée."
+    },
+    {
+        "name": "Utilisation",
+        "description": "Opération consistant à utiliser des données à caractère personnel pour réaliser une ou plusieurs opérations liées aux finalités du traitement."
+    },
+    {
+        "name": "Modification",
+        "description": "Opération consistant à mettre à jour, corriger ou modifier des données à caractère personnel."
+    },
+    {
+        "name": "Extraction",
+        "description": "Opération consistant à extraire un ensemble ou une partie de données à caractère personnel depuis un système, une base de données ou un fichier."
+    },
+    {
+        "name": "Rapprochement",
+        "description": "Opération consistant à mettre en relation ou croiser des données à caractère personnel provenant de plusieurs sources ou traitements."
+    },
+    {
+        "name": "Transmission",
+        "description": "Opération consistant à communiquer ou transmettre des données à caractère personnel à un ou plusieurs destinataires autorisés."
+    },
+    {
+        "name": "Mise à disposition",
+        "description": "Opération consistant à rendre des données à caractère personnel accessibles à un destinataire ou à un ensemble de personnes autorisées."
+    },
+    {
+        "name": "Partage",
+        "description": "Opération consistant à communiquer ou rendre accessibles des données à caractère personnel entre plusieurs services, organismes ou partenaires autorisés."
+    },
+    {
+        "name": "Diffusion",
+        "description": "Opération consistant à communiquer ou rendre accessibles des données à caractère personnel à un nombre indéterminé de personnes ou à un public autorisé."
+    },
+    {
+        "name": "Publication",
+        "description": "Opération consistant à rendre publiques ou accessibles des données à caractère personnel sur un support physique ou numérique."
+    },
+    {
+        "name": "Transfert",
+        "description": "Opération consistant à transférer des données à caractère personnel vers un autre organisme, système ou territoire, notamment dans le cadre d'un transfert international."
+    },
+    {
+        "name": "Archivage",
+        "description": "Opération consistant à conserver des données à caractère personnel dans un système d'archivage pour répondre à des obligations légales, administratives ou à des besoins de preuve."
+    },
+    {
+        "name": "Pseudonymisation",
+        "description": "Opération consistant à traiter des données à caractère personnel de manière à ce qu'elles ne puissent plus être attribuées à une personne concernée sans utiliser des informations supplémentaires conservées séparément."
+    },
+    {
+        "name": "Anonymisation",
+        "description": "Opération consistant à transformer des données afin qu'une personne physique ne puisse plus être identifiée, directement ou indirectement, par des moyens raisonnablement susceptibles d'être utilisés."
+    },
+    {
+        "name": "Analyse",
+        "description": "Opération consistant à examiner ou exploiter des données à caractère personnel afin d'en tirer des informations, statistiques, tendances ou résultats."
+    },
+    {
+        "name": "Profilage",
+        "description": "Opération consistant à utiliser des données à caractère personnel pour évaluer certains aspects personnels d'une personne, notamment analyser ou prédire ses préférences, comportements, intérêts ou caractéristiques."
+    },
+    {
+        "name": "Prise de décision automatisée",
+        "description": "Opération consistant à prendre une décision concernant une personne exclusivement sur la base d'un traitement automatisé, y compris le profilage, lorsque cette décision produit des effets juridiques ou affecte significativement la personne."
+    },
+    {
+        "name": "Suppression",
+        "description": "Opération consistant à supprimer des données à caractère personnel d'un système, d'une base de données ou d'un support de stockage."
+    },
+    {
+        "name": "Destruction",
+        "description": "Opération consistant à détruire définitivement des données à caractère personnel ou les supports permettant leur conservation."
+    }
+]
